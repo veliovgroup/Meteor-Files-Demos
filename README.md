@@ -1,4 +1,4 @@
-Demo apps for [ostrio:file](https://github.com/VeliovGroup/Meteor-Files) package
+Demo apps for [ostrio:files](https://github.com/VeliovGroup/Meteor-Files) package
 ========
 
 Files for Meteor
