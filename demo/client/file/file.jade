@@ -32,40 +32,44 @@ template(name="file")
         if isPDF
           .file-cell: iframe.file-preview(src="{{link}}" frameborder="0")
         else if isImage
-          if compare extension 'is' 'png|gif|jpg|jpeg|webp|bmp|svg'
-            picture.file-preview(itemprop="image" itemscope itemtype="http://schema.org/ImageObject")
-              meta(itemprop="caption" content="Meteor Files: Uploaded file: {{name}}")
-              meta(itemprop="exifData" content="{{type}}")
-              link(itemprop="contentUrl" href="{{link}}" content="{{link}}")
-              link(itemprop="url" href="{{urlCurrent}}" content="{{urlCurrent}}")
-              meta(itemprop="width" content="{{meta.width}}")
-              meta(itemprop="height" content="{{meta.height}}")
-              if showPreview
-                source(type="#{type}" srcset="{{link 'preview'}}")
-                img.file-preview(src="{{link 'preview'}}" alt="#{name}")
-              else if showOriginal
-                source(type="#{type}" srcset="{{link}}")
-                img.file-preview(src="{{link}}" alt="#{name}")
-              else
-                h1.files-note: i.fa.fa-fw.fa-spin.fa-spinner
-          else
-            .file-cell: h3.files-note
-              | Browser can't display this image, please 
-              a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+          //- if compare extension 'is' 'png|gif|jpg|jpeg|webp|bmp|svg'
+          picture.file-preview(itemprop="image" itemscope itemtype="http://schema.org/ImageObject")
+            meta(itemprop="caption" content="Meteor Files: Uploaded file: {{name}}")
+            meta(itemprop="exifData" content="{{type}}")
+            link(itemprop="contentUrl" href="{{link}}" content="{{link}}")
+            link(itemprop="url" href="{{urlCurrent}}" content="{{urlCurrent}}")
+            meta(itemprop="width" content="{{meta.width}}")
+            meta(itemprop="height" content="{{meta.height}}")
+            if showPreview
+              source(type="#{type}" srcset="{{link 'preview'}}")
+              img.file-preview(src="{{link 'preview'}}" alt="#{name}")
+            else if showOriginal
+              source(type="#{type}" srcset="{{link}}")
+              img.file-preview(src="{{link}}" alt="#{name}")
+            else if showError
+              h3.files-note
+                | Browser can't display this image. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+            else
+              h1.files-note: i.fa.fa-fw.fa-spin.fa-spinner
         else if isAudio
           .file-cell
-            audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" loop)
-              p(style="display:none") Can not play this audio file. The "#{type}" format may be not supported in your browser
-              source(src="{{link}}?play=true" type="#{type}")
-
-            p#cantPlayAudio(style="display:none") Can not play this audio file. The "#{type}" format may be not supported in your browser
-
+            if showError
+              h3.files-note
+                | Can not play this audio file. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+            else
+              audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" loop)
+                source(src="{{link}}?play=true" type="#{type}")
         else if isVideo
           .file-cell
-            video.file-preview(id="{{_id}}" controls autoplay preload="auto" loop)
-              p Can not play this video. The "#{type}" format may be not supported in your browser
-              source(src="{{link}}?play=true" type="#{type}")
-            p#cantPlayVideo(style="display:none") Can not play this video. The "#{type}" format may be not supported in your browser
+            if showError
+              h3.files-note
+                | Can not play this video. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+            else
+              video.file-preview(id="{{_id}}" controls autoplay preload="auto" loop)
+                source(src="{{link}}?play=true" type="#{type}")
         else if compare isText 'or' isJSON
           if warning
             .file-cell: h3.files-note

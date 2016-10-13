@@ -3,6 +3,7 @@ Template.file.onCreated ->
   @fetchedText  = new ReactiveVar false
   @showOriginal = new ReactiveVar false
   @showPreview  = new ReactiveVar false
+  @showError    = new ReactiveVar false
   @showInfo     = new ReactiveVar false
   @warning      = new ReactiveVar false
   return
@@ -10,9 +11,9 @@ Template.file.onCreated ->
 Template.file.onRendered ->
   @warning.set false
   @fetchedText.set false
+  self = @
   if @data.file.isText or @data.file.isJSON
     if @data.file.size < 1024 * 64
-      self = @
       HTTP.call 'GET', @data.file.link(), (error, resp) ->
         self.showPreview.set true
         if error
@@ -26,13 +27,14 @@ Template.file.onRendered ->
         return
     else
       @warning.set true
-
   else if @data.file.isImage
-    self = @
     if /png|jpe?g/i.test @data.file.type
       img  = new Image()
       img.onload = ->
         self.showPreview.set true
+        return
+      img.onerror = ->
+        self.showError.set true
         return
       img.src = @data.file.link 'preview'
     else
@@ -40,20 +42,20 @@ Template.file.onRendered ->
       img.onload = ->
         self.showOriginal.set true
         return
+      img.onerror = ->
+        self.showError.set true
+        return
       img.src = @data.file.link()
-
   else if @data.file.isVideo
     video = document.getElementById @data.file._id
     unless video.canPlayType @data.file.type
-      @$('#cantPlayVideo').show()
-      video.style.display = 'none'
+      self.showError.set true
     else
       video.play()
   else if @data.file.isAudio
     audio = document.getElementById @data.file._id
     unless audio.canPlayType @data.file.type
-      @$('#cantPlayAudio').show()
-      audio.style.display = 'none'
+      self.showError.set true
     else
       audio.play()
   window.IS_RENDERED = true
@@ -64,9 +66,10 @@ Template.file.helpers
   getCode:     -> if @type and !!~@type.indexOf('/') then @type.split('/')[1] else ''
   isBlamed:    -> !!~_app.blamed.get().indexOf(@_id)
   showInfo:    -> Template.instance().showInfo.get()
+  showError:   -> Template.instance().showError.get()
+  fetchedText: -> Template.instance().fetchedText.get()
   showPreview: -> Template.instance().showPreview.get()
   showOriginal:-> Template.instance().showOriginal.get()
-  fetchedText: -> Template.instance().fetchedText.get()
 
 Template.file.events
   'click [data-blame]': (e) ->
