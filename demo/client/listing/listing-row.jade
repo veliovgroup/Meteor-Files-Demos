@@ -9,11 +9,8 @@ template(name="listingRow")
         else if isVideo
           i.fa.fa-fw.fa-video-camera
         else if isImage
-          if versions.thumbnail40
-            if showPreview
-              img(src="{{link 'thumbnail40'}}" alt="#{name}")
-            else
-              i.fa.fa-fw.fa-picture-o
+          if showPreview
+            img(src="{{link 'thumbnail40'}}" alt="#{name}")
           else
             i.fa.fa-fw.fa-picture-o
         else if isText

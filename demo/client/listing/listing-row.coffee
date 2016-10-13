@@ -1,21 +1,16 @@
 Template.listingRow.onCreated ->
+  self          = @
   @showSettings = new ReactiveVar false
-  @showPreview  = new ReactiveVar false
-  return
-
-Template.listingRow.onRendered ->
-  if @data.isImage and /png|jpe?g/i.test @data.type
-    self = @
-    img  = new Image()
-    img.onload = ->
-      self.showPreview.set true
-      return
-    img.src = self.data.link 'thumbnail40'
+  @showPreview  = ->
+    if self.data.isImage and /png|jpe?g/i.test self.data.type
+      if self.data.versions.thumbnail40
+        return true
+    return false
   return
 
 Template.listingRow.helpers
   removedIn:    -> moment(@meta.expireAt).fromNow()
-  showPreview:  -> Template.instance().showPreview.get()
+  showPreview:  -> Template.instance().showPreview()
   showSettings: -> Template.instance().showSettings.get() is @_id
 
 Template.listingRow.events
