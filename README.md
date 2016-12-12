@@ -13,3 +13,11 @@ Demos
  2. [Simple Download Button](https://github.com/VeliovGroup/Meteor-Files-Demos/tree/master/demo-simplest-download-button)
  3. [Simple Upload Button](https://github.com/VeliovGroup/Meteor-Files-Demos/tree/master/demo-simplest-upload)
  4. [Simple Image & Sound Streaming](https://github.com/VeliovGroup/Meteor-Files-Demos/tree/master/demo-simplest-streaming)
+
+Support this project
+========
+ - Try [ostr.io](https://ostr.io) project, it will help you to sleep well. And will give us funds to serve Open Source projects
+ - [Donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FVDSXRFW9VGA2)
+ - Star on [GitHub](https://github.com/VeliovGroup/Meteor-Files)
+ - Star on [Atmosphere](https://atmospherejs.com/ostrio/files)
+ - Share on [Facebook](https://www.facebook.com/sharer.php?u=https%3A%2F%2Fgithub.com%2FVeliovGroup%2FMeteor-Files) and [Twitter](https://twitter.com/share?url=https%3A%2F%2Fgithub.com%2FVeliovGroup%2FMeteor-Files)
