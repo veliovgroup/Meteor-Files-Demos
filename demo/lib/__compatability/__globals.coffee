@@ -9,12 +9,30 @@ if Meteor.isClient
   ClientStorage.set('secured', false) if not ClientStorage.has('secured') or not _.isBoolean ClientStorage.get 'secured'
   ClientStorage.set('userOnly', false) if not ClientStorage.has('userOnly') or not _.isBoolean ClientStorage.get 'userOnly'
 
-  $(window).on 'dragenter', (e) ->
-    $('#uploadFile').addClass 'file-over'
-    return
-  $(window).on 'dragleave',  ->
-    $('#uploadFile').removeClass 'file-over'
-    return
+  _el = null
+  $(window).on 'dragenter dragover', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    _el = e.target
+    uf = document.getElementById 'uploadFile'
+    if !~uf.className.indexOf 'file-over'
+      uf.className += ' file-over'
+    return false
+  $(window).on 'dragleave', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    if _el is e.target
+      uf = document.getElementById 'uploadFile'
+      if !!~uf.className.indexOf 'file-over'
+        uf.className = uf.className.replace ' file-over', ''
+    return false
+  $(window).on 'drop', (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    uf = document.getElementById 'uploadFile'
+    if !!~uf.className.indexOf 'file-over'
+      uf.className = uf.className.replace ' file-over', ''
+    return false
 
   _app.subs            = new SubsManager()
   _app.blamed          = new ReactiveVar ClientStorage.get 'blamed'

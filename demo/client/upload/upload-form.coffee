@@ -157,18 +157,25 @@ Template.uploadForm.events
   'click #fakeUpload': (e, template) ->
     template.$('#userfile').click()
     return
-  'dragover #uploadFile': (e, template) ->
+  'dragover #uploadFile, dragenter #uploadFile': (e, template) ->
     e.preventDefault()
-    $('#uploadFile').addClass 'file-over'
+    e.stopPropagation()
+    uf = document.getElementById 'uploadFile'
+    if !~uf.className.indexOf 'file-over'
+      uf.className += ' file-over'
     e.originalEvent.dataTransfer.dropEffect = 'copy'
     return
-  'drop #uploadFile': (e, template) ->
+  'drop #uploadFile.file-over': (e, template) ->
     e.preventDefault()
+    e.stopPropagation()
     template.error.set false
-    $('#uploadFile').removeClass 'file-over'
+    uf = document.getElementById 'uploadFile'
+    if !!~uf.className.indexOf 'file-over'
+      uf.className = uf.className.replace ' file-over', ''
+    e.originalEvent.dataTransfer.dropEffect = 'copy'
     template.initiateUpload e, e.originalEvent.dataTransfer.files, template
     false
-  'change input[name="userfile"]': (e, template) -> template.$('form#uploadFile').submit()
+  'change #userfile': (e, template) -> template.$('form#uploadFile').submit()
   'submit form#uploadFile': (e, template) ->
     e.preventDefault()
     template.error.set false
