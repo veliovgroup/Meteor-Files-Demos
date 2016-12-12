@@ -9,6 +9,13 @@ if Meteor.isClient
   ClientStorage.set('secured', false) if not ClientStorage.has('secured') or not _.isBoolean ClientStorage.get 'secured'
   ClientStorage.set('userOnly', false) if not ClientStorage.has('userOnly') or not _.isBoolean ClientStorage.get 'userOnly'
 
+  $(window).on 'dragenter', (e) ->
+    $('#uploadFile').addClass 'file-over'
+    return
+  $(window).on 'dragleave',  ->
+    $('#uploadFile').removeClass 'file-over'
+    return
+
   _app.subs            = new SubsManager()
   _app.blamed          = new ReactiveVar ClientStorage.get 'blamed'
   _app.unlist          = new ReactiveVar ClientStorage.get 'unlist'

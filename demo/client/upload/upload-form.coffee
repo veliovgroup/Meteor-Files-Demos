@@ -157,12 +157,6 @@ Template.uploadForm.events
   'click #fakeUpload': (e, template) ->
     template.$('#userfile').click()
     return
-  'dragenter #uploadFile, dragstart #uploadFile': (e, template) ->
-    $('#uploadFile').addClass 'file-over'
-    return
-  'dragleave #uploadFile, dragend #uploadFile': (e, template) ->
-    $('#uploadFile').removeClass 'file-over'
-    return
   'dragover #uploadFile': (e, template) ->
     e.preventDefault()
     $('#uploadFile').addClass 'file-over'
