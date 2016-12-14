@@ -1,9 +1,10 @@
 $link-color: #4e546d
+$link-active: #BBB
 $text-color: #97a2d0
 
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700)
 
-html, body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
+body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
   animation: newElement 350ms ease-in-out 1
 
 @keyframes newElement
@@ -11,6 +12,9 @@ html, body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4
     opacity: 0
   to
     opacity: 1
+
+:active, :focus, :visited
+  outline: none !important
 
 html, body
   background-color: #2b3850
@@ -25,19 +29,34 @@ html, body
   scroll-behavior: smooth
   -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
-  -webkit-tap-highlight-color: rgba(0,0,0,0)
   -webkit-tap-highlight-color: transparent
-  -moz-tap-highlight-color: rgba(0,0,0,0)
-  -moz-tap-highlight-color: transparent
-  -ms-tap-highlight-color: rgba(0,0,0,0)
-  -ms-tap-highlight-color: transparent
-  tap-highlight-color: rgba(0,0,0,0)
-  tap-highlight-color: transparent
-  font-smoothing: antialiased !important
-  font-smooth: always !important
+
+  -webkit-text-stroke: 0px !important
+  -moz-text-stroke: 0px !important
+  -ms-text-stroke: 0px !important
+  text-stroke: 0px !important
+
   -webkit-font-smoothing: antialiased !important
+  -moz-font-smoothing: antialiased !important
+  -moz-osx-font-smoothing: grayscale !important
+  -ms-font-smoothing: antialiased !important
+  font-smoothing: antialiased !important
+
   -webkit-font-smooth: always !important
+  -moz-font-smooth: always !important
+  -ms-font-smooth: always !important
+  font-smooth: always !important
+
+  -webkit-text-rendering: optimizeLegibility !important
+  -moz-text-rendering: optimizeLegibility !important
+  -ms-text-rendering: optimizeLegibility !important
   text-rendering: optimizeLegibility !important
+
+  -ms-overflow-style: -ms-autohiding-scrollbar
+  overflow-style: autohiding-scrollbar
+  outline: none !important
+  &:active, &:focus, &:visited
+    outline: none !important
 
 body
   background-size: 50px 50px
@@ -55,35 +74,25 @@ body
 a, picture, img, video, button, input, pre, i, select, option, label, tr, td, p
   user-select: none
   outline: none !important
-  -webkit-tap-highlight-color: rgba(0,0,0,0)
   -webkit-tap-highlight-color: transparent
-  -moz-tap-highlight-color: rgba(0,0,0,0)
   -moz-tap-highlight-color: transparent
-  -ms-tap-highlight-color: rgba(0,0,0,0)
   -ms-tap-highlight-color: transparent
-  tap-highlight-color: rgba(0,0,0,0)
   tap-highlight-color: transparent
   &:hover, &:focus, &:active
     outline: none !important
-    -webkit-tap-highlight-color: rgba(0,0,0,0)
     -webkit-tap-highlight-color: transparent
-    -moz-tap-highlight-color: rgba(0,0,0,0)
     -moz-tap-highlight-color: transparent
-    -ms-tap-highlight-color: rgba(0,0,0,0)
     -ms-tap-highlight-color: transparent
-    tap-highlight-color: rgba(0,0,0,0)
     tap-highlight-color: transparent
 
 a, a:active
-  transition: color 128ms ease-in-out, opacity 128ms ease-in-out, text-shadow 128ms ease-in-out
-  color: lighten($link-color, 20%)
-  opacity: 0.777
-  text-decoration: underline
+  transition: color 128ms ease-in-out
+  color: $link-color
+  text-decoration: none
 a
   &:hover, &.active
-    opacity: 1
     text-decoration: none
-    color: lighten($link-color, 30%)
+    color: $link-active
 
 strong, b
   font-weight: 700
@@ -238,7 +247,6 @@ iframe.file-preview
 
 .file-overlay
   position: absolute
-  transform: translate3d(0,0,0)
   background-color: rgba(0,0,0,0.777)
   -webkit-backdrop-filter: blur(3px)
   -moz-backdrop-filter: blur(3px)
@@ -277,7 +285,6 @@ iframe.file-preview
 
 .gh-ribbon
   transition: opacity 256ms ease-in-out
-  transform: translate3d(0,0,0)
   position: absolute
   top: 0
   right: 0
@@ -352,14 +359,12 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   font-size: 1.1rem
   position: absolute
   animation: newElement 350ms ease-in-out 1
-  transform: translate3d(0,0,0)
   bottom: 6px
   right: 8px
   padding: 7px
   z-index: 201
   &:hover, &.active
     color: #BBB
-    opacity: 1 !important
   &.right
     left: 8px
     right: initial
@@ -382,10 +387,10 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       max-height: 1.33333333em
       position: relative
       bottom: -5px
-      transition: all 256ms ease-in-out
+      transition: filter 256ms ease-in-out
       filter: grayscale(100%)
     &:hover
-      color: lighten($link-color, 10%)
+      color: $link-active
       img
         filter: grayscale(0%)
       i.fa-github
@@ -447,6 +452,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       margin-left: -20px
       margin-top: 2.5px
   &.file-over
+    cursor: copy
     background:
       color: mix(#080c15, #1c222e)
       image: url(/dnd.png)
@@ -455,28 +461,22 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       size: 80px 80px
     & *
       display: none
-      visibility: hidden
-      opacity: 0
-      pointer-events: none
   .fake-upload
     cursor: pointer
-    transition: color 256ms ease-in-out, opacity 256ms ease-in-out
+    transition: color 256ms ease-in-out
     width: 85%
     margin: 0px auto
-    opacity: 0.777
+    color: $link-color
     &:hover
-      opacity: 1
-      color: lighten($link-color, 25%)
+      color: $link-active
   .sm-row
     width: 85%
     margin: 0px auto
 
 .show-settings
-  opacity: 0.7
   display: inline-block
-  transition: color 256ms ease-in-out, transform 256ms ease-in-out, opacity 256ms ease-in-out
+  transition: color 256ms ease-in-out, transform 256ms ease-in-out
   &:hover, &.active
-    opacity: 1
     transform: rotate(144deg)
 
 .listing, .file, ._loading
@@ -566,16 +566,24 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
         color: #fff
         background-color: rgba(0,0,0,0.25)
   .info-link
-    background-color: rgba(0,0,0,0.7)
+    background-color: rgba(0,0,0,0.5)
     border-radius: 20px
     overflow: hidden
-    opacity: 0.5
-    transition: color 256ms ease-in-out, opacity 256ms ease-in-out
+    transition: color 256ms ease-in-out, background-color 256ms ease-in-out
+    &:hover
+      background-color: rgba(0,0,0,0.9)
 
 .file-settings
   text-align: center
   vertical-align: middle
   font-size: 2rem
+  a
+    i
+      transition: color 128ms ease-in-out
+      color: $link-color
+    &:hover
+      i
+        color: $link-active
 
 .fixed-table .file-settings
   a
@@ -592,12 +600,9 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   color: #606c80
   font-size: 0.9rem
 
-.file-access, .file-secured
-  i
-    transition: color 256ms ease-in-out, opacity 256ms ease-in-out
-
 .file-remove:hover
-  color: #bd362f
+  i.fa.fa-trash-o
+    color: #bd362f
 .file-access:hover
   i.fa.fa-eye
     color: #bd362f
@@ -730,16 +735,6 @@ pre, code, kbd, samp
   .upload-form
     .fake-upload
       width: 100%
-    #userfile:not(.settings-open)
-      display: block !important
-      visibility: visible !important
-      position: absolute
-      top: 0px
-      left: 0px
-      z-index: 100
-      height: 100%
-      width: 100%
-      opacity: 0
   .col-50, .listing, .file, ._loading, .file .file-table, .no-file, ._404
     min-height: 100vh
     max-height: 100vh

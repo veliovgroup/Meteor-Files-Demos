@@ -47,7 +47,7 @@ template(name="file")
               img.file-preview(src="{{link}}" alt="#{name}")
             else if showError
               h3.files-note
-                | Browser can't display this image. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                | Browser can't display this image. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
               h1.files-note: i.fa.fa-fw.fa-spin.fa-spinner
@@ -55,7 +55,7 @@ template(name="file")
           .file-cell
             if showError
               h3.files-note
-                | Can not play this audio file. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                | Can not play this audio file. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
               audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" loop)
@@ -64,7 +64,7 @@ template(name="file")
           .file-cell
             if showError
               h3.files-note
-                | Can not play this video. The "<em>#{type}</em>" format may be not supported in your browser. Please
+                | Can not play this video. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
               video.file-preview(id="{{_id}}" controls autoplay preload="auto" loop)
