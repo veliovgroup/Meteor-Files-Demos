@@ -104,7 +104,6 @@ Collections.files = new FilesCollection
 
 if Meteor.isServer
   Collections.files.denyClient()
-  Collections.files.collection.attachSchema Collections.files.schema
 
   Collections.files.on 'afterUpload', (fileRef) ->
     self = @
@@ -290,7 +289,8 @@ if Meteor.isServer
         isAudio: 1
         isImage: 1
         userId: 1
-        'versions.thumbnail40.type': 1
+        'versions.thumbnail40.extension': 1
+        'versions.preview.extension': 1
         extension: 1
         _collectionName: 1
         _downloadRoute: 1
@@ -321,6 +321,7 @@ if Meteor.isServer
           isAudio: 1
           isImage: 1
           extension: 1
+          'versions.preview.extension': 1
           _collectionName: 1
           _downloadRoute: 1
       }).cursor

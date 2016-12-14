@@ -2,7 +2,7 @@ Template.listingRow.onCreated ->
   self          = @
   @showSettings = new ReactiveVar false
   @showPreview  = ->
-    if self.data.isImage and /png|jpe?g/i.test self.data.type
+    if self.data.isImage and /png|jpe?g/i.test self.data.extension
       if self.data.versions.thumbnail40
         return true
     return false
