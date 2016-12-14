@@ -36,7 +36,15 @@ Template.file.onRendered ->
       img.onerror = ->
         self.showError.set true
         return
-      img.src = @data.file.link 'preview'
+      if @data.file.versions?.preview?.extension
+        img.src = @data.file.link 'preview'
+      else
+        handle = Collections.files.find(@data.file._id).observeChanges
+          changed: (_id, fileds) ->
+            if fileds?.versions?.preview?.extension
+              img.src = self.data.file.link 'preview'
+              handle.stop()
+            return
     else
       img  = new Image()
       img.onload = ->
