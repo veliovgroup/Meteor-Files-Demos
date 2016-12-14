@@ -51,5 +51,5 @@
 	"theme_color": "#2b3850",
 	"background_color": "#2b3850",
 	"start_url": "/",
-	"display": "standalone",
+	"display": "standalone"
 }
