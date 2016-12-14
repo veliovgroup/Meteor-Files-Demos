@@ -1,27 +1,27 @@
 # Basic packages
 meteor-base@1.0.4
 mobile-experience@1.0.4
-mongo@1.1.12_1
+mongo@1.1.14
 blaze-html-templates@1.0.4
 shell-server@0.2.1
-session@1.1.6
-jquery@1.11.9
-tracker@1.1.0
+session@1.1.7
+jquery@1.11.10
+tracker@1.1.1
 
 seba:minifiers-autoprefixer
-standard-minifier-js@1.2.0_1
+standard-minifier-js@1.2.1
 
 # Additional MDG packages
 audit-argument-checks@1.0.7
-reactive-var@1.0.10
-coffeescript@1.2.4_2
-markdown@1.0.10
+reactive-var@1.0.11
+coffeescript@1.11.1_4
+markdown@1.0.11
 random@1.0.10
-check@1.2.3
-http@1.2.9_1
+check@1.2.4
+http@1.2.10
 
 # UI/UX packages
-fastclick@1.0.12
+fastclick@1.0.13
 fortawesome:fontawesome
 simple:highlight.js
 mquandalle:jade
@@ -32,8 +32,6 @@ mrt:filesize
 
 # Collection-related packages
 meteorhacks:subs-manager
-aldeed:simple-schema
-aldeed:collection2
 
 # Other packages
 cfs:graphicsmagick
@@ -49,9 +47,10 @@ ostrio:flow-router-meta
 ostrio:spiderable-middleware
 
 # Accounts Packages
-accounts-base@1.2.11
-service-configuration@1.0.10
-accounts-github@1.0.10
-accounts-twitter@1.1.11
-accounts-facebook@1.0.10
-accounts-meteor-developer@1.0.10
+accounts-base@1.2.14
+service-configuration@1.0.11
+accounts-github@1.0.11
+accounts-twitter@1.1.12
+accounts-facebook@1.0.11
+accounts-meteor-developer@1.0.11
+ostrio:fps-meter
