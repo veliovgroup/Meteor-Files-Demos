@@ -114,3 +114,5 @@ if Meteor.isClient
     $('html').attr 'xmlns:og', 'http://ogp.me/ns#'
     $('html').attr 'xml:lang', 'en'
     $('html').attr 'lang', 'en'
+    (new FPSMeter({ui: true, reactive: false})).start()
+    return
