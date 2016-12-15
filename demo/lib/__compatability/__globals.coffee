@@ -4,6 +4,10 @@ Package['kadira:flow-router'] = Package['ostrio:flow-router-extra'];
 
 if Meteor.isClient
   window.IS_RENDERED = false
+  window.requestAnimFrame ?= do ->
+    window.requestAnimationFrame or window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or (callback) ->
+      window.setTimeout callback, 1000 / 60
+      return
   ClientStorage.set('blamed', []) if not ClientStorage.has('blamed') or not _.isArray ClientStorage.get 'blamed'
   ClientStorage.set('unlist', true) if not ClientStorage.has('unlist') or not _.isBoolean ClientStorage.get 'unlist'
   ClientStorage.set('secured', false) if not ClientStorage.has('secured') or not _.isBoolean ClientStorage.get 'secured'
@@ -114,5 +118,21 @@ if Meteor.isClient
     $('html').attr 'xmlns:og', 'http://ogp.me/ns#'
     $('html').attr 'xml:lang', 'en'
     $('html').attr 'lang', 'en'
-    (new FPSMeter({ui: true, reactive: false})).start()
+    FPS = new FPSMeter {ui: true, reactive: false}
+    FPS.start()
+
+    regStop = ->
+      $('#__FPSMeter').click ->
+        if FPS.isRunning
+          FPS.isRunning = false
+        else
+          FPS.stop()
+          window.requestAnimFrame ->
+            FPS.start()
+            regStop()
+            return
+        return
+      return
+
+    regStop()
     return

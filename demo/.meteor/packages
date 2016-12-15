@@ -14,6 +14,7 @@ standard-minifier-js@1.2.1
 # Additional MDG packages
 audit-argument-checks@1.0.7
 reactive-var@1.0.11
+ecmascript
 coffeescript@1.11.1_4
 markdown@1.0.11
 random@1.0.10
@@ -39,6 +40,7 @@ ostrio:flow-router-extra
 ostrio:templatehelpers
 ostrio:cstorage
 arillo:flow-router-helpers
+ostrio:fps-meter
 
 # SEO
 ostrio:flow-router-title
@@ -52,4 +54,3 @@ accounts-github@1.0.11
 accounts-twitter@1.1.12
 accounts-facebook@1.0.11
 accounts-meteor-developer@1.0.11
-ostrio:fps-meter
