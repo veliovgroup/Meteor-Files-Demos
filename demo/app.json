@@ -1,6 +1,6 @@
 {
   "name": "Meteor-Files-Demo",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "Upload files with speed on Meteor. Application build on top of ostrio:files package",
   "repository": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "website": "https://github.com/VeliovGroup/Meteor-Files-Demo",
