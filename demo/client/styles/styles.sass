@@ -2,8 +2,6 @@ $link-color: #4e546d
 $link-active: #BBB
 $text-color: #97a2d0
 
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700)
-
 body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
   animation: newElement 350ms ease-in-out 1
 
@@ -19,6 +17,9 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
 #__FPSMeter
   cursor: pointer
   user-select: none
+
+::-webkit-scrollbar
+  display: none
 
 html, body
   background-color: #2b3850
@@ -61,6 +62,8 @@ html, body
   outline: none !important
   &:active, &:focus, &:visited
     outline: none !important
+  &::-webkit-scrollbar
+    display: none
 
 body
   background-size: 50px 50px
@@ -199,6 +202,8 @@ hr
 .scroll
   -webkit-overflow-scrolling: touch
   transform: translate3d(0,0,0)
+  &::-webkit-scrollbar
+    display: none
 .scroll-x
   overflow-y: hidden
   overflow-x: auto
@@ -217,6 +222,8 @@ pre
   overflow: auto
   transform: translate3d(0,0,0)
   -webkit-overflow-scrolling: touch
+  &::-webkit-scrollbar
+    display: none
 
 th
   text-align: center
@@ -359,7 +366,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   box-sizing: border-box
 
 .info-link
-  color: inherit
+  color: $link-color
   font-size: 1.1rem
   position: absolute
   animation: newElement 350ms ease-in-out 1
@@ -368,7 +375,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   padding: 7px
   z-index: 201
   &:hover, &.active
-    color: #BBB
+    color: $link-active
   &.right
     left: 8px
     right: initial
@@ -387,16 +394,18 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     transition: none
     i
       transition: color 256ms ease-in-out
-    img
+    svg
       max-height: 1.33333333em
+      max-width: 1.33333333em
       position: relative
       bottom: -5px
-      transition: filter 256ms ease-in-out
-      filter: grayscale(100%)
+      .color
+        transition: fill 256ms ease-in-out
+        fill: $link-color
+      &:hover .color
+        fill: #DF4F4F
     &:hover
       color: $link-active
-      img
-        filter: grayscale(0%)
       i.fa-github
         color: #999999
       i.fa-twitter
@@ -490,6 +499,8 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   overflow-x: hidden
   overflow-y: auto
   -webkit-overflow-scrolling: touch
+  &::-webkit-scrollbar
+    display: none
   max-height: 455px
   min-height: 455px
 
@@ -536,7 +547,6 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     pointer-events: none
   h1.file-title
     position: absolute
-    transform: translate3d(0,0,0)
     top: 0px
     left: 0px
     background-color: rgba(0,0,0,0.555)
@@ -571,9 +581,19 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
         background-color: rgba(0,0,0,0.25)
   .info-link
     background-color: rgba(0,0,0,0.5)
-    border-radius: 20px
     overflow: hidden
     transition: color 256ms ease-in-out, background-color 256ms ease-in-out
+    padding: 12px
+    background-color: rgba(0,0,0,0.555)
+    -webkit-backdrop-filter: blur(3px)
+    -moz-backdrop-filter: blur(3px)
+    -ms-backdrop-filter: blur(3px)
+    backdrop-filter: blur(3px)
+    &:not(.right)
+      right: 0px
+    bottom: 0px
+    &.right
+      left: 0px
     &:hover
       background-color: rgba(0,0,0,0.9)
 
