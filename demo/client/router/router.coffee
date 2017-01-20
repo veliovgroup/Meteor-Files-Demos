@@ -45,5 +45,6 @@ FlowRouter.notFound =
     return
   title: '404: Page not found'
 
+`import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta'`
 new FlowRouterTitle FlowRouter
 new FlowRouterMeta FlowRouter
