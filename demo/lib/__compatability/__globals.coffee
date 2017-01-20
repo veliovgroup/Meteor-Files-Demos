@@ -97,7 +97,6 @@ if Meteor.isClient
   Template._layout.events
     'click [data-show-project-info]': (e, template) ->
       e.preventDefault()
-      $('.gh-ribbon').toggle()
       _app.showProjectInfo.set !_app.showProjectInfo.get()
       false
 

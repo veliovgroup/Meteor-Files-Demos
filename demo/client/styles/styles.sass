@@ -11,6 +11,14 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
   to
     opacity: 1
 
+@keyframes octocat-wave
+  0%, 100%
+    transform: rotate(0)
+  20%, 60%
+    transform: rotate(-25deg)
+  40%,80%
+    transform: rotate(10deg)
+
 :active, :focus, :visited
   outline: none !important
 
@@ -295,18 +303,24 @@ iframe.file-preview
   min-height: 100vh
 
 .gh-ribbon
-  transition: opacity 256ms ease-in-out
   position: absolute
-  top: 0
-  right: 0
-  border: 0
+  top: 0px
+  right: 0px
+  border: none
   z-index: 300
-  opacity: .555
   &:hover
-    opacity: .777
-  img
+    .octo-arm
+      animation: octocat-wave 560ms ease-in-out
+  svg
     height: 130px
     width: 130px
+    fill: #121722
+    color: #151513
+    border: 0
+    .octo-arm
+      transform-origin: 130px 106px
+    .octo-arm, .octo-body
+      fill: #2b3850
 
 .radio input[type="radio"], .radio-inline input[type="radio"]
   position: absolute
@@ -750,12 +764,16 @@ pre, code, kbd, samp
   p.project-info
     margin: 0.9rem 0rem
   .gh-ribbon
-    left: 0px
+    left: -2px
+    top: -2px
     right: initial
-    img
-      transform: rotate(-90deg)
+    transform: rotate(-90deg)
+    svg
+      fill: #2b3850
       height: 90px
       width: 90px
+      .octo-arm, .octo-body
+        fill: #121722
   .upload-form
     .fake-upload
       width: 100%
@@ -830,11 +848,15 @@ pre, code, kbd, samp
     width: 100%
     width: 100vw
   .gh-ribbon
-    left: 0px
+    left: -2px
+    top: -2px
     right: initial
-    img
+    transform: rotate(-90deg)
+    svg
+      fill: #2b3850
       height: 85px
       width: 85px
-      transform: rotate(-90deg)
+      .octo-arm, .octo-body
+        fill: #121722
   html, body
     font-size: 12px

@@ -183,11 +183,9 @@ Template.uploadForm.events
     false
   'click [data-show-settings]': (e, template) ->
     e.preventDefault()
-    $('.gh-ribbon').toggle()
     template.showSettings.set !template.showSettings.get()
     false
   'click [data-show-project-info]': (e, template) ->
     e.preventDefault()
-    $('.gh-ribbon').toggle()
     _app.showProjectInfo.set !_app.showProjectInfo.get()
     false
