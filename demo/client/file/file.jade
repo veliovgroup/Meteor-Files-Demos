@@ -58,7 +58,7 @@ template(name="file")
                 | Can not play this audio file. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
-              audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" loop)
+              audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" playsinline="true" webkit-playsinline="true" loop)
                 source(src="{{link}}?play=true" type="#{type}")
         else if isVideo
           .file-cell
@@ -67,7 +67,7 @@ template(name="file")
                 | Can not play this video. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
-              video.file-preview(id="{{_id}}" controls autoplay preload="auto" loop)
+              video.file-preview(id="{{_id}}" controls autoplay preload="auto" playsinline="true" webkit-playsinline="true" loop)
                 source(src="{{link}}?play=true" type="#{type}")
         else if compare isText 'or' isJSON
           if warning
