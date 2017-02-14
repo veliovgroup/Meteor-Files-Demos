@@ -14,8 +14,7 @@ standard-minifier-js@1.2.1
 # Additional MDG packages
 audit-argument-checks@1.0.7
 reactive-var@1.0.11
-ecmascript
-coffeescript@1.11.1_4
+ecmascript@0.6.1
 markdown@1.0.11
 random@1.0.10
 check@1.2.4
@@ -25,7 +24,7 @@ http@1.2.10
 fortawesome:fontawesome
 simple:highlight.js
 mquandalle:jade
-fourseven:scss
+fourseven:scss@3.3.3
 momentjs:moment
 perak:markdown
 mrt:filesize
@@ -34,7 +33,6 @@ mrt:filesize
 meteorhacks:subs-manager
 
 # Other packages
-cfs:graphicsmagick
 ostrio:files
 ostrio:flow-router-extra
 ostrio:templatehelpers

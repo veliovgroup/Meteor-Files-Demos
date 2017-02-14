@@ -1,6 +1,6 @@
 {
   "name": "Meteor-Files",
-  "version": "1.7.7",
+  "version": "1.7.10",
   "description": "Upload files with speed on Meteor. Application build on top of ostrio:files package",
   "main": "main.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "dropbox": "0.10.3",
     "fibers": "1.0.15",
     "fs-extra": "2.0.0",
+    "gm": "^1.23.0",
     "http-proxy": "^1.13.2",
     "keypress": "^0.2.1",
     "knox": "^0.9.2",
