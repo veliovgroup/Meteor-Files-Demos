@@ -57,7 +57,7 @@ if (Meteor.isServer) {
 }
 
 Collections.files = new FilesCollection({
-  debug: true,
+  // debug: true,
   // throttle: false,
   // chunkSize: 1024*1024,
   storagePath: 'assets/app/uploads/uploadedFiles',
@@ -83,10 +83,10 @@ Collections.files = new FilesCollection({
     return !~res.indexOf(false);
   },
   onBeforeUpload() {
-    // if (this.file.size <= 1024 * 1024 * 128) {
+    if (this.file.size <= 1024 * 1024 * 128) {
       return true;
-    // }
-    // return "Max. file size is 128MB you've tried to upload " + (filesize(this.file.size));
+    }
+    return "Max. file size is 128MB you've tried to upload " + (filesize(this.file.size));
   },
   downloadCallback(fileObj) {
     if (this.params && this.params.query && this.params.query.download === 'true') {
