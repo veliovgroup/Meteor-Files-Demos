@@ -253,7 +253,8 @@ if (Meteor.isServer) {
         });
       };
     }
-    if (!!~['png', 'jpg', 'jpeg'].indexOf((fileRef.extension || '').toLowerCase())) {
+
+    if (/png|jpe?g/i.test(fileRef.extension || '')) {
       _app.createThumbnails(this, fileRef, (fileRef, error) => {
         if (error) {
           console.error(error);
