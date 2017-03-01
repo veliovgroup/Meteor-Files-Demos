@@ -100,6 +100,9 @@ heroku create <your-app-name> --buildpack https://github.com/heroku/heroku-build
 # - https://<your-app-name>.herokuapp.com/
 # - https://git.heroku.com/<your-app-name>.git
 
+# Add GraphicsMagick buildpack - for image manipulations
+heroku buildpacks:add --index 1 https://github.com/mcollina/heroku-buildpack-graphicsmagick.git
+
 git init
 heroku git:remote -a <your-app-name>
 
