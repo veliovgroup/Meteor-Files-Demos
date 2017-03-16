@@ -71,9 +71,9 @@ All credentials is set via env.var(s), if you're using "*Heroku's one click inst
 
 Deploy to Heroku
 ======
- - Due to "*ephemeral filesystem*" on Heroku, we suggest to use DropBox/AWS:S3 as permanent storage, [read DropBox/S3/GridFS tutorial](https://github.com/VeliovGroup/Meteor-Files/wiki/Third-party-storage)
+ - Due to "*ephemeral filesystem*" on Heroku, we suggest to use 3rd-party permanent storage, [read DropBox/S3/GridFS tutorial](https://github.com/VeliovGroup/Meteor-Files/wiki/Third-party-storage)
  - Go to [Heroku](https://signup.heroku.com/dc) create and confirm your new account
- - Go though [Node.js Tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+ - Go through [Node.js Tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
  - Install [Heroku Toolbet](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up)
  - Then go to Terminal into Meteor's project directory and run:
 
