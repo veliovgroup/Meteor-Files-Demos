@@ -31,6 +31,7 @@ Template.listingRow.events({
     this.remove((error) => {
       if (error) {
         console.log(error);
+        icon.addClass('fa-trash-o').removeClass('fa-spin fa-spinner');
       }
     });
   },
