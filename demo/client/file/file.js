@@ -45,8 +45,8 @@ Template.file.onRendered(function() {
         img.src = this.data.file.link('preview');
       } else {
         handle = Collections.files.find(this.data.file._id).observeChanges({
-          changed: (_id, fileds) => {
-            if (fileds != null && fileds.versions != null && fileds.versions.preview != null && fileds.versions.preview.extension) {
+          changed: (_id, fields) => {
+            if (fields != null && fields.versions != null && fields.versions.preview != null && fields.versions.preview.extension) {
               img.src = this.data.file.link('preview');
               handle.stop();
             }
