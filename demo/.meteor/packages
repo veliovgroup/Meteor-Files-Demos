@@ -1,24 +1,24 @@
 # Basic packages
-meteor-base@1.0.4
-mobile-experience@1.0.4
-mongo@1.1.16
-blaze-html-templates@1.0.4
-shell-server@0.2.3
-session@1.1.7
-jquery@1.11.10
-tracker@1.1.2
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+shell-server
+session
+jquery
+tracker
 
 seba:minifiers-autoprefixer
-standard-minifier-js@1.2.3
+standard-minifier-js
 
 # Additional MDG packages
-audit-argument-checks@1.0.7
-reactive-var@1.0.11
-ecmascript@0.6.3
-markdown@1.0.11
-random@1.0.10
-check@1.2.5
-http@1.2.12
+audit-argument-checks
+reactive-var
+ecmascript
+markdown
+random
+check
+http
 
 # UI/UX packages
 fortawesome:fontawesome
@@ -34,11 +34,10 @@ meteorhacks:subs-manager
 
 # Other packages
 ostrio:files
-ostrio:flow-router-extra
-ostrio:templatehelpers
 ostrio:cstorage
-arillo:flow-router-helpers
 ostrio:fps-meter
+ostrio:templatehelpers
+ostrio:flow-router-extra
 
 # SEO
 ostrio:flow-router-title
@@ -46,9 +45,9 @@ ostrio:flow-router-meta
 ostrio:spiderable-middleware
 
 # Accounts Packages
-accounts-base@1.2.15
-service-configuration@1.0.11
-accounts-github@1.2.1
-accounts-twitter@1.2.1
-accounts-facebook@1.1.1
-accounts-meteor-developer@1.2.1
+service-configuration
+accounts-base
+accounts-github
+accounts-twitter
+accounts-facebook
+accounts-meteor-developer
