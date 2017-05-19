@@ -132,10 +132,15 @@ Collections.files = new FilesCollection({
         // and to keep original file name, content-type,
         // content-disposition and cache-control
         // we're using low-level .serve() method
-        this.serve(http, fileRef, fileRef.versions[version], version, client.getObject({
+        const opts = {
           Bucket: s3Conf.bucket,
-          Key: path
-        }).createReadStream());
+          Key: path,
+        };
+
+        if (http.request.headers.range) {
+          opts.Range = http.request.headers.range;
+        }
+        this.serve(http, fileRef, fileRef.versions[version], version, client.getObject(opts).createReadStream());
         return true;
       }
       // While file is not yet uploaded to Storage
