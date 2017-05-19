@@ -1,7 +1,7 @@
 {
   "name": "Meteor-Files-Demo",
-  "version": "1.7.13",
-  "description": "Upload files with speed on Meteor. Application build on top of ostrio:files package",
+  "version": "1.7.15",
+  "description": "Upload files with thes speed of Meteor. Application build on top of ostrio:files package",
   "repository": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "website": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "logo": "https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png",
@@ -51,7 +51,7 @@
       "required": false
     },
     "AWS S3 Bucket": {
-      "description": "[Optional] AWS S3 Bucket credentials object, format: {\"s3\":{\"key\": \"xxx\", \"secret\": \"xxx\", \"bucket\": \"xxx\", \"region\": \"xxx\", \"cfdomain\": \"https://xxx.cloudfront.net\"}}",
+      "description": "[Optional] AWS S3 Bucket credentials object, format: {\"s3\":{\"key\": \"xxx\", \"secret\": \"xxx\", \"bucket\": \"xxx\", \"region\": \"xxx\"}}",
       "required": false
     },
     "ACCOUNTS_METEOR_ID": {
@@ -106,7 +106,7 @@
     }
   ],
   "engines": {
-    "node": "4.8.0",
-    "npm": "4.3.0"
+    "node": "4.8.2",
+    "npm": "4.5.0"
   }
 }

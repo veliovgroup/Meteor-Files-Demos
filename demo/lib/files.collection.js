@@ -38,10 +38,6 @@ if (Meteor.isServer) {
       token: dbConf.token
     });
   } else if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
-    // Fix CloudFront certificate issue
-    // Read: https://github.com/chilts/awssum/issues/164
-    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
     useS3    = true;
     const S3 = require('aws-sdk/clients/s3');
 
@@ -288,7 +284,7 @@ if (Meteor.isServer) {
     }
 
     if (/png|jpe?g/i.test(fileRef.extension || '')) {
-      _app.createThumbnails(this, fileRef, (fileRef, error) => {
+      _app.createThumbnails(this, fileRef, (error, fileRef) => {
         if (error) {
           console.error(error);
         }

@@ -18,10 +18,10 @@ _app.createThumbnails = (collection, fileRef, cb) => {
     bound(() => {
       if (error) {
         console.error('[_app.createThumbnails] [finish]', error);
-        cb && cb (void 0, error);
+        cb && cb (error);
       } else {
         if (isLast) {
-          cb && cb(fileRef);
+          cb && cb(void 0, fileRef);
         }
       }
       return true;
@@ -44,19 +44,21 @@ _app.createThumbnails = (collection, fileRef, cb) => {
         }
       };
 
-      image.size(function(error, features) {
+      image.size((error, features) => {
         bound(() => {
           if (error) {
-            console.error('[_app.createThumbnails] [_.each sizes]');
-            console.error(error);
-            return finish(Meteor.Error('[_app.createThumbnails] [_.each sizes]', error));
+            console.error('[_app.createThumbnails] [_.each sizes]', error);
+            finish(Meteor.Error('[_app.createThumbnails] [_.each sizes]', error));
+            return;
           }
 
           let i = 0;
           collection.collection.update(fileRef._id, {
             $set: {
               'meta.width': features.width,
-              'meta.height': features.height
+              'meta.height': features.height,
+              'versions.original.meta.width': features.width,
+              'versions.original.meta.height': features.height
             }
           }, _app.NOOP);
 
@@ -67,7 +69,8 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                 bound(() => {
                   if (fsCopyError) {
                     console.error('[_app.createThumbnails] [_.each sizes] [fs.copy]', fsCopyError);
-                    return finish(fsCopyError);
+                    finish(fsCopyError);
+                    return;
                   }
 
                   const upd = { $set: {} };
@@ -113,19 +116,23 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                 bound(() => {
                   if (upNSaveError) {
                     console.error('[_app.createThumbnails] [_.each sizes] [img.resize]', upNSaveError);
-                    return finish(upNSaveError);
+                    finish(upNSaveError);
+                    return;
                   }
                   fs.stat(path, (fsStatError, stat) => {
-                    if (fsStatError) {
-                      console.error('[_app.createThumbnails] [_.each sizes] [img.resize] [fs.stat]', fsStatError);
-                      return finish(fsStatError);
-                    }
                     bound(() => {
+                      if (fsStatError) {
+                        console.error('[_app.createThumbnails] [_.each sizes] [img.resize] [fs.stat]', fsStatError);
+                        finish(fsStatError);
+                        return;
+                      }
+
                       gm(path).size((gmSizeError, imgInfo) => {
                         bound(() => {
                           if (gmSizeError) {
                             console.error('[_app.createThumbnails] [_.each sizes] [img.resize] [fs.stat] [gm(path).size]', gmSizeError);
-                            return finish(gmSizeError);
+                            finish(gmSizeError);
+                            return;
                           }
                           const upd = { $set: {} };
                           upd['$set']['versions.' + name] = {
