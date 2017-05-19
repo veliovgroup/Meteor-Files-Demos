@@ -15,4 +15,6 @@ standard-minifier-js
 ecmascript
 shell-server
 
+aldeed:simple-schema
+aldeed:collection2
 ostrio:files
