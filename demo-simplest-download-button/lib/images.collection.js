@@ -1,4 +1,7 @@
-this.Images = new Meteor.Files({
+import { Meteor }          from 'meteor/meteor';
+import { FilesCollection } from 'meteor/ostrio:files';
+
+const Images = new FilesCollection({
   debug: true,
   collectionName: 'Images'
 });
@@ -20,8 +23,8 @@ if (Meteor.isServer) {
   Meteor.publish('files.images.all', function () {
     return Images.find().cursor;
   });
-
 } else {
-
   Meteor.subscribe('files.images.all');
 }
+
+export default Images;

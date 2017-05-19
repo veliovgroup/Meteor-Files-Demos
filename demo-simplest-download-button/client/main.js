@@ -1,9 +1,9 @@
 import { Template } from 'meteor/templating';
-
+import Images from '/lib/images.collection.js';
 import './main.html';
 
 Template.file.helpers({
-  file: function () {
+  file() {
     return Images.findOne();
   }
 });
