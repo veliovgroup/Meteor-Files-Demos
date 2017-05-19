@@ -14,7 +14,7 @@ let useDropBox = false;
 // Read: https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration
 // env.var example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}'
 let useS3 = false;
-let request, bound, fs, client, sendToStorage, s3Conf, dbConf;
+let request, bound, fs, client, sendToStorage, s3Conf, dbConf, stream;
 
 if (Meteor.isServer) {
   fs = require('fs-extra');
@@ -39,6 +39,7 @@ if (Meteor.isServer) {
     });
   } else if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
     useS3    = true;
+    stream   = require('stream');
     const S3 = require('aws-sdk/clients/s3');
 
     client = new S3({
@@ -134,14 +135,28 @@ Collections.files = new FilesCollection({
         // we're using low-level .serve() method
         const opts = {
           Bucket: s3Conf.bucket,
-          Key: path,
+          Key: path
         };
 
         if (http.request.headers.range) {
           opts.Range = http.request.headers.range;
         }
-        this.serve(http, fileRef, fileRef.versions[version], version, client.getObject(opts).createReadStream());
-        return true;
+
+        const fileColl = this;
+        client.getObject(opts, function (error) {
+          if (error) {
+            console.error(error);
+            http.response.end();
+          } else {
+            if (http.request.headers.range && this.httpResponse.headers['content-range']) {
+              http.request.headers.range = this.httpResponse.headers['content-range'].split('/')[0].replace('bytes ', 'bytes=');
+            }
+
+            const dataStream = new stream.PassThrough();
+            fileColl.serve(http, fileRef, fileRef.versions[version], version, dataStream);
+            dataStream.end(this.data.Body);
+          }
+        });
       }
       // While file is not yet uploaded to Storage
       // We will serve file from FS
