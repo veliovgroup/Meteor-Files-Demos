@@ -1,6 +1,7 @@
+import { Meteor }          from 'meteor/meteor';
 import { FilesCollection } from 'meteor/ostrio:files';
 
-let Images = new FilesCollection({
+const Images = new FilesCollection({
   debug: true,
   collectionName: 'Images',
   onBeforeUpload() {
@@ -9,7 +10,7 @@ let Images = new FilesCollection({
   }
 });
 
-let Sounds = new FilesCollection({
+const Sounds = new FilesCollection({
   debug: true,
   collectionName: 'Sounds',
   onBeforeUpload() {
@@ -22,7 +23,7 @@ let Sounds = new FilesCollection({
 if (Meteor.isServer) {
   Images.denyClient();
   Sounds.denyClient();
-  
+
   Meteor.startup(() => {
     if (!Images.findOne()) {
       Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
@@ -39,11 +40,9 @@ if (Meteor.isServer) {
 
   Meteor.publish('files.images.all', () => Images.find().cursor);
   Meteor.publish('files.sounds.all', () => Sounds.find().cursor);
-
 } else {
-
   Meteor.subscribe('files.images.all');
   Meteor.subscribe('files.sounds.all');
 }
 
-export { Sounds, Images }
+export { Sounds, Images };
