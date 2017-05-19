@@ -1,7 +1,14 @@
-Collections = {};
-_app = { NOOP(){} };
+import { _ }             from 'meteor/underscore';
+import { $ }             from 'meteor/jquery';
+import { Meteor }        from 'meteor/meteor';
+import { FPSMeter }      from 'meteor/ostrio:fps-meter';
+import { Template }      from 'meteor/templating';
+import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar }   from 'meteor/reactive-var';
+import { ClientStorage } from 'meteor/ostrio:cstorage';
 
-Package['kadira:flow-router'] = Package['ostrio:flow-router-extra'];
+const Collections = {};
+const _app = { NOOP(){} };
 
 if (Meteor.isClient) {
   window.IS_RENDERED = false;
@@ -188,3 +195,5 @@ if (Meteor.isClient) {
     regStop();
   });
 }
+
+export { _app, Collections };
