@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { ServiceConfiguration } from 'meteor/service-configuration';
+
 const _sc = {};
 ServiceConfiguration.configurations.remove({});
 

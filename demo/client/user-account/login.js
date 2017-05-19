@@ -1,3 +1,8 @@
+import { _app }     from '/lib/__compatibility/__globals.js';
+import { Meteor }   from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import './login.jade';
+
 Template.login.onRendered(function() {
   window.IS_RENDERED = true;
 });

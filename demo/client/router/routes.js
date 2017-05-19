@@ -1,3 +1,7 @@
+import { Meteor }            from 'meteor/meteor';
+import { FlowRouter }        from 'meteor/ostrio:flow-router-extra';
+import { _app, Collections } from '/lib/__compatibility/__globals.js';
+
 FlowRouter.route('/', {
   name: 'index',
   action() {

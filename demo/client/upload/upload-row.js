@@ -1,3 +1,7 @@
+import { moment }   from 'meteor/momentjs:moment';
+import { Template } from 'meteor/templating';
+import './upload-row.jade';
+
 Template.uploadRow.helpers({
   estimateBitrate: function() {
     return filesize(this.estimateSpeed.get(), { bits: true }) + '/s';

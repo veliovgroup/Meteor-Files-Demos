@@ -1,56 +1,61 @@
+import { _ }                 from 'meteor/underscore';
+import { check }             from 'meteor/check';
+import { Meteor }            from 'meteor/meteor';
+import { Random }            from 'meteor/random';
+import { FilesCollection }   from 'meteor/ostrio:files';
+import { _app, Collections } from '/lib/__compatibility/__globals.js';
+
 // DropBox usage:
 // Read: https://github.com/VeliovGroup/Meteor-Files/wiki/DropBox-Integration
 // env.var example: DROPBOX='{"dropbox":{"key": "xxx", "secret": "xxx", "token": "xxx"}}'
 let useDropBox = false;
 
 // AWS:S3 usage:
-// Read: https://github.com/Lepozepo/S3#create-your-amazon-s3
 // Read: https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration
-// Create and attach CloudFront to S3 bucket: https://console.aws.amazon.com/cloudfront/
-
-// env.var example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx", "cfdomain": "https://xxx.cloudfront.net"}}'
+// env.var example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}'
 let useS3 = false;
-
-let Request, bound, fs, client, sendToStorage;
+let request, bound, fs, client, sendToStorage, s3Conf, dbConf;
 
 if (Meteor.isServer) {
-  if (process.env.DROPBOX != null) {
+  fs = require('fs-extra');
+
+  if (process.env.DROPBOX) {
     Meteor.settings.dropbox = JSON.parse(process.env.DROPBOX).dropbox;
-  } else if (process.env.S3 != null) {
+  } else if (process.env.S3) {
     Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
   }
 
-  if (Meteor.settings.dropbox && Meteor.settings.dropbox.key && Meteor.settings.dropbox.secret && Meteor.settings.dropbox.token) {
+  s3Conf = Meteor.settings.s3 || {};
+  dbConf = Meteor.settings.dropbox || {};
+
+  if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
     useDropBox    = true;
-    const Dropbox = Npm.require('dropbox');
-    fs            = Npm.require('fs');
+    const Dropbox = require('dropbox');
 
     client = new Dropbox.Client({
-      key: Meteor.settings.dropbox.key,
-      secret: Meteor.settings.dropbox.secret,
-      token: Meteor.settings.dropbox.token
+      key: dbConf.key,
+      secret: dbConf.secret,
+      token: dbConf.token
     });
-  } else if (Meteor.settings.s3 && Meteor.settings.s3.key && Meteor.settings.s3.secret && Meteor.settings.s3.bucket && Meteor.settings.s3.region && Meteor.settings.s3.cfdomain) {
+  } else if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
     // Fix CloudFront certificate issue
     // Read: https://github.com/chilts/awssum/issues/164
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-    useS3      = true;
-    const knox = Npm.require('knox');
+    // process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-    client = knox.createClient({
-      key: Meteor.settings.s3.key,
-      secret: Meteor.settings.s3.secret,
-      bucket: Meteor.settings.s3.bucket,
-      region: Meteor.settings.s3.region
+    useS3    = true;
+    const S3 = require('aws-sdk/clients/s3');
+
+    client = new S3({
+      secretAccessKey: s3Conf.secret,
+      accessKeyId: s3Conf.key,
+      region: s3Conf.region,
+      sslEnabled: true
     });
-
-    // Normalize cfdomain
-    Meteor.settings.s3.cfdomain = Meteor.settings.s3.cfdomain.replace(/\/+$/, '');
   }
 
   if (useS3 || useDropBox) {
-    Request = Npm.require('request');
-    bound   = Meteor.bindEnvironment(function(callback) {
+    request = require('request');
+    bound   = Meteor.bindEnvironment((callback) => {
       return callback();
     });
   }
@@ -94,13 +99,14 @@ Collections.files = new FilesCollection({
         $inc: {
           'meta.downloads': 1
         }
-      });
+      }, _app.NOOP);
     }
     return true;
   },
   interceptDownload(http, fileRef, version) {
-    if (useDropBox || useS3) {
-      const path = (fileRef && fileRef.versions && fileRef.versions[version] && fileRef.versions[version].meta && fileRef.versions[version].meta.pipeFrom) ? fileRef.versions[version].meta.pipeFrom : void 0;
+    let path;
+    if (useDropBox) {
+      path = (fileRef && fileRef.versions && fileRef.versions[version] && fileRef.versions[version].meta && fileRef.versions[version].meta.pipeFrom) ? fileRef.versions[version].meta.pipeFrom : void 0;
       if (path) {
         // If file is successfully moved to Storage
         // We will pipe request to Storage
@@ -110,10 +116,30 @@ Collections.files = new FilesCollection({
         // and to keep original file name, content-type,
         // content-disposition and cache-control
         // we're using low-level .serve() method
-        this.serve(http, fileRef, fileRef.versions[version], version, Request({
+        this.serve(http, fileRef, fileRef.versions[version], version, request({
           url: path,
-          headers: _.pick(http.request.headers, 'range', 'accept-language', 'accept', 'cache-control', 'pragma', 'connection', 'upgrade-insecure-requests', 'user-agent')
+          headers: _.pick(http.request.headers, 'range', 'cache-control', 'connection')
         }));
+        return true;
+      }
+      // While file is not yet uploaded to Storage
+      // We will serve file from FS
+      return false;
+    } else if (useS3) {
+      path = (fileRef && fileRef.versions && fileRef.versions[version] && fileRef.versions[version].meta && fileRef.versions[version].meta.pipePath) ? fileRef.versions[version].meta.pipePath : void 0;
+      if (path) {
+        // If file is successfully moved to Storage
+        // We will pipe request to Storage
+        // So, original link will stay always secure
+
+        // To force ?play and ?download parameters
+        // and to keep original file name, content-type,
+        // content-disposition and cache-control
+        // we're using low-level .serve() method
+        this.serve(http, fileRef, fileRef.versions[version], version, client.getObject({
+          Bucket: s3Conf.bucket,
+          Key: path
+        }).createReadStream());
         return true;
       }
       // While file is not yet uploaded to Storage
@@ -151,9 +177,9 @@ if (Meteor.isServer) {
               upd['$set']['versions.' + version + '.meta.pipePath'] = stat.path;
               this.collection.update({
                 _id: fileRef._id
-              }, upd, (error) => {
-                if (error) {
-                  console.error(error);
+              }, upd, (updError) => {
+                if (updError) {
+                  console.error(updError);
                 } else {
                   // Unlink original files from FS
                   // after successful upload to DropBox
@@ -228,13 +254,20 @@ if (Meteor.isServer) {
           // As after viewing this code it will be easy
           // to get access to unlisted and protected files
           const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
-          client.putFile(vRef.path, filePath, (error) => {
+
+          client.putObject({
+            ServerSideEncryption: 'AES256',
+            StorageClass: 'STANDARD_IA',
+            Bucket: s3Conf.bucket,
+            Key: filePath,
+            Body: fs.createReadStream(vRef.path),
+            ContentType: vRef.type,
+          }, (error) => {
             bound(() => {
               if (error) {
                 console.error(error);
               } else {
                 const upd = { $set: {} };
-                upd['$set']['versions.' + version + '.meta.pipeFrom'] = Meteor.settings.s3.cfdomain + '/' + filePath;
                 upd['$set']['versions.' + version + '.meta.pipePath'] = filePath;
                 this.collection.update({
                   _id: fileRef._id
@@ -242,7 +275,7 @@ if (Meteor.isServer) {
                   if (error) {
                     console.error(error);
                   } else {
-                    // Unlink original files from FS
+                    // Unlink original file from FS
                     // after successful upload to AWS:S3
                     this.unlink(this.collection.findOne(fileRef._id), version);
                   }
@@ -276,7 +309,7 @@ if (Meteor.isServer) {
   // Intercept FileCollection's remove method
   // to remove file from DropBox or AWS S3
   if (useDropBox || useS3) {
-    _origRemove = Collections.files.remove;
+    const _origRemove = Collections.files.remove;
     Collections.files.remove = function(search) {
       const cursor = this.collection.find(search);
       cursor.forEach((fileRef) => {
@@ -293,7 +326,10 @@ if (Meteor.isServer) {
               });
             } else {
               // AWS:S3 usage:
-              client.deleteFile(vRef.meta.pipePath, (error) => {
+              client.deleteObject({
+                Bucket: s3Conf.bucket,
+                Key: vRef.meta.pipePath,
+              }, (error) => {
                 bound(() => {
                   if (error) {
                     console.error(error);

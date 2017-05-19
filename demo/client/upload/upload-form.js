@@ -1,3 +1,13 @@
+import { _ }             from 'meteor/underscore';
+import { Meteor }        from 'meteor/meteor';
+import { moment }        from 'meteor/momentjs:moment';
+import { Template }      from 'meteor/templating';
+import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar }   from 'meteor/reactive-var';
+import { ClientStorage } from 'meteor/ostrio:cstorage';
+import { _app, Collections } from '/lib/__compatibility/__globals.js';
+import './upload-form.jade';
+
 Template.uploadForm.onCreated(function() {
   const self          = this;
   this.error          = new ReactiveVar(false);
@@ -34,6 +44,7 @@ Template.uploadForm.onCreated(function() {
       }
     };
 
+    let secured, unlisted, ttl;
     const uploads = [];
     const transport = ClientStorage.get('uploadTransport');
     const created_at = +new Date();

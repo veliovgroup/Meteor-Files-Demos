@@ -1,9 +1,14 @@
-const bound = Meteor.bindEnvironment(function(callback) {
+import { _ }      from 'meteor/underscore';
+import { _app }   from '/lib/__compatibility/__globals.js';
+import { check }  from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
+
+import fs from 'fs-extra';
+import gm from 'gm';
+
+const bound = Meteor.bindEnvironment((callback) => {
   return callback();
 });
-
-const fs = Npm.require('fs-extra');
-const gm = Npm.require('gm');
 
 _app.createThumbnails = (collection, fileRef, cb) => {
   check(fileRef, Object);
@@ -89,6 +94,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
 
             if (/png|jpe?g/i.test(fileRef.extension)) {
               const img = gm(fileRef.path)
+                .quality(70)
                 .define('filter:support=2')
                 .define('jpeg:fancy-upsampling=false')
                 .define('jpeg:fancy-upsampling=off')
@@ -100,6 +106,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                 .noProfile()
                 .strip()
                 .dither(false)
+                .interlace('Line')
                 .filter('Triangle');
 
               const updateAndSave = (upNSaveError) => {

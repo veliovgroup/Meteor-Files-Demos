@@ -1,3 +1,11 @@
+import { $ }           from 'meteor/jquery';
+import { Meteor }      from 'meteor/meteor';
+import { moment }      from 'meteor/momentjs:moment';
+import { Template }    from 'meteor/templating';
+import { FlowRouter }  from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar } from 'meteor/reactive-var';
+import './listing-row.jade';
+
 Template.listingRow.onCreated(function() {
   this.showSettings = new ReactiveVar(false);
   this.showPreview  = () => {

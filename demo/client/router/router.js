@@ -1,3 +1,8 @@
+import { _app }       from '/lib/__compatibility/__globals.js';
+import { Meteor }     from 'meteor/meteor';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta';
+
 FlowRouter.globals.push({
   title: 'Meteor Files: Upload and Share'
 });
@@ -72,8 +77,6 @@ FlowRouter.notFound = {
   },
   title: '404: Page not found'
 };
-
-import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta';
 
 new FlowRouterTitle(FlowRouter);
 new FlowRouterMeta(FlowRouter);

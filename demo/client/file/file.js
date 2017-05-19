@@ -1,3 +1,10 @@
+import { Meteor }      from 'meteor/meteor';
+import { HTTP }        from 'meteor/http';
+import { Template }    from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { _app, Collections } from '/lib/__compatibility/__globals.js';
+import './file.jade';
+
 let timer = false;
 
 Template.file.onCreated(function() {
