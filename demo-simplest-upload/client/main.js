@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-
+import Images from '/lib/images.collection.js';
 import './main.html';
 
 Template.uploadedFiles.helpers({
@@ -22,7 +22,7 @@ Template.uploadForm.helpers({
 Template.uploadForm.events({
   'change #fileInput': function (e, template) {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
-      // We upload only one file, in case 
+      // We upload only one file, in case
       // there was multiple files selected
       var file = e.currentTarget.files[0];
       if (file) {
@@ -38,9 +38,9 @@ Template.uploadForm.events({
 
         uploadInstance.on('end', function(error, fileObj) {
           if (error) {
-            alert('Error during upload: ' + error.reason);
+            window.alert('Error during upload: ' + error.reason);
           } else {
-            alert('File "' + fileObj.name + '" successfully uploaded');
+            window.alert('File "' + fileObj.name + '" successfully uploaded');
           }
           template.currentUpload.set(false);
         });
