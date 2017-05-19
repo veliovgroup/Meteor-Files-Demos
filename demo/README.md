@@ -20,18 +20,17 @@ Activate AWS:S3
 ======
  1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration)
  2. After creating S3 bucket, create CloudFront Distribution and attach it to S3 bucket
- 3. Set S3 credentials into `METEOR_SETTINGS` env.var or pass as file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `S3` env.var
+ 3. Set S3 credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `S3` env.var
  4. You can pass S3 credentials as JSON-string when using "*Heroku's one click install-button*"
 
-S3 credentials format (*region and cfdomain is required*):
+S3 credentials format (*region is required*):
 ```json
 {
   "s3": {
     "key": "xxx",
     "secret": "xxx",
     "bucket": "xxx",
-    "region": "xxx",
-    "cfdomain": "https://xxx.cloudfront.net"
+    "region": "xxx"
   }
 }
 ```
@@ -53,7 +52,7 @@ DropBox credentials format:
 }
 ```
 
-Activate Social Logins
+Activate login via Social Networks
 ======
 All credentials is set via env.var(s), if you're using "*Heroku's one click install-button*" - you will be able to pass all of them.
  - Facebook - [Create an App](https://developers.facebook.com/apps/):
@@ -117,7 +116,7 @@ heroku config:set MONGO_URL=mongodb://<dbuser>:<dbpassword>@dt754268.mlab.com:19
 # heroku config:set DROPBOX='{"dropbox":{"key": "xxx", "secret": "xxx", "token": "xxx"}}'
 
 # For AWS:S3:
-# heroku config:set S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx", "cfdomain": "https://xxx.cloudfront.net"}}'
+# heroku config:set S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx"}}'
 
 # For Facebook:
 # heroku config:set ACCOUNTS_FACEBOOK_ID=xxx ACCOUNTS_FACEBOOK_SEC=yyy
