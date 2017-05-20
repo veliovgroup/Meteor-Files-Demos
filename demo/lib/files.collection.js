@@ -46,7 +46,11 @@ if (Meteor.isServer) {
       secretAccessKey: s3Conf.secret,
       accessKeyId: s3Conf.key,
       region: s3Conf.region,
-      sslEnabled: true
+      sslEnabled: false,
+      httpOptions: {
+        timeout: 6000,
+        agent: false
+      }
     });
   }
 
@@ -61,7 +65,7 @@ if (Meteor.isServer) {
 Collections.files = new FilesCollection({
   // debug: true,
   // throttle: false,
-  // chunkSize: 1024*1024,
+  chunkSize: 1024 * 768,
   storagePath: 'assets/app/uploads/uploadedFiles',
   collectionName: 'uploadedFiles',
   allowClientCode: true,
@@ -139,16 +143,32 @@ Collections.files = new FilesCollection({
         };
 
         if (http.request.headers.range) {
-          opts.Range = http.request.headers.range;
+          const vRef  = fileRef.versions[version];
+          let range   = _.clone(http.request.headers.range);
+          const array = range.split(/bytes=([0-9]*)-([0-9]*)/);
+          const start = parseInt(array[1]);
+          let end     = parseInt(array[2]);
+          if (isNaN(end)) {
+            // Request data from AWS:S3 by small chunks
+            end       = (start + this.chunkSize) - 1;
+            if (end >= vRef.size) {
+              end     = vRef.size - 1;
+            }
+          }
+          opts.Range   = `bytes=${start}-${end}`;
+          http.request.headers.range = `bytes=${start}-${end}`;
         }
 
         const fileColl = this;
         client.getObject(opts, function (error) {
           if (error) {
             console.error(error);
-            http.response.end();
+            if (!http.response.finished) {
+              http.response.end();
+            }
           } else {
             if (http.request.headers.range && this.httpResponse.headers['content-range']) {
+              // Set proper range header in according to what is returned from AWS:S3
               http.request.headers.range = this.httpResponse.headers['content-range'].split('/')[0].replace('bytes ', 'bytes=');
             }
 
@@ -157,6 +177,8 @@ Collections.files = new FilesCollection({
             dataStream.end(this.data.Body);
           }
         });
+
+        return true;
       }
       // While file is not yet uploaded to Storage
       // We will serve file from FS
@@ -272,8 +294,7 @@ if (Meteor.isServer) {
           const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
 
           client.putObject({
-            ServerSideEncryption: 'AES256',
-            StorageClass: 'STANDARD_IA',
+            StorageClass: 'STANDARD',
             Bucket: s3Conf.bucket,
             Key: filePath,
             Body: fs.createReadStream(vRef.path),
@@ -287,9 +308,9 @@ if (Meteor.isServer) {
                 upd['$set']['versions.' + version + '.meta.pipePath'] = filePath;
                 this.collection.update({
                   _id: fileRef._id
-                }, upd, (error) => {
-                  if (error) {
-                    console.error(error);
+                }, upd, (updError) => {
+                  if (updError) {
+                    console.error(updError);
                   } else {
                     // Unlink original file from FS
                     // after successful upload to AWS:S3
