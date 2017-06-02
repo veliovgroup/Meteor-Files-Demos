@@ -4,17 +4,18 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base
-mongo
+meteor-base@1.1.0
+mongo@1.1.18
 blaze-html-templates
-reactive-var
-jquery
+reactive-var@1.0.11
+jquery@1.11.10
 
-standard-minifier-css
-standard-minifier-js
-ecmascript
-shell-server
+standard-minifier-css@1.3.4
+standard-minifier-js@2.1.0
+ecmascript@0.8.0
+shell-server@0.2.3
 
 aldeed:simple-schema
 aldeed:collection2
 ostrio:files
+dynamic-import@0.1.0
