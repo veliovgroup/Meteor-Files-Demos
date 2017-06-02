@@ -4,9 +4,9 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base@1.0.4
+meteor-base@1.1.0
 mobile-experience@1.0.4
-mongo@1.1.17
+mongo@1.1.18
 blaze-html-templates
 reactive-var@1.0.11
 jquery@1.11.10
@@ -15,7 +15,8 @@ tracker@1.1.3
 standard-minifier-css
 standard-minifier-js
 es5-shim@4.6.15
-ecmascript@0.7.3
+ecmascript@0.8.0
 shell-server
 
 ostrio:files
+dynamic-import
