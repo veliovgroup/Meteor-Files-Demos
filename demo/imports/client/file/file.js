@@ -1,7 +1,7 @@
-import { Meteor }      from 'meteor/meteor';
-import { HTTP }        from 'meteor/http';
-import { Template }    from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { HTTP }              from 'meteor/http';
+import { Meteor }            from 'meteor/meteor';
+import { Template }          from 'meteor/templating';
+import { ReactiveVar }       from 'meteor/reactive-var';
 import { _app, Collections } from '/imports/lib/core.js';
 import './file.jade';
 
