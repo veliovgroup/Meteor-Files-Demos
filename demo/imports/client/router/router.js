@@ -1,4 +1,4 @@
-import { _app }       from '/lib/__compatibility/__globals.js';
+import { _app }       from '/imports/lib/core.js';
 import { Meteor }     from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta';

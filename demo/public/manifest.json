@@ -42,6 +42,6 @@
   ],
   "theme_color": "#2b3850",
   "background_color": "#2b3850",
-  "start_url": "https://files.veliov.com/",
+  "start_url": "/",
   "display": "standalone"
 }

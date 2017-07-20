@@ -1,5 +1,5 @@
 import { _ }      from 'meteor/underscore';
-import { _app }   from '/lib/__compatibility/__globals.js';
+import { _app }   from '/imports/lib/core.js';
 import { check }  from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
 

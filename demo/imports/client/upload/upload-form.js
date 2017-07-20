@@ -1,12 +1,14 @@
-import { _ }             from 'meteor/underscore';
-import { Meteor }        from 'meteor/meteor';
-import { moment }        from 'meteor/momentjs:moment';
-import { Template }      from 'meteor/templating';
-import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
-import { ReactiveVar }   from 'meteor/reactive-var';
-import { ClientStorage } from 'meteor/ostrio:cstorage';
-import { _app, Collections } from '/lib/__compatibility/__globals.js';
-import './upload-form.jade';
+import { _ }                 from 'meteor/underscore';
+import { Meteor }            from 'meteor/meteor';
+import { moment }            from 'meteor/momentjs:moment';
+import { filesize }          from 'meteor/mrt:filesize';
+import { Template }          from 'meteor/templating';
+import { FlowRouter }        from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar }       from 'meteor/reactive-var';
+import { ClientStorage }     from 'meteor/ostrio:cstorage';
+import { _app, Collections } from '/imports/lib/core.js';
+import '/imports/client/user-account/accounts.js';
+import '/imports/client/upload/upload-form.jade';
 
 Template.uploadForm.onCreated(function() {
   const self          = this;

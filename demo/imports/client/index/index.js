@@ -1,8 +1,9 @@
-import { Meteor }      from 'meteor/meteor';
-import { Mongo }       from 'meteor/mongo';
-import { Template }    from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { _app, Collections } from '/lib/__compatibility/__globals.js';
+import { Mongo }             from 'meteor/mongo';
+import { Meteor }            from 'meteor/meteor';
+import { Template }          from 'meteor/templating';
+import { ReactiveVar }       from 'meteor/reactive-var';
+import { _app, Collections } from '/imports/lib/core.js';
+import '/imports/client/listing/listing-row.js';
 import './index.jade';
 
 Template.index.onCreated(function() {

@@ -1,11 +1,11 @@
-import { Meteor } from 'meteor/meteor';
+import { _app }                 from '/imports/lib/core.js';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-const _sc = {};
+_app.sc = {};
 ServiceConfiguration.configurations.remove({});
 
 if (process.env.ACCOUNTS_METEOR_ID && process.env.ACCOUNTS_METEOR_SEC) {
-  _sc.meteor = true;
+  _app.sc.meteor = true;
   ServiceConfiguration.configurations.upsert({
     service: 'meteor-developer'
   }, {
@@ -18,7 +18,7 @@ if (process.env.ACCOUNTS_METEOR_ID && process.env.ACCOUNTS_METEOR_SEC) {
 }
 
 if (process.env.ACCOUNTS_GITHUB_ID && process.env.ACCOUNTS_GITHUB_SEC) {
-  _sc.github = true;
+  _app.sc.github = true;
   ServiceConfiguration.configurations.upsert({
     service: 'github'
   }, {
@@ -31,7 +31,7 @@ if (process.env.ACCOUNTS_GITHUB_ID && process.env.ACCOUNTS_GITHUB_SEC) {
 }
 
 if (process.env.ACCOUNTS_TWITTER_ID && process.env.ACCOUNTS_TWITTER_SEC) {
-  _sc.twitter = true;
+  _app.sc.twitter = true;
   ServiceConfiguration.configurations.upsert({
     service: 'twitter'
   }, {
@@ -44,7 +44,7 @@ if (process.env.ACCOUNTS_TWITTER_ID && process.env.ACCOUNTS_TWITTER_SEC) {
 }
 
 if (process.env.ACCOUNTS_FACEBOOK_ID && process.env.ACCOUNTS_FACEBOOK_SEC) {
-  _sc.facebook = true;
+  _app.sc.facebook = true;
   ServiceConfiguration.configurations.upsert({
     service: 'facebook'
   }, {
@@ -55,9 +55,3 @@ if (process.env.ACCOUNTS_FACEBOOK_ID && process.env.ACCOUNTS_FACEBOOK_SEC) {
     }
   });
 }
-
-Meteor.methods({
-  getServiceConfiguration() {
-    return _sc;
-  }
-});

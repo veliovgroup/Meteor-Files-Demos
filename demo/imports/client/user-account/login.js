@@ -1,6 +1,7 @@
-import { _app }     from '/lib/__compatibility/__globals.js';
+import { _app }     from '/imports/lib/core.js';
 import { Meteor }   from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import './logout.js';
 import './login.jade';
 
 Template.login.onRendered(function() {

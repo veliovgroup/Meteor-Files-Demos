@@ -1,4 +1,4 @@
-import { _app }     from '/lib/__compatibility/__globals.js';
+import { _app }     from '/imports/lib/core.js';
 import { Template } from 'meteor/templating';
 import './accounts.jade';
 

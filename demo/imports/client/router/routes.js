@@ -1,6 +1,6 @@
 import { Meteor }            from 'meteor/meteor';
 import { FlowRouter }        from 'meteor/ostrio:flow-router-extra';
-import { _app, Collections } from '/lib/__compatibility/__globals.js';
+import { _app, Collections } from '/imports/lib/core.js';
 
 FlowRouter.route('/', {
   name: 'index',
@@ -8,7 +8,7 @@ FlowRouter.route('/', {
     this.render('_layout', 'index');
   },
   waitOn() {
-    return [_app.subs.subscribe('latest', 10, _app.userOnly.get())];
+    return [_app.subs.subscribe('latest', 10, _app.userOnly.get()), import('/imports/client/index/index.js')];
   },
   whileWaiting() {
     this.render('_layout', '_loading');
@@ -39,6 +39,12 @@ FlowRouter.route('/login', {
   },
   action: function() {
     this.render('_layout', 'login');
+  },
+  waitOn() {
+    return [import('/imports/client/user-account/login.js')];
+  },
+  whileWaiting() {
+    this.render('_layout', '_loading');
   }
 });
 
@@ -99,7 +105,7 @@ FlowRouter.route('/:_id', {
     });
   },
   waitOn(params) {
-    return [_app.subs.subscribe('file', params._id)];
+    return [_app.subs.subscribe('file', params._id), import('/imports/client/file/file.js')];
   },
   whileWaiting() {
     this.render('_layout', '_loading');
