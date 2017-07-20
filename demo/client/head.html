@@ -79,5 +79,32 @@
     </div>
   </noscript>
 
+  <!--[if lt IE 9]>
+    <script>
+      document.execCommand('Stop');
+      document.open();
+      document.write('<div class="main-container full-height"> <div class="main-row"> <div class="main-cell"> <div class="container container-main"> <div class="row"> <div class="col-50 bg-diagonal"> <div class="sm-row"> <div class="block-info"> <p class="project-info">Hello there!<br/>Welcome to the Meteor Files project page.</p><p class="project-info">This project is built on bleeding edge technologies and requires your browser to support many new JavaScript features. <br/>You are using an outdated browser, consider to update: <a href="http://outdatedbrowser.com/en" target="_blank" rel="noopener">http://outdatedbrowser.com/en</a></p></div></div></div><div class="col-50"> <div class="sm-row"> <div class="block-info"> <p class="project-info">This is a demo application for <a href="https://github.com/VeliovGroup/Meteor-Files" target="_blank" rel="noopener">Meteor-Files</a> package. <a href="https://github.com/VeliovGroup/Meteor-Files" target="_blank" rel="noopener">Meteor-Files</a> will help you Upload, Download, Serve and Stream files with ease.</p><p class="project-info">This package is the <strong><a href="https://themeteorchef.com/blog/giant-cotton-apron-awards-show" target="_blank" rel="noopener">GCAA Winner 2016</a></strong>. Big thanks to Benjamin Willems and Ryan Glover (<em>The Chef</em>) and all <a href="https://themeteorchef.com" target="_blank" rel="noopener">The Meteor Chef</a> team!</p><p class="project-info no-margin"><strong>Support this project:</strong></p><h4 class="share-options"><a href="https://twitter.com/share?url=https%3A%2F%2Ffiles.veliov.com&amp;text=Easily%20Upload%20and%20Share%20files%20with%20%23MeteorFiles!" title="Tell the world on Twitter" target="_blank" rel="noopener"><i class="fa fa-lg fa-fw fa-twitter"></i></a><a href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Ffiles.veliov.com" title="Tell the world on Facebook" target="_blank" rel="noopener"><i class="fa fa-lg fa-fw fa-facebook-official"></i></a><a href="https://github.com/VeliovGroup/Meteor-Files" title="Star this package on GitHub" target="_blank" rel="noopener"><i class="fa fa-lg fa-fw fa-github"></i></a></h4> <p class="project-info">Brought to you by <a href="https://ostr.io" rel="noopener">ostr.io</a> and <a href="https://veliovgroup.com" rel="noopener">Veliov Group</a><br/>2017 <a href="https://github.com/VeliovGroup/Meteor-Files" rel="noopener">ostrio:files</a></p></div></div></div></div></div></div></div></div>');
+      document.close();
+    </script>
+  <![endif]-->
+
+  <!--[if IE]>
+    <script src="/history.polyfill.js" type="text/javascript" async="false"></script>
+  <![endif]-->
+
+  <script>
+    (function () {
+      var navUA = navigator.userAgent;
+      if (navUA.match('MSIE 10') || navUA.match('MSIE 9') || navUA.match('MSIE 8') || navUA.match('MSIE 7') || navUA.match('MSIE 6')) {
+        var head  = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.setAttribute('src', '/dataset.polyfill.js');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('async', 'false');
+        head.appendChild(script);
+      }
+    })();
+  </script>
+
   <title>Meteor Files: Upload and Share</title>
 </head>
