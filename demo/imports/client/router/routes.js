@@ -37,11 +37,11 @@ FlowRouter.route('/login', {
     },
     'twitter:description': 'Login into Meteor files. After you logged in you can make files private and unlisted'
   },
-  action: function() {
+  action() {
     this.render('_layout', 'login');
   },
   waitOn() {
-    return [import('/imports/client/user-account/login.js')];
+    return import('/imports/client/user-account/login.js');
   },
   whileWaiting() {
     this.render('_layout', '_loading');
@@ -50,13 +50,13 @@ FlowRouter.route('/login', {
 
 FlowRouter.route('/:_id', {
   name: 'file',
-  title: function(params, queryParams, file) {
+  title(params, queryParams, file) {
     if (file) {
       return 'View File: ' + (file.get('name'));
     }
     return '404: Page not found';
   },
-  meta: function(params, queryParams, file) {
+  meta(params, queryParams, file) {
     return {
       keywords: {
         name: 'keywords',
@@ -80,7 +80,7 @@ FlowRouter.route('/:_id', {
       }
     };
   },
-  link: function(params, queryParams, file) {
+  link(params, queryParams, file) {
     return {
       image: {
         itemprop: 'image',
@@ -116,4 +116,12 @@ FlowRouter.route('/:_id', {
   data(params) {
     return Collections.files.findOne(params._id) || false;
   }
+});
+
+// 404 route (catch all)
+FlowRouter.route('*', {
+  action() {
+    this.render('_layout', '_404');
+  },
+  title: '404: Page not found'
 });

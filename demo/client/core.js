@@ -2,7 +2,6 @@ import { _ }             from 'meteor/underscore';
 import { $ }             from 'meteor/jquery';
 import { hljs }          from 'meteor/simple:highlight.js';
 import { Meteor }        from 'meteor/meteor';
-import { FPSMeter }      from 'meteor/ostrio:fps-meter';
 import { Template }      from 'meteor/templating';
 import { filesize }      from 'meteor/mrt:filesize';
 import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
@@ -184,28 +183,6 @@ Meteor.startup(() => {
   $('html').attr('xmlns:og', 'http://ogp.me/ns#');
   $('html').attr('xml:lang', 'en');
   $('html').attr('lang', 'en');
-
-  const FPS = new FPSMeter({
-    ui: true,
-    reactive: false
-  });
-
-  FPS.start();
-  const regStop = () => {
-    $('#__FPSMeter').click(() => {
-      if (FPS.isRunning) {
-        FPS.isRunning = false;
-      } else {
-        FPS.stop();
-        window.requestAnimFrame(() => {
-          FPS.start();
-          regStop();
-        });
-      }
-    });
-  };
-
-  regStop();
 });
 
 export { _app, Collections };

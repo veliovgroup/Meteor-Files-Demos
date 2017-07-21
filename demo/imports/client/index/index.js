@@ -4,6 +4,7 @@ import { Template }          from 'meteor/templating';
 import { ReactiveVar }       from 'meteor/reactive-var';
 import { _app, Collections } from '/imports/lib/core.js';
 import '/imports/client/listing/listing-row.js';
+import '/imports/client/upload/upload-row.js';
 import './index.jade';
 
 Template.index.onCreated(function() {

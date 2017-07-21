@@ -47,10 +47,7 @@ FlowRouter.globals.push({
       name: 'twitter:image',
       content: Meteor.absoluteUrl('icon_750x560.png')
     }
-  }
-});
-
-FlowRouter.globals.push({
+  },
   link: {
     canonical: {
       rel: 'canonical',
@@ -70,13 +67,6 @@ FlowRouter.globals.push({
     }
   }
 });
-
-FlowRouter.notFound = {
-  action() {
-    this.render('_layout', '_404');
-  },
-  title: '404: Page not found'
-};
 
 new FlowRouterTitle(FlowRouter);
 new FlowRouterMeta(FlowRouter);
