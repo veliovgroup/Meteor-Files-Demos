@@ -74,10 +74,18 @@ html, body
     display: none
 
 body
-  background-size: 50px 50px
-  background-image: url('/logo-bg.png')
-  background-repeat: no-repeat
-  background-position: 50% 96%
+  position: relative
+
+.footer-links
+  display: block
+  position: absolute
+  width: 100%
+  padding-bottom: 15px
+  bottom: 0px
+  left: 0px
+  text-align: center
+  img
+    padding: 0px 15px
 
 ::selection
   background-color: rgba(37,50,107,0.333)
@@ -760,6 +768,10 @@ pre, code, kbd, samp
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace
   box-sizing: border-box
 
+@media(max-height: 580px)
+  .footer-links
+    display: none
+
 @media(max-height: 455px)
   p.project-info
     margin: 0.9rem 0rem
@@ -789,6 +801,8 @@ pre, code, kbd, samp
     max-width: 50vw
 
 @media(max-width: 480px)
+  .footer-links
+    display: none
   p.project-info
     margin: 0.9rem 0rem
   .info-link
