@@ -1,4 +1,5 @@
 import { moment }   from 'meteor/momentjs:moment';
+import { filesize } from 'meteor/mrt:filesize';
 import { Template } from 'meteor/templating';
 import './upload-row.jade';
 
