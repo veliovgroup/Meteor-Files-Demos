@@ -1,7 +1,7 @@
 import { _ }             from 'meteor/underscore';
-import { $ }             from 'meteor/jquery';
 import { hljs }          from 'meteor/simple:highlight.js';
 import { Meteor }        from 'meteor/meteor';
+import { Reload }        from 'meteor/reload';
 import { Template }      from 'meteor/templating';
 import { filesize }      from 'meteor/mrt:filesize';
 import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
@@ -22,6 +22,10 @@ import '/imports/client/router/router.js';
 import '/imports/client/router/routes.js';
 
 window.IS_RENDERED = false;
+Meteor.setTimeout(() => {
+  window.IS_RENDERED = true;
+}, 6144);
+
 if (!window.requestAnimFrame) {
   window.requestAnimFrame = (() => {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
@@ -42,9 +46,14 @@ if (!ClientStorage.has('userOnly') || !_.isBoolean(ClientStorage.get('userOnly')
   ClientStorage.set('userOnly', false);
 }
 
+const addListener = (target, events, func) => {
+  events.forEach((event) => {
+    target.addEventListener(event, func, { passive: true, capture: false });
+  });
+};
+
 let _el = null;
-$(window).on('dragenter dragover', (e) => {
-  e.preventDefault();
+addListener(window, ['dragenter', 'dragover'], (e) => {
   e.stopPropagation();
   _el = e.target;
   const uf = document.getElementById('uploadFile');
@@ -54,8 +63,7 @@ $(window).on('dragenter dragover', (e) => {
   return false;
 });
 
-$(window).on('dragleave', (e) => {
-  e.preventDefault();
+addListener(window, ['dragleave'], (e) => {
   e.stopPropagation();
   if (_el === e.target) {
     const uf = document.getElementById('uploadFile');
@@ -66,8 +74,7 @@ $(window).on('dragleave', (e) => {
   return false;
 });
 
-$(window).on('drop', (e) => {
-  e.preventDefault();
+addListener(window, ['drop'], (e) => {
   e.stopPropagation();
   const uf = document.getElementById('uploadFile');
   if (!!~uf.className.indexOf('file-over')) {
@@ -177,12 +184,78 @@ marked.setOptions({
   smartypants: false
 });
 
+_app._SWRegistration = null;
+try {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      try {
+        navigator.serviceWorker.register(Meteor.absoluteUrl('sw.min.js')).then((registration) => {
+          _app._SWRegistration = registration;
+        }).catch((error) => {
+          console.info('Can\'t load SW', error);
+        });
+      } catch (e) {
+        // We're good here
+        // Just an old browser
+      }
+    });
+  }
+} catch (e) {
+  // We're good here
+  // Just an old browser
+}
+
+const onReload = () => {
+  try {
+    window.caches.keys().then((keys) => {
+      keys.forEach((name) => {
+        window.caches.delete(name);
+      });
+    }).catch((err) => {
+      console.error('window.caches.delete', err);
+    });
+  } catch (_error) {
+    // We good here...
+  }
+
+  if (_app._SWRegistration) {
+    try {
+      _app._SWRegistration.unregister().catch((e) => {
+        console.warn('[SW UNREGISTER] [CATCH IN PROMISE] [ERROR:]', e);
+      });
+      _app._SWRegistration = null;
+    } catch (e) {
+      console.warn('[SW UNREGISTER] [ERROR:]', e);
+    }
+  }
+
+  setTimeout(() => {
+    if (window.location.hash || window.location.href.endsWith('#')) {
+      window.location.reload();
+    } else {
+      window.location.replace(window.location.href);
+    }
+  }, 128);
+};
+
+try {
+  Reload._onMigrate(function (func, opts) {
+    if (!opts.immediateMigration) {
+      onReload();
+      return [false];
+    }
+    return [true];
+  });
+} catch (e) {
+  // We're good here
+}
+
 Meteor.startup(() => {
-  $('html').attr('itemscope', '');
-  $('html').attr('itemtype', 'http://schema.org/WebPage');
-  $('html').attr('xmlns:og', 'http://ogp.me/ns#');
-  $('html').attr('xml:lang', 'en');
-  $('html').attr('lang', 'en');
+  document.documentElement.setAttribute('itemscope', '');
+  document.documentElement.setAttribute('itemtype', 'http://schema.org/WebPage');
+  document.documentElement.setAttribute('xmlns:og', 'http://ogp.me/ns#');
+  document.documentElement.setAttribute('xml:lang', 'en');
+  document.documentElement.setAttribute('lang', 'en');
 });
 
 export { _app, Collections };
