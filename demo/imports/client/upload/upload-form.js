@@ -95,7 +95,7 @@ Template.uploadForm.onCreated(function() {
         cleanUploaded(this);
       }).on('error', function (error) {
         console.error(error);
-        self.error.set((self.error.get() ? self.error.get() + '<br />' : '') + self.file.name + ': ' + ((error != null ? error.reason : void 0) || error));
+        self.error.set((self.error.get() ? self.error.get() + '<br />' : '') + this.file.name + ': ' + ((error != null ? error.reason : void 0) || error));
         Meteor.setTimeout( () => {
           self.error.set(false);
         }, 10000);
