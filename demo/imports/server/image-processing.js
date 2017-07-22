@@ -37,7 +37,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
   fs.exists(fileRef.path, (exists) => {
     bound(() => {
       if (!exists) {
-        throw Meteor.log.error('File ' + fileRef.path + ' not found in [createThumbnails] Method');
+        throw new Meteor.Error('File ' + fileRef.path + ' not found in [createThumbnails] Method');
       }
       const image = gm(fileRef.path);
       const sizes = {
@@ -54,7 +54,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
         bound(() => {
           if (error) {
             console.error('[_app.createThumbnails] [_.each sizes]', error);
-            finish(Meteor.Error('[_app.createThumbnails] [_.each sizes]', error));
+            finish(new Meteor.Error('[_app.createThumbnails] [_.each sizes]', error));
             return;
           }
 
@@ -90,6 +90,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                       height: features.height
                     }
                   };
+
                   collection.collection.update(fileRef._id, upd, (colUpdError) => {
                     ++i;
                     if (i === Object.keys(sizes).length) {

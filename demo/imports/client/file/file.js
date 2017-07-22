@@ -19,6 +19,12 @@ Template.file.onCreated(function() {
 Template.file.onRendered(function() {
   this.warning.set(false);
   this.fetchedText.set(false);
+
+  if (!this.data.file) {
+    window.IS_RENDERED = true
+    return;
+  }
+
   if (this.data.file.isText || this.data.file.isJSON) {
     if (this.data.file.size < 1024 * 64) {
       HTTP.call('GET', this.data.file.link(), (error, resp) => {
