@@ -341,7 +341,7 @@ iframe.file-preview
 .radio-inline
   position: relative
   display: inline-block
-  padding-left: 20px
+  padding-left: 30px
   margin-bottom: 0
   font-weight: normal
   vertical-align: middle
@@ -484,8 +484,8 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   .radio-inline
     user-select: none
     input[type="radio"]
-      margin-left: -20px
-      margin-top: 2.5px
+      margin-left: -25px
+      margin-top: 2px
   &.file-over
     cursor: copy
     background:
@@ -767,6 +767,36 @@ progress::-moz-progress-value
 pre, code, kbd, samp
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace
   box-sizing: border-box
+
+input[type="radio"]
+  cursor: pointer
+  position: relative
+  display: inline-block
+  vertical-align: middle
+  box-sizing: border-box
+  -webkit-appearance: none
+  appearance: none
+  background: #f0f0f0
+  border: 1px solid $text-color
+  border-radius: 30px
+  height: 18px
+  width: 18px
+  &:hover:not(:checked)
+    border-color: $link-active
+  &:checked
+    border-color: $link-color
+  &:hover:checked
+    border-color: $link-active
+  &:checked
+    &:after
+      content: ''
+      top: 4px
+      left: 4px
+      position: absolute
+      height: 8px
+      width: 8px
+      border-radius: 8px
+      background-color: $link-color
 
 @media(max-height: 580px)
   .footer-links
