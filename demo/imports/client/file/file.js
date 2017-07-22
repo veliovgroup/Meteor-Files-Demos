@@ -80,14 +80,20 @@ Template.file.onRendered(function() {
     if (!video.canPlayType(this.data.file.type)) {
       this.showError.set(true);
     } else {
-      video.play();
+      const promise = video.play();
+      if (Object.prototype.toString.call(promise) === '[object Promise]' || (Object.prototype.toString.call(promise) === '[object Object]' && promise.then && Object.prototype.toString.call(promise.then) === '[object Function]')) {
+        promise.then(_app.NOOP).catch(_app.NOOP)
+      }
     }
   } else if (this.data.file.isAudio) {
     const audio = document.getElementById(this.data.file._id);
     if (!audio.canPlayType(this.data.file.type)) {
       this.showError.set(true);
     } else {
-      audio.play();
+      const promise = audio.play();
+      if (Object.prototype.toString.call(promise) === '[object Promise]' || (Object.prototype.toString.call(promise) === '[object Object]' && promise.then && Object.prototype.toString.call(promise.then) === '[object Function]')) {
+        promise.then(_app.NOOP).catch(_app.NOOP)
+      }
     }
   }
   window.IS_RENDERED = true;
