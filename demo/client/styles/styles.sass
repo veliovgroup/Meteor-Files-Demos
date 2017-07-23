@@ -30,6 +30,8 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
   display: none
 
 html, body
+  height: 100%
+  min-height: 100%
   background-color: #2b3850
   font-family: 'Lato', sans-serif
   font-weight: 400
@@ -307,8 +309,8 @@ iframe.file-preview
       font-weight: 700
 
 .full-height
+  height: 100%
   min-height: 100%
-  min-height: 100vh
 
 .gh-ribbon
   position: absolute
@@ -826,6 +828,16 @@ input[type="radio"]
   html, body
     font-size: 13px
 
+@media(max-width: 1024px)
+  .gh-ribbon
+    left: -2px
+    top: -2px
+    right: initial
+    transform: rotate(-90deg)
+    svg
+      height: 85px
+      width: 85px
+
 @media(max-width: 768px)
   .col-50
     max-width: 50vw
@@ -855,6 +867,7 @@ input[type="radio"]
     .fake-upload
       width: 100%
     #userfile:not(.settings-open)
+      cursor: pointer
       display: block !important
       visibility: visible !important
       position: absolute
