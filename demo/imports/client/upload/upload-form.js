@@ -214,7 +214,13 @@ Template.uploadForm.events({
     return false;
   },
   'click #fakeUpload'(e, template) {
-    template.$('#userfile').click();
+    if (!_app.isiOS) {
+      e.preventDefault();
+    }
+    template.$('#userfile').trigger('click');
+    if (!_app.isiOS) {
+      return false;
+    }
   },
   'dragover #uploadFile, dragenter #uploadFile'(e) {
     e.preventDefault();

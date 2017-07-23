@@ -83,6 +83,7 @@ addListener(window, ['drop'], (e) => {
   return false;
 });
 
+_app.isiOS    = /iPad|iPhone|iPod/.test(navigator.userAgent || navigator.vendor || window.opera) && !window.MSStream;
 _app.subs     = new SubsManager();
 _app.blamed   = new ReactiveVar(ClientStorage.get('blamed'));
 _app.unlist   = new ReactiveVar(ClientStorage.get('unlist'));
