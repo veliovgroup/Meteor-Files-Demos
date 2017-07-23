@@ -14,9 +14,16 @@ let useDropBox = false;
 // Read: https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration
 // env.var example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}'
 let useS3 = false;
-let request, bound, client, sendToStorage, stream;
+let client;
 
-const fs = require('fs-extra');
+const fs      = require('fs-extra');
+const S3      = require('aws-sdk/clients/s3');
+const stream  = require('stream');
+const request = require('request');
+const Dropbox = require('dropbox');
+const bound   = Meteor.bindEnvironment((callback) => {
+  return callback();
+});
 
 if (process.env.DROPBOX) {
   Meteor.settings.dropbox = JSON.parse(process.env.DROPBOX).dropbox;
@@ -28,19 +35,14 @@ const s3Conf = Meteor.settings.s3 || {};
 const dbConf = Meteor.settings.dropbox || {};
 
 if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
-  useDropBox    = true;
-  const Dropbox = require('dropbox');
-
-  client = new Dropbox.Client({
+  useDropBox = true;
+  client     = new Dropbox.Client({
     key: dbConf.key,
     secret: dbConf.secret,
     token: dbConf.token
   });
 } else if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
-  useS3    = true;
-  stream   = require('stream');
-  const S3 = require('aws-sdk/clients/s3');
-
+  useS3  = true;
   client = new S3({
     secretAccessKey: s3Conf.secret,
     accessKeyId: s3Conf.key,
@@ -50,13 +52,6 @@ if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
       timeout: 6000,
       agent: false
     }
-  });
-}
-
-if (useS3 || useDropBox) {
-  request = require('request');
-  bound   = Meteor.bindEnvironment((callback) => {
-    return callback();
   });
 }
 
