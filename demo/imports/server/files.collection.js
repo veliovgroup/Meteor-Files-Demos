@@ -15,6 +15,7 @@ let useDropBox = false;
 // env.var example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}'
 let useS3 = false;
 let client;
+let sendToStorage;
 
 const fs      = require('fs-extra');
 const S3      = require('aws-sdk/clients/s3');
@@ -182,7 +183,7 @@ Collections.files = new FilesCollection({
 });
 
 Collections.files.denyClient();
-Collections.files.on('afterUpload', function(fileRef) {
+Collections.files.on('afterUpload', function(_fileRef) {
   if (useDropBox) {
     const makeUrl = (stat, fileRef, version, triesUrl = 0) => {
       client.makeUrl(stat.path, {
@@ -316,18 +317,21 @@ Collections.files.on('afterUpload', function(fileRef) {
     };
   }
 
-  if (/png|jpe?g/i.test(fileRef.extension || '')) {
-    _app.createThumbnails(this, fileRef, (error, fileRef) => {
-      if (error) {
-        console.error(error);
-      }
-      if (useDropBox || useS3) {
-        sendToStorage(this.collection.findOne(fileRef._id));
-      }
-    });
+  if (/png|jpe?g/i.test(_fileRef.extension || '')) {
+    Meteor.setTimeout( () => {
+      _app.createThumbnails(this, _fileRef, (error) => {
+        if (error) {
+          console.error(error);
+        }
+
+        if (useDropBox || useS3) {
+          sendToStorage(this.collection.findOne(_fileRef._id));
+        }
+      });
+    }, 1024);
   } else {
     if (useDropBox || useS3) {
-      sendToStorage(fileRef);
+      sendToStorage(_fileRef);
     }
   }
 });
