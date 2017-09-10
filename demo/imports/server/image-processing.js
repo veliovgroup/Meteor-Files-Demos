@@ -147,6 +147,7 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                             size: stat.size,
                             type: fileRef.type,
                             extension: fileRef.extension,
+                            name: fileRef.name,
                             meta: {
                               width: imgInfo.width,
                               height: imgInfo.height
