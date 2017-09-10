@@ -11,7 +11,7 @@ Meteor.publish('latest', function(take = 10, userOnly = false) {
     selector = {
       userId: this.userId
     };
-  } else {
+  } else if (this.userId) {
     selector = {
       $or: [
         {
@@ -21,9 +21,20 @@ Meteor.publish('latest', function(take = 10, userOnly = false) {
             $lt: 3
           }
         }, {
-          userId: this.userId
+          userId: this.userId,
+          'meta.blamed': {
+            $lt: 3
+          }
         }
       ]
+    };
+  } else {
+    selector = {
+      'meta.unlisted': false,
+      'meta.secured': false,
+      'meta.blamed': {
+        $lt: 3
+      }
     };
   }
 
