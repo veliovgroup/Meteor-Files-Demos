@@ -4,10 +4,9 @@ import { FilesCollection } from 'meteor/ostrio:files';
 
 Collections.files = new FilesCollection({
   // debug: true,
-  // throttle: false,
-  chunkSize: 1024 * 768,
   collectionName: 'uploadedFiles',
   allowClientCode: true,
+  // disableUpload: true,
   protected(fileObj) {
     if (fileObj) {
       if (!(fileObj.meta && fileObj.meta.secured)) {

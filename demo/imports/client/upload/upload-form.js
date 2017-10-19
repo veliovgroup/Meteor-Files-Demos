@@ -98,7 +98,7 @@ Template.uploadForm.onCreated(function() {
         self.error.set((self.error.get() ? self.error.get() + '<br />' : '') + this.file.name + ': ' + ((error != null ? error.reason : void 0) || error));
         Meteor.setTimeout( () => {
           self.error.set(false);
-        }, 10000);
+        }, 15000);
         cleanUploaded(this);
       }).on('start', function() {
         uploads.push(this);
@@ -159,6 +159,7 @@ Template.uploadForm.helpers({
         return hours + ':' + minutes + ':' + seconds;
       })();
     }
+
     return {
       progress: progress,
       estimateBitrate: estimateBitrate,

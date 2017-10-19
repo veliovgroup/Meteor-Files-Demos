@@ -3,6 +3,11 @@ import { Meteor }     from 'meteor/meteor';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta';
 
+// FlowRouter.Renderer.inMemoryRendering = true;
+// FlowRouter.Renderer.getMemoryElement = () => {
+//   return document.createDocumentFragment();
+// };
+
 FlowRouter.globals.push({
   title: 'Meteor Files: Upload and Share'
 });

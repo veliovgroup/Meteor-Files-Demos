@@ -58,11 +58,11 @@ if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
 
 Collections.files = new FilesCollection({
   // debug: true,
-  // throttle: false,
-  chunkSize: 1024 * 768,
   storagePath: 'assets/app/uploads/uploadedFiles',
   collectionName: 'uploadedFiles',
   allowClientCode: true,
+  // disableUpload: true,
+  // disableDownload: true,
   protected(fileObj) {
     if (fileObj) {
       if (!(fileObj.meta && fileObj.meta.secured)) {
