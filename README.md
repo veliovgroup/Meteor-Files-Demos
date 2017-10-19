@@ -16,7 +16,7 @@ Demos
 
 Support this project
 ========
- - Try [ostr.io](https://ostr.io) project. By using [ostr.io](https://ostr.io) you are not only [protecting domain names](https://ostr.io/info/domain-names-protection), [monitoring websites and servers](https://ostr.io/info/monitoring), using [Prerendering for better SEO](https://ostr.io/info/prerendering) of your JavaScript website, but support our Open Source activity, and great packages like this one are available for free
+ - Try [ostr.io](https://ostr.io) project. Using [ostr.io](https://ostr.io) you are not only [protecting domain names](https://ostr.io/info/domain-names-protection), [monitoring websites and servers](https://ostr.io/info/monitoring), using [Prerendering for better SEO](https://ostr.io/info/prerendering) of your JavaScript website, but support our Open Source activity, and great packages like this one could be available for free.
  - [Donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FVDSXRFW9VGA2)
  - Star on [GitHub](https://github.com/VeliovGroup/Meteor-Files)
  - Star on [Atmosphere](https://atmospherejs.com/ostrio/files)
