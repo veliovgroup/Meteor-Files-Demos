@@ -74,9 +74,9 @@ ordered-dict@1.0.9
 ostrio:cookies@2.2.4
 ostrio:cstorage@2.2.1
 ostrio:files@1.9.1
-ostrio:flow-router-extra@3.4.2
-ostrio:flow-router-meta@2.0.11
-ostrio:flow-router-title@3.1.0
+ostrio:flow-router-extra@3.4.3
+ostrio:flow-router-meta@2.0.12
+ostrio:flow-router-title@3.1.1
 ostrio:spiderable-middleware@1.2.2
 ostrio:templatehelpers@2.1.4
 perak:markdown@1.0.5
