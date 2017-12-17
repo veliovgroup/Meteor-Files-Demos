@@ -1,7 +1,7 @@
 ;(function (self) {
   'use strict';
-  var CACHE_NAME = 'meteorfiles_v1';
-  var pages      = ['/', '/sw.min.js', '/man.json', '/manifest.json'];
+  var CACHE_NAME = 'meteorfiles_v2';
+  var pages      = ['/', '/sw.min.js', '/man.webmanifest'];
   var origin     = self.location.origin;
   var RE         = {
     method: /GET/i,
