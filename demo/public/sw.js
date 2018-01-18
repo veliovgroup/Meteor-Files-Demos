@@ -1,7 +1,7 @@
 ;(function (self) {
   'use strict';
-  var CACHE_NAME = 'meteorfiles_v2';
-  var pages      = ['/', '/sw.min.js', '/man.webmanifest'];
+  var CACHE_NAME = 'meteorfiles_v3';
+  var pages      = ['/', '/man.webmanifest'];
   var origin     = self.location.origin;
   var RE         = {
     method: /GET/i,
@@ -18,12 +18,13 @@
 
   self.addEventListener('fetch', function (event) {
     self.clients.claim();
-    if (RE.method.test(event.request.method) && !RE.sockjs.test(event.request.url)) {
+
+    if (RE.method.test(event.request.method) && !RE.sockjs.test(event.request.url) && !event.request.headers.get('Range')) {
       var req = event.request.clone();
       var uri = event.request.url.replace(origin, '');
 
       event.respondWith(fetch(req).then(function (response) {
-        if (!!~pages.indexOf(uri) || RE.static.test(event.request.url)) {
+        if ((!!~pages.indexOf(uri) || RE.static.test(event.request.url)) && response.status === 200) {
           var resp = response.clone();
           caches.open(CACHE_NAME).then(function (cache) {
             cache.put(req, resp);
