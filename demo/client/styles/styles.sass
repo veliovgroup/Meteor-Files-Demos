@@ -1,3 +1,10 @@
+@font-face
+  font-family: 'Linearicons-Free'
+  src:url('Linearicons-Free.woff') format('woff')
+  src:url('Linearicons-Free.svg') format('svg')
+  font-weight: normal
+  font-style: normal
+
 $link-color: #4e546d
 $link-active: #bbb
 $text-color: #97a2d0
@@ -596,7 +603,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       display: inline-block
       height: 100%
       text-decoration: none
-      font-size: 2.2rem
+      font-size: 1.4rem
       line-height: 3rem
       position: absolute
       left: 0px
@@ -795,6 +802,7 @@ input[type="radio"]
   &:hover:checked
     border-color: $link-active
   &:checked
+    box-shadow: 0px 0px 30px 0px rgba(78,84,109,1)
     &:after
       content: ''
       top: 4px
@@ -804,7 +812,6 @@ input[type="radio"]
       width: 8px
       border-radius: 8px
       background-color: $link-color
-      box-shadow: 0px 0px 40px 0px rgba(78,84,109,1)
 
 @media(max-height: 580px)
   .footer-links
