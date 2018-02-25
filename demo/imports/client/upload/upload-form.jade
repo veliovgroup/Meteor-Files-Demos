@@ -6,7 +6,7 @@ template(name="uploadForm")
       if showSettings
         .block-info
           p.annotation.white
-            h3.no-margin Upload via:
+            h3 Upload via:
             label.radio-inline
               input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport 'is' 'ddp'}}checked{{/if}}")
               | DDP

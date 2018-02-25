@@ -30,11 +30,12 @@
   },
   "homepage": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "dependencies": {
-    "aws-sdk": "^2.149.0",
+    "@babel/runtime": "^7.0.0-beta.39",
+    "aws-sdk": "^2.188.0",
     "babel-runtime": "^6.26.0",
     "dropbox": "^0.10.3",
-    "fs-extra": "^4.0.2",
-    "gm": "^1.23.0",
+    "fs-extra": "^4.0.3",
+    "gm": "^1.23.1",
     "meteor-node-stubs": "^0.3.2",
     "request": "^2.83.0"
   },
