@@ -1,6 +1,7 @@
 $link-color: #4e546d
 $link-active: #bbb
 $text-color: #97a2d0
+$transition-128ms: color 128ms ease-in-out
 
 body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
   animation: newElement 350ms ease-in-out 1
@@ -32,7 +33,7 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
 html, body
   height: 100%
   min-height: 100%
-  background-color: #2b3850
+  background-color: #2b3850  
   font-family: 'Lato', sans-serif
   font-weight: 400
   padding: 0px
@@ -111,8 +112,8 @@ a, picture, img, video, button, input, pre, i, select, option, label, tr, td, p
     tap-highlight-color: transparent
 
 a, a:active
-  transition: color 128ms ease-in-out
-  color: $link-color
+  transition: $transition-128ms
+  color: lighten($link-color, 10)
   text-decoration: none
 a
   &:hover, &.active
@@ -120,9 +121,11 @@ a
     color: $link-active
 
 strong, b
+  font-family: 'Lato', sans-serif
   font-weight: 700
 
 p
+  font-family: 'Source Sans Pro', sans-serif
   margin: 1rem 0rem
   line-height: 1.5rem
 
@@ -454,7 +457,6 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   line-height: 1.6rem
   margin: 2rem 0rem
   font-weight: 400
-
 .bg-diagonal
   background: linear-gradient(45deg, #080c15 0%, #1c222e 100%)
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#080c15', endColorstr='#1c222e', GradientType=1)
@@ -530,6 +532,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
 
 .files-note
   text-align: center
+  padding: 0 20px
 
 ._loading
   vertical-align: middle
@@ -627,7 +630,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   font-size: 2rem
   a
     i
-      transition: color 128ms ease-in-out
+      transition: $transition-128ms
       color: $link-color
     &:hover
       i
@@ -644,7 +647,8 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
 .file-name
   color: #aebad2
 
-.file-info
+.file-info  
+  font-family: 'Source Sans Pro', sans-serif
   color: #606c80
   font-size: 0.9rem
 
@@ -783,6 +787,7 @@ input[type="radio"]
   border-radius: 30px
   height: 18px
   width: 18px
+  transition: 128ms
   &:hover:not(:checked)
     border-color: $link-active
   &:checked
@@ -799,6 +804,7 @@ input[type="radio"]
       width: 8px
       border-radius: 8px
       background-color: $link-color
+      box-shadow: 0px 0px 40px 0px rgba(78,84,109,1)
 
 @media(max-height: 580px)
   .footer-links
