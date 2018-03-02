@@ -140,7 +140,7 @@ Template.registerHelper('filesize', (size = 0) => {
 
 Template.registerHelper('extless', (filename = '') => {
   const parts = filename.split('.');
-  if (parts.length > 1) {
+  if (parts.length > 1 && parts[0].length) {
     parts.pop();
   }
   return parts.join('.');
