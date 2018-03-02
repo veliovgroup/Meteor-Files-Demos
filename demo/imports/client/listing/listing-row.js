@@ -34,20 +34,20 @@ Template.listingRow.events({
   'click [data-remove-file]'(e) {
     e.stopPropagation();
     e.preventDefault();
-    const icon = $(e.currentTarget).find('i.fa');
-    icon.removeClass('fa-trash-o').addClass('fa-spin fa-spinner');
+    const icon = $(e.currentTarget).find('i.la');
+    icon.removeClass('la-trash-o').addClass('la-circle-o-notch');
     this.remove((error) => {
       if (error) {
         console.log(error);
-        icon.addClass('fa-trash-o').removeClass('fa-spin fa-spinner');
+        icon.addClass('la-trash-o').removeClass('la-circle-o-notch');
       }
     });
   },
   'click [data-change-access]'(e) {
     e.stopPropagation();
     e.preventDefault();
-    const icon = $(e.currentTarget).find('i.fa');
-    icon.removeClass('fa-eye-slash fa-eye').addClass('fa-spin fa-spinner');
+    const icon = $(e.currentTarget).find('i.la');
+    icon.removeClass('la-eye-slash la-eye').addClass('la-circle-o-notch');
     Meteor.call('changeAccess', this._id, (error) => {
       if (error) {
         console.log(error);
@@ -57,8 +57,8 @@ Template.listingRow.events({
   'click [data-change-privacy]'(e) {
     e.stopPropagation();
     e.preventDefault();
-    const icon = $(e.currentTarget).find('i.fa');
-    icon.removeClass('fa-lock fa-unlock').addClass('fa-spin fa-spinner');
+    const icon = $(e.currentTarget).find('i.la');
+    icon.removeClass('la-lock la-unlock').addClass('la-spin la-spinner');
     Meteor.call('changePrivacy', this._id, (error) => {
       if (error) {
         console.log(error);

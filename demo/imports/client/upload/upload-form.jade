@@ -18,16 +18,18 @@ template(name="uploadForm")
           p.annotation This form supports drag'n'drop.
       else
         label.fake-upload#fakeUpload(for="userfile")
-          i.fa.fa-cloud-upload
-          if error
-            h4.danger {{{error}}}
-          else
-            h2 UPLOAD A FILE
+          .icon-container
+            i.la.la-cloud
+            i.la.la-arrow-up
+            if error
+              h4.danger {{{error}}}
+            else
+              h2 UPLOAD A FILE
 
         +accounts
-        a.info-link.right(data-show-project-info href="#" title="Project Info"): i.fa.fa-fw.fa-info
+        a.info-link.right(data-show-project-info href="#" title="Project Info"): i.la.la-info
 
-      a.info-link.show-settings(data-show-settings href="#" class="{{#if showSettings}}active{{/if}}" title="Upload Settings"): i.fa.fa-fw.fa-gear
+      a.info-link.show-settings(data-show-settings href="#" class="{{#if showSettings}}active{{/if}}" title="Upload Settings"): i.la.la-gear
     else
       if error
         h4.danger {{{error}}}
@@ -41,8 +43,8 @@ template(name="uploadForm")
         | #{status.estimateBitrate}
       p
         if status.onPause
-          a(data-continue-all href="#" title="Resume upload"): i.fa.fa-fw.fa-play
+          a(data-continue-all href="#" title="Resume upload"): i.la.la-play
         else
-          a(data-pause-all href="#" title="Pause upload"): i.fa.fa-fw.fa-pause
+          a(data-pause-all href="#" title="Pause upload"): i.la.la-pause
         | &nbsp;
-        a(data-abort-all href="#" title="Abort upload"): i.fa.fa-fw.fa-stop
+        a(data-abort-all href="#" title="Abort upload"): i.la.la-stop

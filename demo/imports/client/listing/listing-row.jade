@@ -3,22 +3,22 @@ template(name="listingRow")
     td.width-1.preview
       .preview-circle
         if isPDF
-          i.fa.fa-fw.fa-file-pdf-o
+          i.la.la-file-pdf-o
         else if isAudio
-          i.fa.fa-fw.fa-music
+          i.la.la-music
         else if isVideo
-          i.fa.fa-fw.fa-video-camera
+          i.la.la-file-video-o
         else if isImage
           if showPreview
             img(src="{{link 'thumbnail40'}}" alt="#{name}")
           else
-            i.fa.fa-fw.fa-picture-o
+            i.la.la-file-picture-o
         else if isText
-          i.fa.fa-fw.fa-file-text-o
+          i.la.la-file-text-o
         else if isJSON
-          i.fa.fa-fw.fa-file-code-o
+          i.la.la-file-code-o
         else
-          i.fa.fa-fw.fa-file-o
+          i.la.la-file-o
     td(colspan="{{#unless compare userId 'is' currentUser._id}}2{{/unless}}" class="{{#if showSettings}}no-padding{{/if}}")
       table.fixed-table: tbody: tr
         if showSettings
@@ -26,16 +26,16 @@ template(name="listingRow")
             td.file-settings(data-change-access)
               a.file-access(href="#" title="{{#if meta.unlisted}}Show file publicity{{else}}Hide file from public list{{/if}}")
                 if meta.unlisted
-                  i.fa.fa-fw.fa-eye-slash
+                  i.la.la-eye-slash
                 else
-                  i.fa.fa-fw.fa-eye
+                  i.la.la-eye
           td.file-settings(data-change-privacy)
             a.file-secured(href="#" title="{{#if meta.secured}}Allow access by link{{else}}Make file accessible to me only{{/if}}")
               if meta.secured
-                i.fa.fa-fw.fa-lock
+                i.la.la-lock
               else
-                i.fa.fa-fw.fa-unlock
-          td.file-settings: a.file-remove(data-remove-file href="#" title="Remove file"): i.fa.fa-fw.fa-trash-o
+                i.la.la-unlock
+          td.file-settings: a.file-remove(data-remove-file href="#" title="Remove file"): i.la.la-trash-o
         else
           td
             .file-name #{name}
@@ -45,12 +45,12 @@ template(name="listingRow")
                 if compare userId 'is' currentUser._id
                   unless meta.secured
                     span(title="{{#if meta.unlisted}}Unlisted{{else}}Visible to everyone{{/if}}")
-                      i.fa.fa-fw(class="fa-eye{{#if meta.unlisted}}-slash{{/if}}")
+                      i.la(class="la-eye{{#if meta.unlisted}}-slash{{/if}}")
                     | &nbsp;
                     | &middot;
                     | &nbsp;
                   span(title="{{#if meta.secured}}Only you can see this file{{else}}Publicity availble file{{/if}}")
-                    i.fa.fa-fw(class="fa-{{#unless meta.secured}}un{{/unless}}lock")
+                    i.la(class="la-{{#unless meta.secured}}un{{/unless}}lock")
                   | &nbsp;
                   | &middot;
                   | &nbsp;
@@ -67,4 +67,4 @@ template(name="listingRow")
       if compare userId 'is' currentUser._id
         td.file-settings.width-1(data-show-settings)
           a(href="#" title="{{#if showSettings}}Close Settings{{else}}You owns this file: Edit Settings{{/if}}" class="{{#unless showSettings}}show-settings{{/unless}}")
-            i.fa(class="fa-{{#if showSettings}}times{{else}}gear{{/if}}")
+            i.la(class="la-{{#if showSettings}}times{{else}}gear{{/if}}")
