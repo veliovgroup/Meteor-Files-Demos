@@ -35,11 +35,11 @@ Template.listingRow.events({
     e.stopPropagation();
     e.preventDefault();
     const icon = $(e.currentTarget).find('i.la');
-    icon.removeClass('la-trash-o').addClass('la-circle-o-notch');
+    icon.removeClass('la-trash-o').addClass('la-circle-o-notch la-spin');
     this.remove((error) => {
       if (error) {
         console.log(error);
-        icon.addClass('la-trash-o').removeClass('la-circle-o-notch');
+        icon.addClass('la-trash-o').removeClass('la-circle-o-notch la-spin');
       }
     });
   },
@@ -47,7 +47,7 @@ Template.listingRow.events({
     e.stopPropagation();
     e.preventDefault();
     const icon = $(e.currentTarget).find('i.la');
-    icon.removeClass('la-eye-slash la-eye').addClass('la-circle-o-notch');
+    icon.removeClass('la-eye-slash la-eye').addClass('la-circle-o-notch la-spin');
     Meteor.call('changeAccess', this._id, (error) => {
       if (error) {
         console.log(error);

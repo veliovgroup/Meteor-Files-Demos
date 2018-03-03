@@ -25,7 +25,7 @@ template(name="file")
       
       .file-table: article.file-row(itemprop="articleBody")
         h1.file-title.ellipsis
-          a.go-back.la.la-angle-left(href="/")
+          a.go-back.la.la-angle-left.la-lg(href="/")
           | &nbsp;
           span(itemprop="name") {{extless name}}
 
@@ -50,7 +50,7 @@ template(name="file")
                 | Browser can't display this image. The "#{type}" format may be not supported in your browser. Please
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
             else
-              h1.files-note: i.la.la-circle-o-notch
+              h1.files-note: i.la.la-circle-o-notch.la-spin
         else if isAudio
           .file-cell
             if showError
@@ -91,7 +91,7 @@ template(name="file")
                   | Preview is not available, please 
                   a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
               else
-                h1.files-note: i.la.la-circle-o-notch
+                h1.files-note: i.la.la-circle-o-notch.la-spin
         else
           .file-cell: h3.files-note
             | Preview is not available, please 
@@ -130,7 +130,7 @@ template(name="file")
                 | #{meta.downloads}
                 | &nbsp;
                 a(title="Download \"#{name}\"" href="{{link}}?download=true" target="_parent" download="#{name}")
-                  span.la.la-download
+                  i.la.la-download
             tr
               th Abuse:
               td
@@ -141,10 +141,10 @@ template(name="file")
 
         a.info-link.show-info(data-show-info href="#" class="{{#if showInfo}}active{{/if}}")
           if showInfo
-            i.la.la-times
+            i.la.la-times.la-lg
           else
-            i.la.la-info-circle
+            i.la.la-info-circle.la-lg
 
         unless showInfo
           a.info-link.right.download-file(title="Download \"#{name}\"" href="{{link}}?download=true" target="_parent" download="#{name}")
-            i.la.la-download
+            i.la.la-download.la-lg

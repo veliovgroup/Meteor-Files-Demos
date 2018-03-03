@@ -5,6 +5,6 @@ template(name="accounts")
     a.info-link.user-account(href="{{#if isActiveRoute 'login'}}{{pathFor 'index'}}{{else}}{{pathFor 'login'}}{{/if}}" class="{{#if isActiveRoute 'login'}}active{{/if}}" title="Account Settings"): i.la.la-user
   else
     if loggingIn
-      a.info-link.user-account.loggingIn(href="#" title="Logging in..."): i.la.la-circle-o-notch
+      a.info-link.user-account.loggingIn(href="#" title="Logging in..."): i.la.la-circle-o-notch.la-spin
     else
       a.info-link.user-account(href="{{#if isActiveRoute 'login'}}{{pathFor 'index'}}{{else}}{{pathFor 'login'}}{{/if}}" class="{{#if isActiveRoute 'login'}}active{{/if}}" title="Sign In"): i.la.la-sign-in
