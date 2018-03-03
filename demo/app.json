@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.40",
-    "aws-sdk": "^2.202.0",
-    "babel-runtime": "^6.26.0",
+    "aws-sdk": "^2.205.0",
+    "core-js": "^2.5.3",
     "dropbox": "^0.10.3",
     "fs-extra": "^5.0.0",
     "gm": "^1.23.1",
