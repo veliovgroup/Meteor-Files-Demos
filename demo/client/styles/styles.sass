@@ -68,7 +68,7 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
   40%, 80%
     transform: rotate(10deg)
 
-:active, :focus, :visited
+::active, ::focus, ::visited
   outline: none !important
 
 #__FPSMeter
@@ -576,7 +576,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       display: none
   .fake-upload
     cursor: pointer
-    transition: 256ms ease-in-out
+    transition: color 256ms ease-in-out
     width: 85%
     margin: 0px auto
     color: $link-color
@@ -584,13 +584,10 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       position: relative;
       width: 150px;
       margin: 0 auto;
-      .la-arrow-up
-        transition: top 256ms
     &:hover
       color: $link-active
       .la-arrow-up
         top: 15%
-         transition: top 256ms
   .sm-row
     width: 85%
     margin: 0px auto
