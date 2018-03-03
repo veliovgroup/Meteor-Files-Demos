@@ -22,10 +22,9 @@ check@1.3.0
 http@1.4.0
 
 # UI/UX packages
-fortawesome:fontawesome
 simple:highlight.js
 mquandalle:jade
-fourseven:scss@3.3.3
+fourseven:scss
 momentjs:moment
 perak:markdown
 

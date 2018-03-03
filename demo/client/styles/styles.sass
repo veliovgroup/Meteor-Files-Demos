@@ -1,3 +1,51 @@
+@font-face
+  font-family: 'Lato'
+  src: url('/fonts/Lato-Light.ttf')
+  font-weight: 300
+  font-style: normal
+
+@font-face
+  font-family: 'Lato'
+  src: url('/fonts/Lato-Regular.ttf')
+  font-weight: 400
+  font-style: normal
+
+@font-face
+  font-family: 'Lato'
+  src: url('/fonts/Lato-Italic.ttf')
+  font-weight: 400
+  font-style: italic
+
+@font-face
+  font-family: 'Lato'
+  src: url('/fonts/Lato-Bold.ttf')
+  font-weight: 700
+  font-style: normal
+
+@font-face
+  font-family: 'Source Sans Pro'
+  src: url('/fonts/SourceSansPro-Light.ttf')
+  font-weight: 300
+  font-style: normal
+
+@font-face
+  font-family: 'Source Sans Pro'
+  src: url('/fonts/SourceSansPro-Regular.ttf')
+  font-weight: 400
+  font-style: normal
+
+@font-face
+  font-family: 'Source Sans Pro'
+  src: url('/fonts/SourceSansPro-Italic.ttf')
+  font-weight: 400
+  font-style: italic
+
+@font-face
+  font-family: 'Source Sans Pro'
+  src: url('/fonts/SourceSansPro-Bold.ttf')
+  font-weight: 700
+  font-style: normal
+
 $link-color: #4e546d
 $link-active: #bbb
 $text-color: #97a2d0
@@ -89,6 +137,24 @@ body
   text-align: center
   img
     padding: 0px 15px
+  div    
+    display: inline-block
+    margin: 0 15px
+    width: 50px
+    height: 50px
+    background-size: cover
+    opacity: .3
+    &.meteor-files-link, &.ostrio-link      
+      transition: 256ms
+      &:hover
+        opacity: 1
+    &.meteor-files-link
+      background-image: url('/meteor-logo.svg')
+      &:hover
+        background-image: url('/meteor-icon.svg')
+    &.ostrio-link
+      height: 46px
+      background-image: url('/ostrio-logo.svg')
 
 ::selection
   background-color: rgba(37,50,107,0.333)
@@ -177,6 +243,7 @@ hr
     font-size: 20px
     line-height: 0px
     margin-top: 18px
+    padding-left: 3px
   img
     width: 36px
     height: 36px
@@ -394,7 +461,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
 
 .info-link
   color: $link-color
-  font-size: 1.1rem
+  font-size: 1.4rem
   position: absolute
   animation: newElement 350ms ease-in-out 1
   bottom: 6px
@@ -422,10 +489,9 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     i
       transition: color 256ms ease-in-out
     svg
-      max-height: 1.33333333em
-      max-width: 1.33333333em
+      max-height: 1em
+      max-width: 1em
       position: relative
-      bottom: -5px
       .color
         transition: fill 256ms ease-in-out
         fill: $link-color
@@ -433,14 +499,17 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
         fill: #DF4F4F
     &:hover
       color: $link-active
-      i.fa-github
+      i.la-github
         color: #999999
-      i.fa-twitter
+      i.la-twitter
         color: #55acee
-      i.fa-facebook-official
+      i.la-facebook-official
         color: #3b5998
-      i.fa-paypal
+      i.la-paypal
         color: #009cde
+
+.share-options
+  font-size: 1.5rem
 
 .block-info
   color: $text-color
@@ -476,8 +545,13 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   @extend .bg-diagonal
   position: relative
   user-select: none
-  i.fa.fa-cloud-upload
+  i.la.la-cloud
     font-size: 4rem
+  i.la.la-arrow-up
+    position: absolute;
+    top: 18%;
+    left: 44%;
+    font-size: 1.4rem;
   h2
     font-size: 1.5rem
     line-height: 2rem
@@ -502,12 +576,21 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       display: none
   .fake-upload
     cursor: pointer
-    transition: color 256ms ease-in-out
+    transition: 256ms ease-in-out
     width: 85%
     margin: 0px auto
     color: $link-color
+    .icon-container
+      position: relative;
+      width: 150px;
+      margin: 0 auto;
+      .la-arrow-up
+        transition: top 256ms
     &:hover
       color: $link-active
+      .la-arrow-up
+        top: 15%
+         transition: top 256ms
   .sm-row
     width: 85%
     margin: 0px auto
@@ -516,7 +599,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   display: inline-block
   transition: color 256ms ease-in-out, transform 256ms ease-in-out
   &:hover, &.active
-    transform: rotate(144deg)
+    transform: rotate(150deg)
 
 .listing, .file, ._loading
   width: 100%
@@ -592,12 +675,12 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       background-color: rgba(0,0,0,0.15)
       border-right: 1px solid rgba(0,0,0,0.1)
       padding: 0px 10px
-      margin: 0px 0px
+      margin: 0px
       display: inline-block
       height: 100%
       text-decoration: none
       font-size: 1.4rem
-      line-height: 3rem
+      line-height: 3.2rem
       position: absolute
       left: 0px
       top: 0px
@@ -653,13 +736,13 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   font-size: 0.9rem
 
 .file-remove:hover
-  i.fa.fa-trash-o
+  i.la.la-trash-o
     color: #bd362f
 .file-access:hover
-  i.fa.fa-eye
+  i.la.la-eye
     color: #bd362f
 .file-secured:hover
-  i.fa.fa-unlock
+  i.la.la-unlock
     color: #bd362f
 
 .file-name, .file-info
