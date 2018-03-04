@@ -46,9 +46,9 @@
   font-weight: 700
   font-style: normal
 
-$link-color: #4e546d
-$link-active: #bbb
-$text-color: #97a2d0
+$link-color: #4E546D
+$link-active: #BBB
+$text-color: #97A2D0
 $transition-128ms: color 128ms ease-in-out
 
 body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
@@ -69,7 +69,7 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
     transform: rotate(10deg)
 
 ::active, ::focus, ::visited
-  outline: none !important
+  outline: none
 
 #__FPSMeter
   cursor: pointer
@@ -79,13 +79,13 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
   display: none
 
 html, body
+  margin: 0px
   height: 100%
   min-height: 100%
-  background-color: #2b3850  
+  background-color: #2B3850
   font-family: 'Lato', sans-serif
   font-weight: 400
   padding: 0px
-  margin: 0px
   color: $text-color
   font-size: 14px
   line-height: 1.2rem
@@ -191,8 +191,8 @@ strong, b
   font-weight: 700
 
 p
-  font-family: 'Source Sans Pro', sans-serif
   margin: 1rem 0rem
+  font-family: 'Source Sans Pro', sans-serif
   line-height: 1.5rem
 
 hr
@@ -201,7 +201,7 @@ hr
   background-color: rgba(255,255,255,0.05)
 
 .danger
-  color: #a94442
+  color: #A94442
 
 .invisible
   display: none !important
@@ -219,26 +219,26 @@ hr
   margin-left: auto
 
 .container
+  display: table
   margin: 0px auto
   max-width: 768px
   width: 100%
   position: relative
-  display: table
 
 .container-main
   box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
-  background-color: mix(#080c15, #1c222e)
+  background-color: mix(#080C15, #1C222E)
 
 .preview-circle
+  margin: 0px auto
   height: 40px
   width: 40px
   text-align: center
   overflow: hidden
   border-radius: 40px
-  border: 2px solid #9ca8be
+  border: 2px solid #9CA8BE
   box-shadow: inset 0px 0px 8px rgba(0,0,0,0.25)
   position: relative
-  margin: 0px auto
   i
     font-size: 20px
     line-height: 0px
@@ -328,16 +328,16 @@ th
   border-radius: 0px
 
 .file-preview
+  display: block
   margin: 0 auto
   max-width: 100%
-  display: block
   &.file-audio
     margin: 25px 0px
 
 iframe.file-preview
+  margin: 0
   border: 0
   background: none
-  margin: 0
   padding: 0
   font: inherit
   vertical-align: baseline
@@ -400,7 +400,7 @@ iframe.file-preview
     .octo-arm
       transform-origin: 130px 106px
     .octo-arm, .octo-body
-      fill: #2b3850
+      fill: #2B3850
 
 .radio input[type="radio"], .radio-inline input[type="radio"]
   position: absolute
@@ -411,8 +411,8 @@ iframe.file-preview
   margin-top: -5px
 
 .radio-inline
-  position: relative
   display: inline-block
+  position: relative
   padding-left: 30px
   margin-bottom: 0
   font-weight: normal
@@ -442,19 +442,19 @@ h1
   line-height: 2.2rem
 
 h2
+  margin: 1rem 0rem
   font-size: 1.5rem
   line-height: 2rem
-  margin: 1rem 0rem
 
 h3
+  margin: 0.8rem 0rem
   font-size: 1.3rem
   line-height: 1.8rem
-  margin: 0.8rem 0rem
 
 h4
+  margin: 0.6rem 0rem
   font-size: 1.1rem
   line-height: 1.6rem
-  margin: 0.6rem 0rem
 
 h1, h2, h3, h4, h5, h6, div, form, table, p
   box-sizing: border-box
@@ -502,11 +502,11 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       i.la-github
         color: #999999
       i.la-twitter
-        color: #55acee
+        color: #55ACEE
       i.la-facebook-official
-        color: #3b5998
+        color: #3B5998
       i.la-paypal
-        color: #009cde
+        color: #009CDE
 
 .share-options
   font-size: 1.5rem
@@ -521,14 +521,14 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     margin-bottom: 0px
 
 .annotation
+  margin: 2rem 0rem
   color: $text-color
   font-size: 0.98rem
   line-height: 1.6rem
-  margin: 2rem 0rem
   font-weight: 400
 .bg-diagonal
-  background: linear-gradient(45deg, #080c15 0%, #1c222e 100%)
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#080c15', endColorstr='#1c222e', GradientType=1)
+  background: linear-gradient(45deg, #080C15 0%, #1C222E 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#080C15', endColorstr='#1C222E', GradientType=1)
 .bg-horizontal
   background: linear-gradient(to right, #222938 0%, #212834 100%)
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222938', endColorstr='#212834', GradientType=1)
@@ -567,7 +567,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   &.file-over
     cursor: copy
     background:
-      color: mix(#080c15, #1c222e)
+      color: mix(#080C15, #1C222E)
       image: url(/dnd.png)
       repeat: no-repeat
       position: 50% 50%
@@ -575,22 +575,22 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     & *
       display: none
   .fake-upload
+    margin: 0px auto
     cursor: pointer
     transition: color 256ms ease-in-out
     width: 85%
-    margin: 0px auto
     color: $link-color
     .icon-container
+      margin: 0 auto;
       position: relative;
       width: 150px;
-      margin: 0 auto;
     &:hover
       color: $link-active
       .la-arrow-up
         top: 15%
   .sm-row
-    width: 85%
     margin: 0px auto
+    width: 85%
 
 .show-settings
   display: inline-block
@@ -601,7 +601,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
 .listing, .file, ._loading
   width: 100%
   max-width: 384px
-  color: #aebad2
+  color: #AEBAD2
   overflow-x: hidden
   overflow-y: auto
   -webkit-overflow-scrolling: touch
@@ -645,14 +645,15 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   .file-preview
     margin: 0 auto
   picture.file-preview
+    display: table-cell
     height: 100%
     width: 100%
     text-align: center
-    display: table-cell
     vertical-align: middle
   img
     pointer-events: none
   h1.file-title
+    margin: 0px
     position: absolute
     top: 0px
     left: 0px
@@ -661,7 +662,6 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     -moz-backdrop-filter: blur(2px)
     -ms-backdrop-filter: blur(2px)
     backdrop-filter: blur(2px)
-    margin: 0px
     padding: 7px 0px
     z-index: 100
     padding-left: 40px
@@ -669,11 +669,11 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     width: 100%
     max-width: 100%
     .go-back
+      display: inline-block
+      margin: 0px
       background-color: rgba(0,0,0,0.15)
       border-right: 1px solid rgba(0,0,0,0.1)
       padding: 0px 10px
-      margin: 0px
-      display: inline-block
       height: 100%
       text-decoration: none
       font-size: 1.4rem
@@ -684,7 +684,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       font-weight: 700
       color: rgba(255,255,255,0.777)
       &:hover
-        color: #fff
+        color: #FFF
         background-color: rgba(0,0,0,0.25)
   .info-link
     background-color: rgba(0,0,0,0.5)
@@ -718,45 +718,40 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
 
 .fixed-table .file-settings
   a
+    display: inline-block
     width: 100%
     height: 100%
     min-width: 100%
     min-height: 100%
-    display: inline-block
 
 .file-name
-  color: #aebad2
+  color: #AEBAD2
 
 .file-info  
   font-family: 'Source Sans Pro', sans-serif
-  color: #606c80
+  color: #606C80
   font-size: 0.9rem
 
-.file-remove:hover
-  i.la.la-trash-o
-    color: #bd362f
-.file-access:hover
-  i.la.la-eye
-    color: #bd362f
-.file-secured:hover
-  i.la.la-unlock
-    color: #bd362f
+.file-remove, .file-access, .file-secured
+  &:hover
+    i.la.la-trash-o, i.la.la-eye, i.la.la-unlock
+      color: #BD362F
 
 .file-name, .file-info
-  padding: 0px
-  margin: 0px
   display: inline
+  margin: 0px
+  padding: 0px
 
 .file-info-container
   max-width: 70%
 
 .btn
+  margin: 0px
   padding: 10px 20px
   text-align: center
   background: none
   background-color: transparent
   border: 1px solid rgba(0,0,0,0.3)
-  margin: 0px
 
 button
   cursor: pointer
@@ -774,9 +769,9 @@ button
       overflow: hidden
       text-overflow: ellipsis
     & td
-      border-bottom: 1px solid #1a2333
+      border-bottom: 1px solid #1A2333
   & > tbody > tr
-    border-bottom: 1px solid #1a2333
+    border-bottom: 1px solid #1A2333
     &:hover
       cursor: pointer
       background-color: rgba(0,0,0,0.1)
@@ -799,10 +794,10 @@ button
   &:hover
     opacity: 1
   img
+    margin: 0px 5px
     height: 32px
     width: auto
     border-radius: 5px
-    margin: 0px 5px
   &.gcaa
     img
       height: 120px
@@ -810,9 +805,9 @@ button
       max-width: 50% !important
 
 input.info-img
+  margin: 0px 5px
   height: 32px
   width: auto
-  margin: 0px 5px
 
 ._404
   text-align: center
@@ -820,12 +815,12 @@ input.info-img
 
 progress
   display: block
+  margin: 0px auto
   width: 90%
   height: 2px
   border: none
   color: #FEFEFE
   background-color: #000
-  margin: 0px auto
   border-radius: 0px
   -webkit-appearance: none
   -moz-appearance: none
@@ -842,8 +837,8 @@ progress::-webkit-progress-value
   color: #FEFEFE
 
 progress::-moz-progress-bar
-  background: #aaa
-  color: #aaa
+  background: #AAA
+  color: #AAA
   border-radius: 0px
 
 progress::-moz-progress-value
@@ -855,14 +850,14 @@ pre, code, kbd, samp
   box-sizing: border-box
 
 input[type="radio"]
+  display: inline-block
   cursor: pointer
   position: relative
-  display: inline-block
   vertical-align: middle
   box-sizing: border-box
   -webkit-appearance: none
   appearance: none
-  background: #f0f0f0
+  background: #F0F0F0
   border: 1px solid $text-color
   border-radius: 30px
   height: 18px
@@ -899,7 +894,7 @@ input[type="radio"]
     right: initial
     transform: rotate(-90deg)
     svg
-      fill: #2b3850
+      fill: #2B3850
       height: 90px
       width: 90px
       .octo-arm, .octo-body
@@ -948,13 +943,13 @@ input[type="radio"]
     height: 40%
     height: 40vh
     .sm-row
-      width: 100%
       margin: initial
+      width: 100%
     .fake-upload
       width: 100%
     #userfile:not(.settings-open)
-      cursor: pointer
       display: block !important
+      cursor: pointer
       visibility: visible !important
       position: absolute
       top: 0px
@@ -996,7 +991,7 @@ input[type="radio"]
     right: initial
     transform: rotate(-90deg)
     svg
-      fill: #2b3850
+      fill: #2B3850
       height: 85px
       width: 85px
       .octo-arm, .octo-body
