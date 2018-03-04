@@ -4,10 +4,10 @@ template(name="uploadRow")
       .progress-radial(class="progress-{{getProgressClass}}")
         .overlay(data-toggle-upload)
           if onPause.get
-            span(title="Resume upload"): i.la.la-play
+            span(title="Resume upload"): i.la.la-lg.la-play
           else
             span.progress #{progress.get}%
-            span.action(title="Pause upload"): i.la.la-pause
+            span.action(title="Pause upload"): i.la.la-lg.la-pause
     td(colspan="2")
       table.fixed-table: tbody: tr: td
         .file-name #{file.name}

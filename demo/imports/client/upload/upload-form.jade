@@ -43,8 +43,9 @@ template(name="uploadForm")
         | #{status.estimateBitrate}
       p
         if status.onPause
-          a(data-continue-all href="#" title="Resume upload"): i.la.la-play
+          a(data-continue-all href="#" title="Resume upload"): i.la.la-3x.la-play
         else
-          a(data-pause-all href="#" title="Pause upload"): i.la.la-pause
+          a(data-pause-all href="#" title="Pause upload"): i.la.la-3x.la-pause
         | &nbsp;
-        a(data-abort-all href="#" title="Abort upload"): i.la.la-stop
+        | &nbsp;
+        a(data-abort-all href="#" title="Abort upload"): i.la.la-3x.la-stop
