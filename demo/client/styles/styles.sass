@@ -67,9 +67,9 @@ $transition-128ms: color 128ms ease-in-out
 
 @keyframes upload-animation
   from
-    top: 50%
+    top: 100%
   to
-    top: -150%
+    top: -100%
 
 body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
   animation: new-element 350ms ease-in-out 1
@@ -619,7 +619,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     &:hover
       color: $link-active
       .la-arrow-up
-        animation: upload-animation 1400ms linear infinite
+        animation: upload-animation 1000ms linear infinite
   .sm-row
     margin: 0px auto
     width: 85%
