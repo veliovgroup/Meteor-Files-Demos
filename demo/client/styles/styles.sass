@@ -166,26 +166,13 @@ body
   bottom: 0px
   left: 0px
   text-align: center
+  a
+    opacity: 1
+    transition: filter 256ms linear
+    &:hover
+      filter: invert(100%) brightness(2)
   img
     padding: 0px 15px
-  div    
-    display: inline-block
-    margin: 0 15px
-    width: 50px
-    height: 50px
-    background-size: cover
-    opacity: .3
-    &.meteor-files-link, &.ostrio-link      
-      transition: 256ms
-      &:hover
-        opacity: 1
-    &.meteor-files-link
-      background-image: url('/meteor-logo.svg')
-      &:hover
-        background-image: url('/meteor-icon.svg')
-    &.ostrio-link
-      height: 43px
-      background-image: url('/ostrio-logo.svg')
 
 ::selection
   background-color: rgba(37,50,107,0.333)
