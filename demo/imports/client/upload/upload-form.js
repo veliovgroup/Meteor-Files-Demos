@@ -256,5 +256,10 @@ Template.uploadForm.events({
     e.preventDefault();
     _app.showProjectInfo.set(!_app.showProjectInfo.get());
     return false;
+  },
+  'click [data-cancel-dnd]'(e) {
+    e.preventDefault();
+    _app.isFileOver.set(false);
+    return false;
   }
 });

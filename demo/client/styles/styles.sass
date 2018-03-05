@@ -544,6 +544,8 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   @extend .bg-horizontal
 
 .upload-form
+  .dnd-notice
+    display: none
   .percentage
     font-size: 3.6rem
     margin-bottom: 2.2rem
@@ -580,14 +582,23 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
       margin-top: 2px
   &.file-over
     cursor: copy
+    position: relative
     background:
       color: mix(#080C15, #1C222E)
       image: url(/dnd.png)
       repeat: no-repeat
       position: 50% 50%
       size: 80px 80px
-    & *
+    & *:not(.dnd-notice)
       display: none
+    .dnd-notice
+      display: inline-block
+      position: absolute
+      width: 100%
+      bottom: 15px
+      left: 0px
+    .dnd-notice > a
+      display: inline
   .fake-upload
     margin: 0px auto
     cursor: pointer

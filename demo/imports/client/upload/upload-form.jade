@@ -1,52 +1,56 @@
 template(name="uploadForm")
-  form.col-50.upload-form#uploadFile(class="{{#if isFileOver}}file-over{{/if}}"): .sm-row
-    unless uploads
-      input.invisible#userfile(class="{{#if showSettings}}settings-open{{/if}}" type="file" name="userfile" required multiple)
+  form.col-50.upload-form#uploadFile(class="{{#if isFileOver}}file-over{{/if}}")
+    .dnd-notice
+      | Drop files here for upload, or
+      a(href="#" data-cancel-dnd) cancel
+    .sm-row
+      unless uploads
+        input.invisible#userfile(class="{{#if showSettings}}settings-open{{/if}}" type="file" name="userfile" required multiple)
 
-      if showSettings
-        .block-info
-          p.annotation.white
-            h3 Upload via:
-            label.radio-inline
-              input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport 'is' 'ddp'}}checked{{/if}}")
-              | DDP
-            label.radio-inline
-              input(type="radio" name="transport" value="http" checked="{{#if compare uploadTransport 'is' 'http'}}checked{{/if}}")
-              | HTTP (<em>3x</em>)
+        if showSettings
+          .block-info
+            p.annotation.white
+              h3 Upload via:
+              label.radio-inline
+                input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport 'is' 'ddp'}}checked{{/if}}")
+                | DDP
+              label.radio-inline
+                input(type="radio" name="transport" value="http" checked="{{#if compare uploadTransport 'is' 'http'}}checked{{/if}}")
+                | HTTP (<em>3x</em>)
 
-          p.annotation Any file-type.<br />With size less or equal to 128MB,<br />up to 6 files.
-          p.annotation This form supports drag'n'drop.
-      else
-        label.fake-upload#fakeUpload(for="userfile")
-          .icon-container
-            .cloud-container
-              i.la.la-cloud
-              i.la.la-arrow-up
-          if error
-            h4.danger {{{error}}}
-          else
-            h2 UPLOAD A FILE
-
-        +accounts
-        a.info-link.right(data-show-project-info href="#" title="Project Info"): i.la.la-info
-
-      a.info-link.show-settings(data-show-settings href="#" class="{{#if showSettings}}active{{/if}}" title="Upload Settings"): i.la.la-gear
-    else
-      if error
-        h4.danger {{{error}}}
-      h1.percentage #{status.progress}%
-      progress(max="100" value="#{status.progress}")
-      p
-        | #{status.estimateDuration}
-        | &nbsp;
-        | &middot;
-        | &nbsp;
-        | #{status.estimateBitrate}
-      p
-        if status.onPause
-          a(data-continue-all href="#" title="Resume upload"): i.la.la-3x.la-play
+            p.annotation Any file-type.<br />With size less or equal to 128MB,<br />up to 6 files.
+            p.annotation This form supports drag'n'drop.
         else
-          a(data-pause-all href="#" title="Pause upload"): i.la.la-3x.la-pause
-        | &nbsp;
-        | &nbsp;
-        a(data-abort-all href="#" title="Abort upload"): i.la.la-3x.la-stop
+          label.fake-upload#fakeUpload(for="userfile")
+            .icon-container
+              .cloud-container
+                i.la.la-cloud
+                i.la.la-arrow-up
+            if error
+              h4.danger {{{error}}}
+            else
+              h2 UPLOAD A FILE
+
+          +accounts
+          a.info-link.right(data-show-project-info href="#" title="Project Info"): i.la.la-info
+
+        a.info-link.show-settings(data-show-settings href="#" class="{{#if showSettings}}active{{/if}}" title="Upload Settings"): i.la.la-gear
+      else
+        if error
+          h4.danger {{{error}}}
+        h1.percentage #{status.progress}%
+        progress(max="100" value="#{status.progress}")
+        p
+          | #{status.estimateDuration}
+          | &nbsp;
+          | &middot;
+          | &nbsp;
+          | #{status.estimateBitrate}
+        p
+          if status.onPause
+            a(data-continue-all href="#" title="Resume upload"): i.la.la-3x.la-play
+          else
+            a(data-pause-all href="#" title="Pause upload"): i.la.la-3x.la-pause
+          | &nbsp;
+          | &nbsp;
+          a(data-abort-all href="#" title="Abort upload"): i.la.la-3x.la-stop
