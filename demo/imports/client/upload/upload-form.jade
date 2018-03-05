@@ -1,5 +1,5 @@
 template(name="uploadForm")
-  form.col-50.upload-form#uploadFile: .sm-row
+  form.col-50.upload-form#uploadFile(class="{{#if isFileOver}}file-over{{/if}}"): .sm-row
     unless uploads
       input.invisible#userfile(class="{{#if showSettings}}settings-open{{/if}}" type="file" name="userfile" required multiple)
 

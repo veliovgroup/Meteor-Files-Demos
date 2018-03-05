@@ -52,34 +52,26 @@ const addListener = (target, events, func) => {
   });
 };
 
+_app.isFileOver = new ReactiveVar(false);
 let _el = null;
 addListener(window, ['dragenter', 'dragover'], (e) => {
   e.stopPropagation();
   _el = e.target;
-  const uf = document.getElementById('uploadFile');
-  if (!~uf.className.indexOf('file-over')) {
-    uf.className += ' file-over';
-  }
+  _app.isFileOver.set(true);
   return false;
 });
 
 addListener(window, ['dragleave'], (e) => {
   e.stopPropagation();
   if (_el === e.target) {
-    const uf = document.getElementById('uploadFile');
-    if (!!~uf.className.indexOf('file-over')) {
-      uf.className = uf.className.replace(' file-over', '');
-    }
+    _app.isFileOver.set(false);
   }
   return false;
 });
 
 addListener(window, ['drop'], (e) => {
   e.stopPropagation();
-  const uf = document.getElementById('uploadFile');
-  if (!!~uf.className.indexOf('file-over')) {
-    uf.className = uf.className.replace(' file-over', '');
-  }
+  _app.isFileOver.set(false);
   return false;
 });
 
@@ -125,6 +117,10 @@ Meteor.autorun(() => {
 if (!ClientStorage.has('uploadTransport')) {
   ClientStorage.set('uploadTransport', 'ddp');
 }
+
+Template.registerHelper('isFileOver', () => {
+  return _app.isFileOver.get();
+});
 
 Template.registerHelper('urlCurrent', () => {
   return _app.currentUrl();

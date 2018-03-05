@@ -226,20 +226,14 @@ Template.uploadForm.events({
   'dragover #uploadFile, dragenter #uploadFile'(e) {
     e.preventDefault();
     e.stopPropagation();
-    const uf = document.getElementById('uploadFile');
-    if (!~uf.className.indexOf('file-over')) {
-      uf.className += ' file-over';
-    }
+    _app.isFileOver.set(true);
     e.originalEvent.dataTransfer.dropEffect = 'copy';
   },
   'drop #uploadFile.file-over'(e, template) {
     e.preventDefault();
     e.stopPropagation();
     template.error.set(false);
-    const uf = document.getElementById('uploadFile');
-    if (!!~uf.className.indexOf('file-over')) {
-      uf.className = uf.className.replace(' file-over', '');
-    }
+    _app.isFileOver.set(false);
     e.originalEvent.dataTransfer.dropEffect = 'copy';
     template.initiateUpload(e, e.originalEvent.dataTransfer.files, template);
     return false;
