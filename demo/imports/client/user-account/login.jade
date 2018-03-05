@@ -11,18 +11,18 @@ template(name="login")
         unless secured
           a(data-change-unlist href="#" title="{{#if unlist}}Show uploaded files publicly{{else}}Hide uploaded files from public list{{/if}}")
             if unlist
-              i.la.la-eye-slash
+              i.la.la-lg.la-eye-slash
             else
-              i.la.la-eye
+              i.la.la-lg.la-eye
           | &nbsp;
           | &nbsp;
           | &middot;
           | &nbsp;
         a(data-change-secured href="#" title="{{#if secured}}Allow access to uploaded files by link{{else}}Make uploaded files accessible to me only{{/if}}")
           if secured
-            i.la.la-lock
+            i.la.la-lg.la-unlock
           else
-            i.la.la-unlock
+            i.la.la-lg.la-unlock-alt
   else
     if loggingIn
       +_loading

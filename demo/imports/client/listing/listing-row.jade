@@ -32,9 +32,9 @@ template(name="listingRow")
           td.file-settings(data-change-privacy)
             a.file-secured(href="#" title="{{#if meta.secured}}Allow access by link{{else}}Make file accessible to me only{{/if}}")
               if meta.secured
-                i.la.la-lock
-              else
                 i.la.la-unlock
+              else
+                i.la.la-unlock-alt
           td.file-settings: a.file-remove(data-remove-file href="#" title="Remove file"): i.la.la-trash-o
         else
           td
@@ -45,12 +45,12 @@ template(name="listingRow")
                 if compare userId 'is' currentUser._id
                   unless meta.secured
                     span(title="{{#if meta.unlisted}}Unlisted{{else}}Visible to everyone{{/if}}")
-                      i.la(class="la-eye{{#if meta.unlisted}}-slash{{/if}}")
+                      i.la.la-lg(class="la-eye{{#if meta.unlisted}}-slash{{/if}}")
                     | &nbsp;
                     | &middot;
                     | &nbsp;
                   span(title="{{#if meta.secured}}Only you can see this file{{else}}Publicity availble file{{/if}}")
-                    i.la(class="la-{{#unless meta.secured}}un{{/unless}}lock")
+                    i.la.la-lg(class="la-unlock{{#unless meta.secured}}-alt{{/unless}}")
                   | &nbsp;
                   | &middot;
                   | &nbsp;
