@@ -51,10 +51,7 @@ $link-active: #BBB
 $text-color: #97A2D0
 $transition-128ms: color 128ms ease-in-out
 
-body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
-  animation: newElement 350ms ease-in-out 1
-
-@keyframes newElement
+@keyframes new-element
   from
     opacity: 0
   to
@@ -67,6 +64,15 @@ body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, 
     transform: rotate(-25deg)
   40%, 80%
     transform: rotate(10deg)
+
+@keyframes upload-animation
+  from
+    top: 50%
+  to
+    top: -150%
+
+body, span, div, p, td, button, video, audio, img, picture, h1, h2, h3, h4, h5, h6, .preview-circle > img
+  animation: new-element 350ms ease-in-out 1
 
 ::active, ::focus, ::visited
   outline: none
@@ -463,7 +469,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   color: $link-color
   font-size: 1.4rem
   position: absolute
-  animation: newElement 350ms ease-in-out 1
+  animation: new-element 350ms ease-in-out 1
   bottom: 6px
   right: 8px
   padding: 7px
@@ -546,15 +552,22 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
   @extend .bg-diagonal
   position: relative
   user-select: none
-  i.la.la-cloud
-    font-size: 4rem
-  i.la.la-arrow-up
-    position: absolute;
-    top: 18%;
-    left: 44%;
-    font-size: 1.4rem;
+  .cloud-container
+    display: inline-block
+    position: relative
+    overflow: hidden
+    height: 52px
+    i.la.la-cloud
+      position: relative
+      top: -16px
+      font-size: 84px
+    i.la.la-arrow-up
+      position: absolute
+      top: 19%
+      left: 22%
+      font-size: 47px
   h2
-    font-size: 1.5rem
+    font-size: 1.8rem
     line-height: 2rem
   color: $link-color
   font-weight: 700
@@ -588,7 +601,7 @@ h1, h2, h3, h4, h5, h6, div, form, table, p
     &:hover
       color: $link-active
       .la-arrow-up
-        top: 15%
+        animation: upload-animation 1400ms linear infinite
   .sm-row
     margin: 0px auto
     width: 85%

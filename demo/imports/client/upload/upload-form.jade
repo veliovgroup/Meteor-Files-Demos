@@ -19,12 +19,13 @@ template(name="uploadForm")
       else
         label.fake-upload#fakeUpload(for="userfile")
           .icon-container
-            i.la.la-cloud
-            i.la.la-arrow-up
-            if error
-              h4.danger {{{error}}}
-            else
-              h2 UPLOAD A FILE
+            .cloud-container
+              i.la.la-cloud
+              i.la.la-arrow-up
+          if error
+            h4.danger {{{error}}}
+          else
+            h2 UPLOAD A FILE
 
         +accounts
         a.info-link.right(data-show-project-info href="#" title="Project Info"): i.la.la-info
