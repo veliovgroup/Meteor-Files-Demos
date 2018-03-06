@@ -15,7 +15,7 @@
     "dropbox": "^0.10.3",
     "fs-extra": "^5.0.0",
     "gm": "^1.23.1",
-    "meteor-node-stubs": "^0.3.2",
+    "meteor-node-stubs": "^0.3.3",
     "request": "^2.83.0"
   },
   "env": {
