@@ -20,12 +20,14 @@ FlowRouter.globals.push({
       content: 'file, files, upload, store, storage, share, share files, meteor, open source, javascript'
     },
     'og:url': {
+      name: 'url',
       property: 'og:url',
       content() {
         return _app.currentUrl();
       }
     },
     'og:title': {
+      name: 'title',
       property: 'og:title',
       content() {
         return document.title;
@@ -45,6 +47,7 @@ FlowRouter.globals.push({
       return _app.currentUrl();
     },
     'og:image': {
+      name: 'image',
       property: 'og:image',
       content: Meteor.absoluteUrl('icon_1200x630.png')
     },
