@@ -21,7 +21,7 @@ Template.file.onRendered(function() {
   this.fetchedText.set(false);
 
   if (!this.data.file) {
-    window.IS_RENDERED = true
+    window.IS_RENDERED = true;
     return;
   }
 
@@ -54,6 +54,7 @@ Template.file.onRendered(function() {
       img.onerror = () => {
         this.showError.set(true);
       };
+
       if (this.data.file.versions != null && this.data.file.versions.preview != null && this.data.file.versions.preview.extension) {
         img.src = this.data.file.link('preview');
       } else {
@@ -76,23 +77,31 @@ Template.file.onRendered(function() {
       img.src = this.data.file.link();
     }
   } else if (this.data.file.isVideo) {
-    const video = document.getElementById(this.data.file._id);
+    const video = _app.getElementFromView(this.view._domrange.parentElement, this.data.file._id);
+    if (!video) {
+      return;
+    }
+
     if (!video.canPlayType(this.data.file.type)) {
       this.showError.set(true);
     } else {
       const promise = video.play();
       if (Object.prototype.toString.call(promise) === '[object Promise]' || (Object.prototype.toString.call(promise) === '[object Object]' && promise.then && Object.prototype.toString.call(promise.then) === '[object Function]')) {
-        promise.then(_app.NOOP).catch(_app.NOOP)
+        promise.then(_app.NOOP).catch(_app.NOOP);
       }
     }
   } else if (this.data.file.isAudio) {
-    const audio = document.getElementById(this.data.file._id);
+    const audio = _app.getElementFromView(this.view._domrange.parentElement, this.data.file._id);
+    if (!audio) {
+      return;
+    }
+
     if (!audio.canPlayType(this.data.file.type)) {
       this.showError.set(true);
     } else {
       const promise = audio.play();
       if (Object.prototype.toString.call(promise) === '[object Promise]' || (Object.prototype.toString.call(promise) === '[object Object]' && promise.then && Object.prototype.toString.call(promise.then) === '[object Function]')) {
-        promise.then(_app.NOOP).catch(_app.NOOP)
+        promise.then(_app.NOOP).catch(_app.NOOP);
       }
     }
   }

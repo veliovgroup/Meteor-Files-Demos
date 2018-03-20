@@ -89,6 +89,24 @@ _app.currentUrl = () => {
 _app.storeTTLUser = 432000000;
 _app.showProjectInfo = new ReactiveVar(false);
 _app.serviceConfiguration = new ReactiveVar({});
+_app.getElementFromView = function (parent, idClass) {
+  let el;
+  if (parent) {
+    if (parent.getElementById) {
+      el = parent.getElementById(idClass);
+    }
+
+    if (!el && parent.getElementsByClassName) {
+      el = parent.getElementsByClassName(idClass)[0];
+    }
+  }
+
+  if (!el) {
+    return document.getElementById(idClass);
+  }
+
+  return el;
+};
 
 Meteor.call('getServiceConfiguration', (error, serviceConfiguration) => {
   if (error) {
