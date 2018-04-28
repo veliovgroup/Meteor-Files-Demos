@@ -67,18 +67,23 @@ Meteor.publish('latest', function(take = 10, userOnly = false) {
 
 Meteor.publish('file', function(_id) {
   check(_id, String);
-  return Collections.files.find({
-    $or: [
-      {
-        _id: _id,
-        'meta.secured': false
-      }, {
+
+  let selector = {
+    _id: _id,
+    'meta.secured': false
+  };
+
+  if (this.userId) {
+    selector = {
+      $or: [selector, {
         _id: _id,
         'meta.secured': true,
         userId: this.userId
-      }
-    ]
-  }, {
+      }]
+    };
+  }
+
+  return Collections.files.find(selector, {
     fields: {
       _id: 1,
       name: 1,

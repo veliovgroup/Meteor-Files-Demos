@@ -1,3 +1,5 @@
+import './routes.js'
+
 const Collections = {};
 const _app = { NOOP(){} };
 

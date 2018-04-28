@@ -19,7 +19,6 @@ import '/imports/client/misc/_layout.jade';
 import '/imports/client/misc/_loading.jade';
 import '/imports/client/misc/project-info.jade';
 import '/imports/client/router/router.js';
-import '/imports/client/router/routes.js';
 
 window.IS_RENDERED = false;
 Meteor.setTimeout(() => {

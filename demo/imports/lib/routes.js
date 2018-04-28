@@ -9,11 +9,19 @@ FlowRouter.route('/', {
     this.render('_layout', 'index');
   },
   waitOn() {
-    return [_app.subs.subscribe('latest', 10, _app.userOnly.get()), import('/imports/client/index/index.js')];
+    if (Meteor.isClient) {
+      return [_app.subs.subscribe('latest', 10, _app.userOnly.get()), import('/imports/client/index/index.js')];
+    }
   },
   whileWaiting() {
     this.render('_layout', '_loading');
-  }
+  },
+  subscriptions(params) {
+    if (Meteor.isServer) {
+      this.register('latest', Meteor.subscribe('latest', 10, false));
+    }
+  },
+  fastRender: true
 });
 
 FlowRouter.route('/login', {
@@ -108,8 +116,16 @@ FlowRouter.route('/:_id', {
     }
   },
   waitOn(params) {
-    return [_app.subs.subscribe('file', params._id), import('/imports/client/file/file.js')];
+    if (Meteor.isClient) {
+      return [_app.subs.subscribe('file', params._id), import('/imports/client/file/file.js')];
+    }
   },
+  subscriptions(params) {
+    if (Meteor.isServer) {
+      this.register('file', Meteor.subscribe('file', params._id));
+    }
+  },
+  fastRender: true,
   whileWaiting() {
     this.render('_layout', '_loading');
   },
