@@ -2,6 +2,7 @@ import { _ }             from 'meteor/underscore';
 import { hljs }          from 'meteor/simple:highlight.js';
 import { Meteor }        from 'meteor/meteor';
 import { Reload }        from 'meteor/reload';
+import { Tracker }       from 'meteor/tracker'
 import { Template }      from 'meteor/templating';
 import { filesize }      from 'meteor/mrt:filesize';
 import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
@@ -115,19 +116,19 @@ Meteor.call('getServiceConfiguration', (error, serviceConfiguration) => {
   }
 });
 
-Meteor.autorun(() => {
+Tracker.autorun(() => {
   ClientStorage.set('blamed', _app.blamed.get());
 });
 
-Meteor.autorun(() => {
+Tracker.autorun(() => {
   ClientStorage.set('unlist', _app.unlist.get());
 });
 
-Meteor.autorun(() => {
+Tracker.autorun(() => {
   ClientStorage.set('secured', _app.secured.get());
 });
 
-Meteor.autorun(() => {
+Tracker.autorun(() => {
   ClientStorage.set('userOnly', _app.userOnly.get());
 });
 
