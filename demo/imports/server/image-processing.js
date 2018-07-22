@@ -1,4 +1,3 @@
-import { _ }      from 'meteor/underscore';
 import { _app }   from '/imports/lib/core.js';
 import { check }  from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
@@ -53,8 +52,8 @@ _app.createThumbnails = (collection, fileRef, cb) => {
       image.size((error, features) => {
         bound(() => {
           if (error) {
-            console.error('[_app.createThumbnails] [_.each sizes]', error);
-            finish(new Meteor.Error('[_app.createThumbnails] [_.each sizes]', error));
+            console.error('[_app.createThumbnails] [forEach sizes]', error);
+            finish(new Meteor.Error('[_app.createThumbnails] [forEach sizes]', error));
             return;
           }
 
@@ -68,19 +67,20 @@ _app.createThumbnails = (collection, fileRef, cb) => {
             }
           }, _app.NOOP);
 
-          _.each(sizes, (size, name) => {
+          Object.keys(sizes).forEach((name) => {
+            const size = sizes[name];
             const path = (collection.storagePath(fileRef)) + '/' + name + '-' + fileRef._id + '.' + fileRef.extension;
             const copyPaste = () => {
               fs.copy(fileRef.path, path, (fsCopyError) => {
                 bound(() => {
                   if (fsCopyError) {
-                    console.error('[_app.createThumbnails] [_.each sizes] [fs.copy]', fsCopyError);
+                    console.error('[_app.createThumbnails] [forEach sizes] [fs.copy]', fsCopyError);
                     finish(fsCopyError);
                     return;
                   }
 
                   const upd = { $set: {} };
-                  upd['$set']['versions.' + name] = {
+                  upd.$set[`versions.${name}`] = {
                     path: path,
                     size: fileRef.size,
                     type: fileRef.type,
@@ -122,14 +122,14 @@ _app.createThumbnails = (collection, fileRef, cb) => {
               const updateAndSave = (upNSaveError) => {
                 bound(() => {
                   if (upNSaveError) {
-                    console.error('[_app.createThumbnails] [_.each sizes] [img.resize]', upNSaveError);
+                    console.error('[_app.createThumbnails] [forEach sizes] [img.resize]', upNSaveError);
                     finish(upNSaveError);
                     return;
                   }
                   fs.stat(path, (fsStatError, stat) => {
                     bound(() => {
                       if (fsStatError) {
-                        console.error('[_app.createThumbnails] [_.each sizes] [img.resize] [fs.stat]', fsStatError);
+                        console.error('[_app.createThumbnails] [forEach sizes] [img.resize] [fs.stat]', fsStatError);
                         finish(fsStatError);
                         return;
                       }
@@ -137,12 +137,12 @@ _app.createThumbnails = (collection, fileRef, cb) => {
                       gm(path).size((gmSizeError, imgInfo) => {
                         bound(() => {
                           if (gmSizeError) {
-                            console.error('[_app.createThumbnails] [_.each sizes] [img.resize] [fs.stat] [gm(path).size]', gmSizeError);
+                            console.error('[_app.createThumbnails] [forEach sizes] [img.resize] [fs.stat] [gm(path).size]', gmSizeError);
                             finish(gmSizeError);
                             return;
                           }
                           const upd = { $set: {} };
-                          upd['$set']['versions.' + name] = {
+                          upd.$set[`versions.${name}`] = {
                             path: path,
                             size: stat.size,
                             type: fileRef.type,

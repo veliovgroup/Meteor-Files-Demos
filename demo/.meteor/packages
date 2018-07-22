@@ -1,7 +1,6 @@
 # Basic packages
 meteor@1.9.0
 webapp@1.6.0
-underscore@1.0.10
 ddp@1.4.0
 hot-code-push@1.0.4
 livedata@1.0.18

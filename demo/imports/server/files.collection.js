@@ -1,4 +1,3 @@
-import { _ }                 from 'meteor/underscore';
 import { Meteor }            from 'meteor/meteor';
 import { Random }            from 'meteor/random';
 import { filesize }          from 'meteor/mrt:filesize';
@@ -57,7 +56,7 @@ if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
 }
 
 Collections.files = new FilesCollection({
-  // debug: true,
+  debug: true,
   storagePath: 'assets/app/uploads/uploadedFiles',
   collectionName: 'uploadedFiles',
   allowClientCode: true,
@@ -75,7 +74,7 @@ Collections.files = new FilesCollection({
   },
   onBeforeRemove(cursor) {
     const res = cursor.map((file) => {
-      if (file && file.userId && _.isString(file.userId)) {
+      if (file && file.userId && _app.isString(file.userId)) {
         return file.userId === this.userId;
       }
       return false;
@@ -113,7 +112,7 @@ Collections.files = new FilesCollection({
         // we're using low-level .serve() method
         this.serve(http, fileRef, fileRef.versions[version], version, request({
           url: path,
-          headers: _.pick(http.request.headers, 'range', 'cache-control', 'connection')
+          headers: _app.pick(http.request.headers, 'range', 'cache-control', 'connection')
         }));
         return true;
       }
@@ -138,7 +137,7 @@ Collections.files = new FilesCollection({
 
         if (http.request.headers.range) {
           const vRef  = fileRef.versions[version];
-          let range   = _.clone(http.request.headers.range);
+          let range   = _app.clone(http.request.headers.range);
           const array = range.split(/bytes=([0-9]*)-([0-9]*)/);
           const start = parseInt(array[1]);
           let end     = parseInt(array[2]);
@@ -204,8 +203,8 @@ Collections.files.on('afterUpload', function(_fileRef) {
             }
           } else if (xml) {
             const upd = { $set: {} };
-            upd['$set']['versions.' + version + '.meta.pipeFrom'] = xml.url;
-            upd['$set']['versions.' + version + '.meta.pipePath'] = stat.path;
+            upd.$set[`versions.${version}.meta.pipeFrom`] = xml.url;
+            upd.$set[`versions.${version}.meta.pipePath`] = stat.path;
             this.collection.update({
               _id: fileRef._id
             }, upd, (updError) => {
@@ -224,7 +223,7 @@ Collections.files.on('afterUpload', function(_fileRef) {
                 makeUrl(stat, fileRef, version, ++triesUrl);
               }, 2048);
             } else {
-              console.error("client.makeUrl doesn't returns xml", {
+              console.error('client.makeUrl doesn\'t returns xml', {
                 triesUrl: triesUrl
               });
             }
@@ -273,47 +272,52 @@ Collections.files.on('afterUpload', function(_fileRef) {
     };
 
     sendToStorage = (fileRef) => {
-      _.each(fileRef.versions, (vRef, version) => {
-        readFile(fileRef, vRef, version);
-      });
+      for(let version in fileRef.versions) {
+        if (fileRef.versions[version]) {
+          readFile(fileRef, fileRef.versions[version], version);
+        }
+      }
     };
   } else if (useS3) {
     sendToStorage = (fileRef) => {
-      _.each(fileRef.versions, (vRef, version) => {
-        // We use Random.id() instead of real file's _id
-        // to secure files from reverse engineering
-        // As after viewing this code it will be easy
-        // to get access to unlisted and protected files
-        const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
+      for(let version in fileRef.versions) {
+        if (fileRef.versions[version]) {
+          const vRef = fileRef.versions[version];
+          // We use Random.id() instead of real file's _id
+          // to secure files from reverse engineering
+          // As after viewing this code it will be easy
+          // to get access to unlisted and protected files
+          const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
 
-        client.putObject({
-          StorageClass: 'STANDARD',
-          Bucket: s3Conf.bucket,
-          Key: filePath,
-          Body: fs.createReadStream(vRef.path),
-          ContentType: vRef.type,
-        }, (error) => {
-          bound(() => {
-            if (error) {
-              console.error(error);
-            } else {
-              const upd = { $set: {} };
-              upd['$set']['versions.' + version + '.meta.pipePath'] = filePath;
-              this.collection.update({
-                _id: fileRef._id
-              }, upd, (updError) => {
-                if (updError) {
-                  console.error(updError);
-                } else {
-                  // Unlink original file from FS
-                  // after successful upload to AWS:S3
-                  this.unlink(this.collection.findOne(fileRef._id), version);
-                }
-              });
-            }
+          client.putObject({
+            StorageClass: 'STANDARD',
+            Bucket: s3Conf.bucket,
+            Key: filePath,
+            Body: fs.createReadStream(vRef.path),
+            ContentType: vRef.type,
+          }, (error) => {
+            bound(() => {
+              if (error) {
+                console.error(error);
+              } else {
+                const upd = { $set: {} };
+                upd.$set[`versions.${version}.meta.pipePath`] = filePath;
+                this.collection.update({
+                  _id: fileRef._id
+                }, upd, (updError) => {
+                  if (updError) {
+                    console.error(updError);
+                  } else {
+                    // Unlink original file from FS
+                    // after successful upload to AWS:S3
+                    this.unlink(this.collection.findOne(fileRef._id), version);
+                  }
+                });
+              }
+            });
           });
-        });
-      });
+        }
+      }
     };
   }
 
@@ -346,32 +350,35 @@ if (useDropBox || useS3) {
   Collections.files.remove = function(search) {
     const cursor = this.collection.find(search);
     cursor.forEach((fileRef) => {
-      _.each(fileRef.versions, (vRef) => {
-        if (vRef && vRef.meta && vRef.meta.pipePath != null) {
-          if (useDropBox) {
-            // DropBox usage:
-            client.remove(vRef.meta.pipePath, (error) => {
-              bound(() => {
-                if (error) {
-                  console.error(error);
-                }
+      for (let version in fileRef.versions) {
+        if (fileRef.versions[version]) {
+          const vRef = fileRef.versions[version];
+          if (vRef && vRef.meta && vRef.meta.pipePath) {
+            if (useDropBox) {
+              // DropBox usage:
+              client.remove(vRef.meta.pipePath, (error) => {
+                bound(() => {
+                  if (error) {
+                    console.error(error);
+                  }
+                });
               });
-            });
-          } else {
-            // AWS:S3 usage:
-            client.deleteObject({
-              Bucket: s3Conf.bucket,
-              Key: vRef.meta.pipePath,
-            }, (error) => {
-              bound(() => {
-                if (error) {
-                  console.error(error);
-                }
+            } else {
+              // AWS:S3 usage:
+              client.deleteObject({
+                Bucket: s3Conf.bucket,
+                Key: vRef.meta.pipePath,
+              }, (error) => {
+                bound(() => {
+                  if (error) {
+                    console.error(error);
+                  }
+                });
               });
-            });
+            }
           }
         }
-      });
+      }
     });
     // Call original method
     _origRemove.call(this, search);

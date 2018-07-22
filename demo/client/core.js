@@ -1,8 +1,7 @@
-import { _ }             from 'meteor/underscore';
 import { hljs }          from 'meteor/simple:highlight.js';
 import { Meteor }        from 'meteor/meteor';
 import { Reload }        from 'meteor/reload';
-import { Tracker }       from 'meteor/tracker'
+import { Tracker }       from 'meteor/tracker';
 import { Template }      from 'meteor/templating';
 import { filesize }      from 'meteor/mrt:filesize';
 import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
@@ -33,16 +32,16 @@ if (!window.requestAnimFrame) {
     };
   })();
 }
-if (!ClientStorage.has('blamed') || !_.isArray(ClientStorage.get('blamed'))) {
+if (!ClientStorage.has('blamed') || !_app.isArray(ClientStorage.get('blamed'))) {
   ClientStorage.set('blamed', []);
 }
-if (!ClientStorage.has('unlist') || !_.isBoolean(ClientStorage.get('unlist'))) {
+if (!ClientStorage.has('unlist') || !_app.isBoolean(ClientStorage.get('unlist'))) {
   ClientStorage.set('unlist', true);
 }
-if (!ClientStorage.has('secured') || !_.isBoolean(ClientStorage.get('secured'))) {
+if (!ClientStorage.has('secured') || !_app.isBoolean(ClientStorage.get('secured'))) {
   ClientStorage.set('secured', false);
 }
-if (!ClientStorage.has('userOnly') || !_.isBoolean(ClientStorage.get('userOnly'))) {
+if (!ClientStorage.has('userOnly') || !_app.isBoolean(ClientStorage.get('userOnly'))) {
   ClientStorage.set('userOnly', false);
 }
 
@@ -160,8 +159,9 @@ Template.registerHelper('extless', (filename = '') => {
   return parts.join('.');
 });
 
-Template.registerHelper('DateToISO', (time = 0) => {
-  if (_.isString(time) || _.isNumber(time)) {
+Template.registerHelper('DateToISO', (_time = 0) => {
+  let time = _time;
+  if (_app.isString(time) || _app.isNumber(time)) {
     time = new Date(time);
   }
   return time.toISOString();

@@ -1,4 +1,3 @@
-import { _ }                 from 'meteor/underscore';
 import { Meteor }            from 'meteor/meteor';
 import { FlowRouter }        from 'meteor/ostrio:flow-router-extra';
 import { _app, Collections } from '/imports/lib/core.js';
@@ -16,7 +15,7 @@ FlowRouter.route('/', {
   whileWaiting() {
     this.render('_layout', '_loading');
   },
-  subscriptions(params) {
+  subscriptions() {
     if (Meteor.isServer) {
       this.register('latest', Meteor.subscribe('latest', 10, false));
     }
@@ -109,7 +108,7 @@ FlowRouter.route('/:_id', {
     };
   },
   action(params, queryParams, file) {
-    if (_.isObject(file) && !_.isEmpty(file)) {
+    if (_app.isObject(file) && !_app.isEmpty(file)) {
       this.render('_layout', 'file', {
         file: file
       });

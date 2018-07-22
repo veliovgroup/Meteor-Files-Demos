@@ -1,4 +1,3 @@
-import { _ }                 from 'meteor/underscore';
 import { Meteor }            from 'meteor/meteor';
 import { moment }            from 'meteor/momentjs:moment';
 import { filesize }          from 'meteor/mrt:filesize';
@@ -10,31 +9,32 @@ import { _app, Collections } from '/imports/lib/core.js';
 import '/imports/client/user-account/accounts.js';
 import '/imports/client/upload/upload-form.jade';
 
+const formError    = new ReactiveVar(false);
+const showSettings = new ReactiveVar(false);
+
 Template.uploadForm.onCreated(function() {
-  const self          = this;
-  this.error          = new ReactiveVar(false);
-  this.uploadQTY      = 0;
-  this.showSettings   = new ReactiveVar(false);
+  this.uploadQTY = 0;
 
   this.initiateUpload = (event, files) => {
     if (_app.uploads.get()) {
       return false;
     }
     if (!files.length) {
-      this.error.set('Please select a file to upload');
+      formError.set('Please select a file to upload');
       return false;
     }
     if (files.length > 6) {
-      this.error.set('Please select up to 6 files');
+      formError.set('Please select up to 6 files');
       return false;
     }
     this.uploadQTY = files.length;
     const cleanUploaded = (current) => {
-      const _uploads = _.clone(_app.uploads.get());
-      if (_.isArray(_uploads)) {
-        _.each(_uploads, (upInst, index) => {
-          if (upInst.file.name === current.file.name) {
-            _uploads.splice(index, 1);
+      const _uploads = _app.clone(_app.uploads.get());
+      if (_app.isArray(_uploads)) {
+        for (let i = 0; i < _uploads.length; i++) {
+          _uploads[i].pause();
+          if (_uploads[i].file.name === current.file.name) {
+            _uploads.splice(i, 1);
             if (_uploads.length) {
               _app.uploads.set(_uploads);
             } else {
@@ -42,35 +42,38 @@ Template.uploadForm.onCreated(function() {
               _app.uploads.set(false);
             }
           }
-        });
+        }
       }
     };
 
-    let secured, unlisted, ttl;
+    let secured;
+    let unlisted;
+    let ttl;
     const uploads = [];
     const transport = ClientStorage.get('uploadTransport');
-    const created_at = +new Date();
+    const createdAt = +new Date();
     if (Meteor.userId()) {
       secured = _app.secured.get();
-      if (!_.isBoolean(secured)) {
+      if (!_app.isBoolean(secured)) {
         secured = false;
       }
       if (secured) {
         unlisted = true;
       } else {
         unlisted = _app.unlist.get();
-        if (!_.isBoolean(unlisted)) {
+        if (!_app.isBoolean(unlisted)) {
           unlisted = true;
         }
       }
-      ttl = new Date(created_at + _app.storeTTLUser);
+      ttl = new Date(createdAt + _app.storeTTLUser);
     } else {
       unlisted = false;
       secured = false;
-      ttl = new Date(created_at + _app.storeTTL);
+      ttl = new Date(createdAt + _app.storeTTL);
     }
 
-    _.each(files, (file, i) => {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       Collections.files.insert({
         file: file,
         meta: {
@@ -79,7 +82,7 @@ Template.uploadForm.onCreated(function() {
           expireAt: ttl,
           unlisted: unlisted,
           downloads: 0,
-          created_at: created_at - 1 - i
+          created_at: createdAt - 1 - i
         },
         streams: 'dynamic',
         chunkSize: 'dynamic',
@@ -95,23 +98,23 @@ Template.uploadForm.onCreated(function() {
         cleanUploaded(this);
       }).on('error', function (error) {
         console.error(error);
-        self.error.set((self.error.get() ? self.error.get() + '<br />' : '') + this.file.name + ': ' + ((error != null ? error.reason : void 0) || error));
+        formError.set((formError.get() ? formError.get() + '<br />' : '') + this.file.name + ': ' + (_app.isObject(error) ? error.reason : error));
         Meteor.setTimeout( () => {
-          self.error.set(false);
+          formError.set(false);
         }, 15000);
         cleanUploaded(this);
       }).on('start', function() {
         uploads.push(this);
         _app.uploads.set(uploads);
       }).start();
-    });
+    }
     return true;
   };
 });
 
 Template.uploadForm.helpers({
   error() {
-    return Template.instance().error.get();
+    return formError.get();
   },
   uploads() {
     return _app.uploads.get();
@@ -168,7 +171,7 @@ Template.uploadForm.helpers({
     };
   },
   showSettings() {
-    return Template.instance().showSettings.get();
+    return showSettings.get();
   },
   showProjectInfo() {
     return _app.showProjectInfo.get();
@@ -193,7 +196,7 @@ Template.uploadForm.events({
     }
     return false;
   },
-  'click [data-abort-all]'(e, template) {
+  'click [data-abort-all]'(e) {
     e.preventDefault();
     const uploads = _app.uploads.get();
     if (uploads) {
@@ -201,7 +204,7 @@ Template.uploadForm.events({
         uploads[j].abort();
       }
     }
-    template.error.set(false);
+    formError.set(false);
     return false;
   },
   'click [data-continue-all]'(e) {
@@ -217,11 +220,10 @@ Template.uploadForm.events({
   'click #fakeUpload'(e, template) {
     if (!_app.isiOS) {
       e.preventDefault();
-    }
-    template.$('#userfile').trigger('click');
-    if (!_app.isiOS) {
+      template.$('#userfile').trigger('click');
       return false;
     }
+    template.$('#userfile').trigger('click');
   },
   'dragover #uploadFile, dragenter #uploadFile'(e) {
     e.preventDefault();
@@ -232,7 +234,7 @@ Template.uploadForm.events({
   'drop #uploadFile.file-over'(e, template) {
     e.preventDefault();
     e.stopPropagation();
-    template.error.set(false);
+    formError.set(false);
     _app.isFileOver.set(false);
     e.originalEvent.dataTransfer.dropEffect = 'copy';
     template.initiateUpload(e, e.originalEvent.dataTransfer.files, template);
@@ -243,13 +245,13 @@ Template.uploadForm.events({
   },
   'submit form#uploadFile'(e, template) {
     e.preventDefault();
-    template.error.set(false);
+    formError.set(false);
     template.initiateUpload(e, e.currentTarget.userfile.files);
     return false;
   },
-  'click [data-show-settings]'(e, template) {
+  'click [data-show-settings]'(e) {
     e.preventDefault();
-    template.showSettings.set(!template.showSettings.get());
+    showSettings.set(!showSettings.get());
     return false;
   },
   'click [data-show-project-info]'(e) {
