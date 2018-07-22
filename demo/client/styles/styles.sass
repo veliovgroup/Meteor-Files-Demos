@@ -126,32 +126,32 @@ html, body
   -webkit-text-size-adjust: 100%
   -webkit-tap-highlight-color: transparent
 
-  -webkit-text-stroke: 0px !important
-  -moz-text-stroke: 0px !important
-  -ms-text-stroke: 0px !important
-  text-stroke: 0px !important
+  -webkit-text-stroke: 0px
+  -moz-text-stroke: 0px
+  -ms-text-stroke: 0px
+  text-stroke: 0px
 
-  -webkit-font-smoothing: antialiased !important
-  -moz-font-smoothing: antialiased !important
-  -moz-osx-font-smoothing: grayscale !important
-  -ms-font-smoothing: antialiased !important
-  font-smoothing: antialiased !important
+  -webkit-font-smoothing: antialiased
+  -moz-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  -ms-font-smoothing: antialiased
+  font-smoothing: antialiased
 
-  -webkit-font-smooth: always !important
-  -moz-font-smooth: always !important
-  -ms-font-smooth: always !important
-  font-smooth: always !important
+  -webkit-font-smooth: always
+  -moz-font-smooth: always
+  -ms-font-smooth: always
+  font-smooth: always
 
-  -webkit-text-rendering: optimizeLegibility !important
-  -moz-text-rendering: optimizeLegibility !important
-  -ms-text-rendering: optimizeLegibility !important
-  text-rendering: optimizeLegibility !important
+  -webkit-text-rendering: optimizeLegibility
+  -moz-text-rendering: optimizeLegibility
+  -ms-text-rendering: optimizeLegibility
+  text-rendering: optimizeLegibility
 
   -ms-overflow-style: -ms-autohiding-scrollbar
   overflow-style: autohiding-scrollbar
-  outline: none !important
+  outline: none
   &:active, &:focus, &:visited
-    outline: none !important
+    outline: none
   &::-webkit-scrollbar
     display: none
 
@@ -181,7 +181,7 @@ body
   background-color: rgba(37,50,107,0.333)
   color: #FAFAFA
 
-a, picture, img, video, button, input, pre, i, select, option, label, tr, td, p
+a, picture, img, video, button, input, pre, i, select, option, label, tr, td, p, form, textarea
   user-select: none
   outline: none !important
   -webkit-tap-highlight-color: transparent
@@ -222,13 +222,13 @@ hr
 
 .invisible
   display: none !important
-  visibility: hidden !important
+  visibility: hidden
 
 .width-1
   width: 1%
 
 .white
-  color: #FAFAFA !important
+  color: #FAFAFA
 
 .center
   text-align: center
@@ -314,12 +314,7 @@ hr
   overflow-x: auto
 
 button, input, select, textarea, .label
-  user-select: none !important
-
-button, select, input, button, form, textarea, a, pre, i
-  outline: none !important
-  &:active, &:focus, &:visited
-    outline: none !important
+  user-select: none
 
 pre, pre code
   white-space: pre
@@ -336,10 +331,10 @@ th
   word-break: break-word
 
 .no-margin
-  margin: 0px !important
+  margin: 0px
 
 .no-padding
-  padding: 0px !important
+  padding: 0px
 
 .no-radius
   border-radius: 0px
@@ -991,9 +986,9 @@ input[type="radio"]
     .fake-upload
       width: 100%
     #userfile:not(.settings-open)
-      display: block !important
+      display: block
       cursor: pointer
-      visibility: visible !important
+      visibility: visible
       position: absolute
       top: 0px
       left: 0px
