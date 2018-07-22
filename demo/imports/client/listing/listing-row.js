@@ -6,8 +6,9 @@ import { FlowRouter }  from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 import './listing-row.jade';
 
+const showSettings = new ReactiveVar(false);
+
 Template.listingRow.onCreated(function() {
-  this.showSettings = new ReactiveVar(false);
   this.showPreview  = () => {
     if (this.data.isImage && /png|jpe?g/i.test(this.data.extension)) {
       if (this.data.versions.thumbnail40) {
@@ -26,7 +27,7 @@ Template.listingRow.helpers({
     return Template.instance().showPreview();
   },
   showSettings() {
-    return Template.instance().showSettings.get() === this._id;
+    return showSettings.get() === this._id;
   }
 });
 
@@ -72,16 +73,16 @@ Template.listingRow.events({
     });
     return false;
   },
-  'click [data-show-settings]'(e, template) {
+  'click [data-show-settings]'(e) {
     e.stopPropagation();
     e.preventDefault();
-    template.showSettings.set(template.showSettings.get() === this._id ? false : this._id);
+    showSettings.set(showSettings.get() === this._id ? false : this._id);
     return false;
   },
-  'click [data-close-settings]'(e, template) {
+  'click [data-close-settings]'(e) {
     e.stopPropagation();
     e.preventDefault();
-    template.showSettings.set(false);
+    showSettings.set(false);
     return false;
   }
 });

@@ -7,12 +7,13 @@ import '/imports/client/listing/listing-row.js';
 import '/imports/client/upload/upload-row.js';
 import './index.jade';
 
+const take           = new ReactiveVar(10);
+const latest         = new ReactiveVar(new Mongo.Cursor);
+const loadMore       = new ReactiveVar(false);
+const filesLength    = new ReactiveVar(0);
+
 Template.index.onCreated(function() {
   let timer           = false;
-  this.take           = new ReactiveVar(10);
-  this.latest         = new ReactiveVar(new Mongo.Cursor);
-  this.loadMore       = new ReactiveVar(false);
-  this.filesLength    = new ReactiveVar(0);
   this.getFilesLenght = () => {
     if (timer) {
       Meteor.clearTimeout(timer);
@@ -22,7 +23,7 @@ Template.index.onCreated(function() {
         if (error) {
           console.error(error);
         } else {
-          this.filesLength.set(length);
+          filesLength.set(length);
         }
         timer = false;
       });
@@ -34,7 +35,7 @@ Template.index.onCreated(function() {
       this.getFilesLenght();
     },
     removed: () => {
-      this.filesLength.set(this.filesLength.get() - 1);
+      filesLength.set(filesLength.get() - 1);
       this.getFilesLenght();
     }
   };
@@ -57,12 +58,12 @@ Template.index.onCreated(function() {
       });
     }
     cursor.observeChanges(observers);
-    this.latest.set(cursor);
+    latest.set(cursor);
   });
 
   this.autorun(() => {
-    _app.subs.subscribe('latest', this.take.get(), _app.userOnly.get(), () => {
-      this.loadMore.set(false);
+    _app.subs.subscribe('latest', take.get(), _app.userOnly.get(), () => {
+      loadMore.set(false);
     });
   });
 });
@@ -73,10 +74,10 @@ Template.index.onRendered(function() {
 
 Template.index.helpers({
   take() {
-    return Template.instance().take.get();
+    return take.get();
   },
   latest() {
-    return Template.instance().latest.get();
+    return latest.get();
   },
   uploads() {
     return _app.uploads.get();
@@ -85,16 +86,16 @@ Template.index.helpers({
     return _app.userOnly.get();
   },
   loadMore() {
-    return Template.instance().loadMore.get();
+    return loadMore.get();
   },
   filesLength() {
-    return Template.instance().filesLength.get();
+    return filesLength.get();
   }
 });
 
 Template.index.events({
-  'click [data-load-more]'(e, template) {
-    template.loadMore.set(true);
-    template.take.set(template.take.get() + 10);
+  'click [data-load-more]'() {
+    loadMore.set(true);
+    take.set(take.get() + 10);
   }
 });
