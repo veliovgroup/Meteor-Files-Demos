@@ -3,6 +3,7 @@ import { FilesCollection } from 'meteor/ostrio:files';
 
 const Images = new FilesCollection({
   debug: true,
+  disableUpload: true,
   collectionName: 'Images',
   onBeforeUpload() {
     // Disallow uploads from client
@@ -12,6 +13,7 @@ const Images = new FilesCollection({
 
 const Sounds = new FilesCollection({
   debug: true,
+  disableUpload: true,
   collectionName: 'Sounds',
   onBeforeUpload() {
     // Disallow uploads from client
