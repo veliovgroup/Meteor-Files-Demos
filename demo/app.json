@@ -1,6 +1,6 @@
 {
   "name": "Meteor-Files-Demo",
-  "version": "1.9.12",
+  "version": "1.10.0",
   "description": "Upload files with the speed of Meteor. Application build on top of ostrio:files package",
   "repository": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "website": "https://github.com/VeliovGroup/Meteor-Files-Demo",
@@ -9,14 +9,14 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
-    "aws-sdk": "^2.263.1",
-    "bcrypt": "^2.0.0",
-    "bson": "^3.0.0",
+    "@babel/runtime": "^7.0.0-beta.54",
+    "aws-sdk": "^2.279.1",
+    "bcrypt": "^3.0.0",
+    "bson": "^3.0.2",
     "bson-ext": "^2.0.0",
     "core-js": "^2.5.7",
     "dropbox": "^0.10.3",
-    "fs-extra": "^6.0.1",
+    "fs-extra": "^7.0.0",
     "gm": "^1.23.1",
     "meteor-node-stubs": "^0.4.1",
     "request": "^2.87.0"
