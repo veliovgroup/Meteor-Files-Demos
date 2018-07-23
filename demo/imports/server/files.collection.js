@@ -56,7 +56,7 @@ if (dbConf && dbConf.key && dbConf.secret && dbConf.token) {
 }
 
 Collections.files = new FilesCollection({
-  debug: true,
+  // debug: true,
   storagePath: 'assets/app/uploads/uploadedFiles',
   collectionName: 'uploadedFiles',
   allowClientCode: true,
