@@ -91,19 +91,8 @@
     <script src="/history.polyfill.js" type="text/javascript" async="false"></script>
   <![endif]-->
 
-  <script>
-    (function () {
-      var navUA = navigator.userAgent;
-      if (navUA.match('MSIE 10') || navUA.match('MSIE 9') || navUA.match('MSIE 8') || navUA.match('MSIE 7') || navUA.match('MSIE 6')) {
-        var head  = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.setAttribute('src', '/dataset.polyfill.js');
-        script.setAttribute('type', 'text/javascript');
-        script.setAttribute('async', 'false');
-        head.appendChild(script);
-      }
-    })();
-  </script>
+  <script>!function(){var t=navigator.userAgent;if(t.match("MSIE 10")||t.match("MSIE 9")||t.match("MSIE 8")||t.match("MSIE 7")||t.match("MSIE 6")){var e=document.getElementsByTagName("head")[0],a=document.createElement("script");a.setAttribute("src","/dataset.polyfill.js"),a.setAttribute("type","text/javascript"),a.setAttribute("async","false"),e.appendChild(a)}}();</script>
 
+  <meteor-bundled-css />
   <title>Meteor Files: Upload and Share</title>
 </head>

@@ -25,7 +25,7 @@ template(name="file")
       
       .file-table: article.file-row(itemprop="articleBody")
         h1.file-title.ellipsis
-          a.go-back.la.la-angle-left.la-lg(href="/")
+          a.go-back.la.la-angle-left.la-lg(href="/" title="go back")
           | &nbsp;
           span(itemprop="name") {{extless name}}
 
@@ -139,7 +139,7 @@ template(name="file")
                 a(data-blame title="Mark this upload as inappropriate" href="#" class="{{#if isBlamed}}danger{{/if}}")
                   i.la.la-flag-o
 
-        a.info-link.show-info(data-show-info href="#" class="{{#if showInfo}}active{{/if}}")
+        a.info-link.show-info(data-show-info href="#" class="{{#if showInfo}}active{{/if}}" title="File's Info")
           if showInfo
             i.la.la-times.la-lg
           else
