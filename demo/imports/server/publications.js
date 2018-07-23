@@ -97,6 +97,7 @@ Meteor.publish('file', function(_id) {
       isAudio: 1,
       isImage: 1,
       extension: 1,
+      'versions.thumbnail40.extension': 1,
       'versions.preview.extension': 1,
       _collectionName: 1,
       _downloadRoute: 1
