@@ -30,8 +30,8 @@
   },
   "homepage": "https://github.com/VeliovGroup/Meteor-Files-Demo",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.54",
-    "aws-sdk": "^2.281.1",
+    "@babel/runtime": "^7.0.0-rc.1",
+    "aws-sdk": "^2.290.0",
     "bcrypt": "^3.0.0",
     "bson": "^3.0.2",
     "bson-ext": "^2.0.0",
