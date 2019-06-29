@@ -77,11 +77,11 @@ observe-sequence@1.0.16
 ordered-dict@1.1.0
 ostrio:cookies@2.3.0
 ostrio:cstorage@3.0.0
-ostrio:files@1.11.1
+ostrio:files@1.11.2
 ostrio:flow-router-extra@3.6.3
 ostrio:flow-router-meta@2.0.16
 ostrio:flow-router-title@3.1.5
-ostrio:spiderable-middleware@1.4.0
+ostrio:spiderable-middleware@1.4.2
 ostrio:templatehelpers@2.2.1
 perak:markdown@1.0.5
 promise@0.11.2
