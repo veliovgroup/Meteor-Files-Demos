@@ -1,29 +1,35 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/VeliovGroup/Meteor-Files-Demo)
+[![Become a patron](https://c5.patreon.com/external/logo/become_a_patron_button@2x.png)](https://www.patreon.com/bePatron?u=20396046)
 
-Demo app
-======
-__Links:__
- - __[Heroku hosted Live Demo](https://files.veliov.com/)__
+# Demo app
 
-__Functionality:__
- - Upload / Download Files
- - Stream Audio / Video Files
- - Images, PDFs, Texts preview
- - Drag'n'drop support (*files only, folders is not supported yet*)
- - Image processing (*thumbnails, preview*)
- - DropBox as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
- - AWS:S3 as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
- - Login via social networks (*allows to make uploaded files unlisted and/or private*)
- - Heroku support (*including one-click-deploy*)
+## Links:
 
-Activate AWS:S3
-======
- 1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration)
- 2. After creating S3 bucket, create CloudFront Distribution and attach it to S3 bucket
- 3. Set S3 credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `S3` env.var
- 4. You can pass S3 credentials as JSON-string when using "*Heroku's one click install-button*"
+- __[Heroku hosted Live Demo](https://files.veliov.com/)__
+
+## Functionality:
+
+- Upload / Download Files
+- Stream Audio / Video Files
+- Images, PDFs, Texts preview
+- Drag'n'drop support (*files only, folders is not supported yet*)
+- Image processing (*thumbnails, preview*)
+- DropBox as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
+- AWS:S3 as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
+- Login via social networks (*allows to make uploaded files unlisted and/or private*)
+- Heroku support (*including one-click-deploy*)
+
+## Quick start:
+
+### Activate AWS:S3
+
+1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/AWS-S3-Integration)
+2. After creating S3 bucket, create CloudFront Distribution and attach it to S3 bucket
+3. Set S3 credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `S3` env.var
+4. You can pass S3 credentials as JSON-string when using "*Heroku's one click install-button*"
 
 S3 credentials format (*region is required*):
+
 ```json
 {
   "s3": {
@@ -35,13 +41,14 @@ S3 credentials format (*region is required*):
 }
 ```
 
-Activate DropBox
-======
- 1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/DropBox-Integration)
- 2. Set DropBox credentials into `METEOR_SETTINGS` env.var or pass as file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `DROPBOX` env.var
- 3. You can pass DropBox credentials as JSON-string when using "*Heroku's one click install-button*"
+### Activate DropBox
+
+1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/DropBox-Integration)
+2. Set DropBox credentials into `METEOR_SETTINGS` env.var or pass as file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `DROPBOX` env.var
+3. You can pass DropBox credentials as JSON-string when using "*Heroku's one click install-button*"
 
 DropBox credentials format:
+
 ```json
 {
   "dropbox": {
@@ -52,29 +59,30 @@ DropBox credentials format:
 }
 ```
 
-Activate login via Social Networks
-======
-All credentials is set via env.var(s), if you're using "*Heroku's one click install-button*" - you will be able to pass all of them.
- - Facebook - [Create an App](https://developers.facebook.com/apps/):
-   * secret: `ACCOUNTS_FACEBOOK_SEC`
-   * appId: `ACCOUNTS_FACEBOOK_ID`
- - Twitter - [Create an App](https://apps.twitter.com):
-   * secret: `ACCOUNTS_TWITTER_SEC`
-   * consumerKey: `ACCOUNTS_TWITTER_ID`
- - GitHub - [Create OAuth App](https://github.com/settings/developers):
-   * secret: `ACCOUNTS_GITHUB_SEC`
-   * clientId: `ACCOUNTS_GITHUB_ID`
- - Meteor Developer - [Create an App](https://www.meteor.com/account-settings):
-   * secret: `ACCOUNTS_METEOR_SEC`
-   * clientId: `ACCOUNTS_METEOR_ID`
+### Activate login via Social Networks
 
-Deploy to Heroku
-======
- - Due to "*ephemeral filesystem*" on Heroku, we suggest to use 3rd-party permanent storage, [read DropBox/S3/GridFS tutorial](https://github.com/VeliovGroup/Meteor-Files/wiki/Third-party-storage)
- - Go to [Heroku](https://signup.heroku.com/dc) create and confirm your new account
- - Go through [Node.js Tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
- - Install [Heroku Toolbet](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up)
- - Then go to Terminal into Meteor's project directory and run:
+All credentials is set via env.var(s), if you're using "*Heroku's one click install-button*" - you will be able to pass all of them.
+
+- Facebook - [Create an App](https://developers.facebook.com/apps/):
+  - secret: `ACCOUNTS_FACEBOOK_SEC`
+  - appId: `ACCOUNTS_FACEBOOK_ID`
+- Twitter - [Create an App](https://apps.twitter.com):
+  - secret: `ACCOUNTS_TWITTER_SEC`
+  - consumerKey: `ACCOUNTS_TWITTER_ID`
+- GitHub - [Create OAuth App](https://github.com/settings/developers):
+  - secret: `ACCOUNTS_GITHUB_SEC`
+  - clientId: `ACCOUNTS_GITHUB_ID`
+- Meteor Developer - [Create an App](https://www.meteor.com/account-settings):
+  - secret: `ACCOUNTS_METEOR_SEC`
+  - clientId: `ACCOUNTS_METEOR_ID`
+
+### Deploy to Heroku
+
+- Due to "*ephemeral filesystem*" on Heroku, we suggest to use 3rd-party permanent storage, [read DropBox/S3/GridFS tutorial](https://github.com/VeliovGroup/Meteor-Files/wiki/Third-party-storage)
+- Go to [Heroku](https://signup.heroku.com/dc) create and confirm your new account
+- Go through [Node.js Tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+- Install [Heroku Toolbet](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up)
+- Then go to Terminal into Meteor's project directory and run:
 
 ```shell
 # Build an app ypourself, or use pre-build version: https://github.com/VeliovGroup/Meteor-Files-Demo
@@ -95,7 +103,7 @@ touch Procfile
 echo "web: node main.js" > Procfile
 
 heroku create <your-app-name> --buildpack https://github.com/heroku/heroku-buildpack-nodejs
-# This command will output something like: 
+# This command will output something like:
 # - https://<your-app-name>.herokuapp.com/
 # - https://git.heroku.com/<your-app-name>.git
 
@@ -140,14 +148,13 @@ git add .
 git commit -m "initial"
 git push heroku master
 ```
- - Go to `https://<your-app-name>.herokuapp.com`
- - If your app has errors:
-   * Check logs: `heroku logs --tail`
-   * Try to run locally and debug: `heroku run node`
 
+- Go to `https://<your-app-name>.herokuapp.com`
+- If your app has errors:
+  - Check logs: `heroku logs --tail`
+  - Try to run locally and debug: `heroku run node`
 
-Support this project:
-======
-This project wouldn't be possible without [ostr.io](https://ostr.io).
+## Support this project:
 
-Using [ostr.io](https://ostr.io) you are not only [protecting domain names](https://ostr.io/info/domain-names-protection), [monitoring websites and servers](https://ostr.io/info/monitoring), using [Prerendering for better SEO](https://ostr.io/info/prerendering) of your JavaScript website, but support our Open Source activity, and great packages like this one could be available for free.
+- [Become a patron](https://www.patreon.com/bePatron?u=20396046) — support my open source contributions with monthly donation
+- Use [ostr.io](https://ostr.io) — [Monitoring](https://snmp-monitoring.com), [Analytics](https://ostr.io/info/web-analytics), [WebSec](https://domain-protection.info), [Web-CRON](https://web-cron.info) and [Pre-rendering](https://prerendering.com) for a website
