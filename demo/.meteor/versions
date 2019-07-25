@@ -9,7 +9,7 @@ audit-argument-checks@1.0.7
 autoupdate@1.6.0
 babel-compiler@7.3.4
 babel-runtime@1.3.0
-base64@1.0.11
+base64@1.0.12
 binary-heap@1.0.11
 blaze@2.3.3
 blaze-html-templates@1.1.2
@@ -62,7 +62,7 @@ modern-browsers@0.1.4
 modules@0.13.0
 modules-runtime@0.10.3
 momentjs:moment@2.24.0
-mongo@1.6.2
+mongo@1.6.3
 mongo-decimal@0.1.1
 mongo-dev-server@1.1.0
 mongo-id@1.0.7
@@ -75,7 +75,7 @@ oauth1@1.2.2
 oauth2@1.2.1
 observe-sequence@1.0.16
 ordered-dict@1.1.0
-ostrio:cookies@2.3.0
+ostrio:cookies@2.4.0
 ostrio:cstorage@3.0.0
 ostrio:files@1.11.2
 ostrio:flow-router-extra@3.6.3

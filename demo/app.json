@@ -9,13 +9,13 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "aws-sdk": "^2.485.0",
+    "@babel/runtime": "^7.5.5",
+    "aws-sdk": "^2.499.0",
     "bcrypt": "^3.0.6",
-    "browserslist": "^4.6.3",
+    "browserslist": "^4.6.6",
     "bson": "^4.0.2",
     "bson-ext": "^2.0.2",
-    "caniuse-lite": "^1.0.30000978",
+    "caniuse-lite": "^1.0.30000985",
     "core-js": "^3.1.4",
     "dropbox": "^0.10.3",
     "fs-extra": "^8.1.0",
