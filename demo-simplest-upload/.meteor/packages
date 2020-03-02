@@ -5,18 +5,18 @@
 # but you can also edit it by hand.
 
 meteor-base@1.4.0
-mongo@1.5.0
+mongo@1.8.0
 blaze-html-templates
 reactive-var@1.0.11
 jquery@1.11.10
 tracker@1.2.0
 
-standard-minifier-css@1.4.1
-standard-minifier-js@2.3.4
-ecmascript@0.11.1
+standard-minifier-css@1.6.0
+standard-minifier-js@2.6.0
+ecmascript@0.14.2
 
-shell-server@0.3.1
+shell-server@0.4.0
 ostrio:templatehelpers
 ostrio:files
-dynamic-import@0.4.0
-underscore
+dynamic-import@0.5.1
+underscore@1.0.10
