@@ -39,7 +39,7 @@
     "dropbox": "^0.10.3",
     "fs-extra": "^8.1.0",
     "gm": "^1.23.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "meteor-node-stubs": "^1.0.0",
     "request": "^2.88.2"
   },
