@@ -5,9 +5,9 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.4",
-    "jquery": "^3.4.1",
+    "@babel/runtime": "^7.9.6",
+    "jquery": "^3.5.0",
     "meteor-node-stubs": "^1.0.0",
-    "simpl-schema": "^1.5.7"
+    "simpl-schema": "^1.7.0"
   }
 }
