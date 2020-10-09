@@ -30,14 +30,10 @@ fourseven:scss
 momentjs:moment
 perak:markdown
 
-# Collection-related packages
-meteorhacks:subs-manager
-
 # Other packages
 ostrio:files
 ostrio:cstorage
 ostrio:templatehelpers
-staringatlights:fast-render
 ostrio:flow-router-extra
 
 # SEO
@@ -45,7 +41,6 @@ ostrio:flow-router-title
 ostrio:flow-router-meta
 ostrio:spiderable-middleware
 
-# Accounts Packages
 service-configuration@1.0.11
 accounts-base@1.6.0
 accounts-github@1.4.3
