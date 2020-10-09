@@ -1,12 +1,10 @@
-import { Meteor }            from 'meteor/meteor';
-import { moment }            from 'meteor/momentjs:moment';
-import { filesize }          from 'meteor/mrt:filesize';
-import { Template }          from 'meteor/templating';
-import { FlowRouter }        from 'meteor/ostrio:flow-router-extra';
-import { ReactiveVar }       from 'meteor/reactive-var';
-import { ClientStorage }     from 'meteor/ostrio:cstorage';
+import { moment } from 'meteor/momentjs:moment';
+import { filesize } from 'meteor/mrt:filesize';
+import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { _app, Collections } from '/imports/lib/core.js';
-import '/imports/client/user-account/accounts.js';
+
 import '/imports/client/upload/upload-form.jade';
 
 const formError    = new ReactiveVar(false);
@@ -32,7 +30,6 @@ Template.uploadForm.onCreated(function() {
       const _uploads = _app.clone(_app.uploads.get());
       if (_app.isArray(_uploads)) {
         for (let i = 0; i < _uploads.length; i++) {
-          _uploads[i].pause();
           if (_uploads[i].file.name === current.file.name) {
             _uploads.splice(i, 1);
             if (_uploads.length) {
@@ -46,31 +43,8 @@ Template.uploadForm.onCreated(function() {
       }
     };
 
-    let secured;
-    let unlisted;
-    let ttl;
     const uploads = [];
-    const transport = ClientStorage.get('uploadTransport');
     const createdAt = +new Date();
-    if (Meteor.userId()) {
-      secured = _app.secured.get();
-      if (!_app.isBoolean(secured)) {
-        secured = false;
-      }
-      if (secured) {
-        unlisted = true;
-      } else {
-        unlisted = _app.unlist.get();
-        if (!_app.isBoolean(unlisted)) {
-          unlisted = true;
-        }
-      }
-      ttl = new Date(createdAt + _app.storeTTLUser);
-    } else {
-      unlisted = false;
-      secured = false;
-      ttl = new Date(createdAt + _app.storeTTL);
-    }
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -78,20 +52,28 @@ Template.uploadForm.onCreated(function() {
         file: file,
         meta: {
           blamed: 0,
-          secured: secured,
-          expireAt: ttl,
-          unlisted: unlisted,
-          downloads: 0,
-          created_at: createdAt - 1 - i
+          expireAt: new Date(createdAt + _app.conf.fileTTL),
+          createdAt
         },
         streams: 'dynamic',
         chunkSize: 'dynamic',
-        transport: transport
+        transport: _app.conf.uploadTransport.get()
       }, false).on('end', function (error, fileObj) {
-        if (!error && files.length === 1) {
-          FlowRouter.go('file', {
-            _id: fileObj._id
-          });
+        if (!error) {
+          const recentUploads = _app.conf.recentUploads.get();
+          if (recentUploads.length >= 100) {
+            recentUploads.shift();
+          }
+
+          recentUploads.push(fileObj);
+          _app.conf.recentUploads.set(recentUploads);
+          Collections._files.insert(fileObj);
+
+          if (files.length === 1) {
+            setTimeout(() => {
+              FlowRouter.go('file', { _id: fileObj._id });
+            }, 128);
+          }
         }
         cleanUploaded(this);
       }).on('abort', function () {
@@ -99,7 +81,7 @@ Template.uploadForm.onCreated(function() {
       }).on('error', function (error) {
         console.error(error);
         formError.set((formError.get() ? formError.get() + '<br />' : '') + this.file.name + ': ' + (_app.isObject(error) ? error.reason : error));
-        Meteor.setTimeout( () => {
+        setTimeout( () => {
           formError.set(false);
         }, 15000);
         cleanUploaded(this);
@@ -177,13 +159,13 @@ Template.uploadForm.helpers({
     return _app.showProjectInfo.get();
   },
   uploadTransport() {
-    return ClientStorage.get('uploadTransport');
+    return _app.conf.uploadTransport.get();
   }
 });
 
 Template.uploadForm.events({
   'click input[type="radio"]'(e) {
-    ClientStorage.set('uploadTransport', e.currentTarget.value);
+    _app.conf.uploadTransport.set(e.currentTarget.value);
     return true;
   },
   'click [data-pause-all]'(e) {
