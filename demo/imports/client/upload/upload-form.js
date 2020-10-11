@@ -10,21 +10,29 @@ import '/imports/client/upload/upload-form.jade';
 const formError    = new ReactiveVar(false);
 const showSettings = new ReactiveVar(false);
 
-Template.uploadForm.onCreated(function() {
+Template.uploadForm.onCreated(function () {
   this.uploadQTY = 0;
 
   this.initiateUpload = (event, files) => {
     if (_app.uploads.get()) {
       return false;
     }
+
     if (!files.length) {
       formError.set('Please select a file to upload');
       return false;
     }
+
     if (files.length > 6) {
       formError.set('Please select up to 6 files');
       return false;
     }
+
+    if (this.errorTimer) {
+      clearTimeout(this.errorTimer);
+      this.errorTimer = null;
+    }
+
     this.uploadQTY = files.length;
     const cleanUploaded = (current) => {
       const _uploads = _app.clone(_app.uploads.get());
@@ -46,6 +54,10 @@ Template.uploadForm.onCreated(function() {
     const uploads = [];
     const createdAt = +new Date();
 
+    // ITEREATE OVER EACH SELECTED FILE BY USER.
+    // AND UPLOAD EACH FILE INDIVIDUALLY.
+    // INSIDE `.on('start')` EVENT WE GET {FileUpload}
+    // INSTANCE AND PUSH IT TO `uploads` {ReactiveVar} ARRAY.
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       Collections.files.insert({
@@ -80,8 +92,12 @@ Template.uploadForm.onCreated(function() {
         cleanUploaded(this);
       }).on('error', function (error) {
         console.error(error);
-        formError.set((formError.get() ? formError.get() + '<br />' : '') + this.file.name + ': ' + (_app.isObject(error) ? error.reason : error));
-        setTimeout( () => {
+        let currentError = formError.get() || '';
+        if (currentError.length) {
+          currentError += '<br/>';
+        }
+        formError.set(`${currentError}${this.file.name}: ${_app.isObject(error) ? error.reason : error}`);
+        this.errorTimer = setTimeout( () => {
           formError.set(false);
         }, 15000);
         cleanUploaded(this);
@@ -102,20 +118,23 @@ Template.uploadForm.helpers({
     return _app.uploads.get();
   },
   status() {
-    let i                = 0;
-    const uploads        = _app.uploads.get();
-    let progress         = 0;
-    const uploadQTY      = Template.instance().uploadQTY;
-    let estimateBitrate  = 0;
-    let estimateDuration = 0;
-    let onPause          = false;
+    let i = 0;
+    let progress = 0;
+    let onPause = false;
+    const uploads = _app.uploads.get();
+    const uploadQTY = Template.instance().uploadQTY;
+    let accumBitrate = 0;
+    let accumDuration = 0;
 
+
+    // ITERATE OVER UPLOADS {ReacriveVar} TO
+    // ESTIMATE TOTAL SPEED AND UPLOAD ETA
     if (uploads) {
       for (let j = 0; j < uploads.length; j++) {
         onPause = uploads[j].onPause.get();
         progress += uploads[j].progress.get();
-        estimateBitrate += uploads[j].estimateSpeed.get();
-        estimateDuration += uploads[j].estimateTime.get();
+        accumBitrate += uploads[j].estimateSpeed.get();
+        accumDuration += uploads[j].estimateTime.get();
         i++;
       }
 
@@ -123,34 +142,29 @@ Template.uploadForm.helpers({
         progress += 100 * (uploadQTY - i);
       }
 
-      progress         = Math.ceil(progress / uploadQTY);
-      estimateBitrate  = filesize(Math.ceil(estimateBitrate / i), { bits: true }) + '/s';
-      estimateDuration = (() => {
-        const duration = moment.duration(Math.ceil(estimateDuration / i));
-        let hours = '' + (duration.hours());
+      progress = Math.ceil(progress / uploadQTY);
+      accumBitrate = filesize(Math.ceil(accumBitrate / i), { bits: true }) + '/s';
+      accumDuration = (() => {
+        const duration = moment.duration(Math.ceil(accumDuration / i));
+        let hours = `${duration.hours()}`;
         if (hours.length <= 1) {
-          hours = '0' + hours;
+          hours = `0${hours}`;
         }
 
-        let minutes = '' + (duration.minutes());
+        let minutes = `${duration.minutes()}`;
         if (minutes.length <= 1) {
-          minutes = '0' + minutes;
+          minutes = `0${minutes}`;
         }
 
-        let seconds = '' + (duration.seconds());
+        let seconds = `${duration.seconds()}`;
         if (seconds.length <= 1) {
-          seconds = '0' + seconds;
+          seconds = `0${seconds}`;
         }
-        return hours + ':' + minutes + ':' + seconds;
+        return `${hours}:${minutes}:${seconds}`;
       })();
     }
 
-    return {
-      progress: progress,
-      estimateBitrate: estimateBitrate,
-      estimateDuration: estimateDuration,
-      onPause: onPause
-    };
+    return { progress, accumBitrate, accumDuration, onPause };
   },
   showSettings() {
     return showSettings.get();
