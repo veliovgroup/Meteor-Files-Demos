@@ -1,10 +1,9 @@
-// import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-// import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Random } from 'meteor/random';
 import { _app } from '/imports/lib/core.js';
 
 import '/imports/client/upload/upload-form.js';
+import '/imports/client/misc/about.jade';
 import './layout.jade';
 
 const copySuccess = (elementId, template) => {

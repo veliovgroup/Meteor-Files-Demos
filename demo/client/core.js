@@ -16,7 +16,6 @@ import '/imports/client/files.collection.js';
 import '/imports/client/_404/_404.jade';
 import '/imports/client/layout/layout.js';
 import '/imports/client/loading/loading.jade';
-import '/imports/client/misc/project-info.jade';
 import '/imports/client/router/router.js';
 import '/imports/client/router/routes.js';
 

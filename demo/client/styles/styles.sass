@@ -72,8 +72,9 @@ $background-color: #2B3850
   to
     top: -100%
 
-div, p
-  animation: new-element 350ms ease-in-out 1
+.col-50
+  & > div, & > p
+    animation: new-element 350ms ease-in-out 1
 
 html, body
   padding: 0
@@ -241,11 +242,13 @@ progress::-moz-progress-value
         max-height: 50vh
         height: 50vh
 
+.bg-dark
+  background-color: $bg-alt
+
 .upload-form
   display: flex
   align-items: center
   justify-content: center
-  background-color: $bg-alt
   position: relative
   text-align: center
   user-select: none
@@ -455,6 +458,18 @@ progress::-moz-progress-value
 
 .close-link:hover
   color: $red
+
+.about
+  position: relative
+  p
+    max-width: 80%
+    margin-left: auto
+    margin-right: auto
+    text-align: center
+    a
+      text-decoration: underline
+      &:hover
+        text-decoration: none
 
 p.annotation
   margin-bottom: 0px
