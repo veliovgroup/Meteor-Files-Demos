@@ -14,6 +14,9 @@ Template.file.helpers({
   },
   isBlamed() {
     return _app.conf.blamed.get().includes(this._id);
+  },
+  canPreview() {
+    return this.isPDF || this.isAudio || this.isVideo || this.isImage || false;
   }
 });
 

@@ -35,10 +35,11 @@ template(name="file")
               i.la.la-check.la-lg
               br
               | copy link
-            td: a(title="Open file in a new window" href="#{link}?play=true" target="_blank")
-              i.la.la-external-link.la-lg
-              br
-              | open
+            if canPreview
+              td: a(title="Open file in a new window" href="#{link}?play=true" target="_blank")
+                i.la.la-external-link.la-lg
+                br
+                | open
             td: a(data-show-info href="#" title="File's Info")
               i.la.la-info-circle.la-lg
               br
