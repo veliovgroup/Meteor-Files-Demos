@@ -9,7 +9,7 @@ import { FlowRouterMeta, FlowRouterTitle } from 'meteor/ostrio:flow-router-meta'
 // };
 
 FlowRouter.globals.push({
-  title: 'Meteor Files: Upload and Share'
+  title: 'Upload and share files with speed of meteor'
 });
 
 FlowRouter.globals.push({
@@ -17,7 +17,7 @@ FlowRouter.globals.push({
     keywords: {
       name: 'keywords',
       itemprop: 'keywords',
-      content: 'file, files, upload, store, storage, share, share files, meteor, open source, javascript'
+      content: 'file, files, fast, quick, upload, store, storage, share, share files'
     },
     'og:url': {
       name: 'url',
@@ -37,9 +37,9 @@ FlowRouter.globals.push({
       name: 'description',
       itemprop: 'description',
       property: 'og:description',
-      content: 'Upload, Store and Share files with speed of Meteor'
+      content: 'Upload, store and share files for free without registration'
     },
-    'twitter:description': 'Upload, Store and Share files with speed of Meteor',
+    'twitter:description': 'Upload, store and share files for free without registration',
     'twitter:title'() {
       return document.title;
     },

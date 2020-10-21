@@ -3,46 +3,11 @@ import { Meteor }            from 'meteor/meteor';
 import { _app, Collections } from '/imports/lib/core.js';
 
 Meteor.methods({
-  filesLenght(userOnly = false) {
-    check(userOnly, Boolean);
-
-    let selector;
-    if (userOnly && this.userId) {
-      selector = {
-        userId: this.userId
-      };
-    } else if (this.userId) {
-      selector = {
-        $or: [
-          {
-            'meta.unlisted': false,
-            'meta.secured': false,
-            'meta.blamed': {
-              $lt: 3
-            }
-          }, {
-            userId: this.userId,
-            'meta.blamed': {
-              $lt: 3
-            }
-          }
-        ]
-      };
-    } else {
-      selector = {
-        'meta.unlisted': false,
-        'meta.secured': false,
-        'meta.blamed': {
-          $lt: 3
-        }
-      };
-    }
-    return Collections.files.find(selector).count();
-  },
-  unblame(_id) {
+  'file.unblame'(_id) {
     check(_id, String);
+
     Collections.files.update({
-      _id: _id
+      _id
     }, {
       $inc: {
         'meta.blamed': -1
@@ -50,10 +15,26 @@ Meteor.methods({
     }, _app.NOOP);
     return true;
   },
-  blame(_id) {
+  'file.blame'(_id) {
     check(_id, String);
+
+    const file = Collections.files.findOne({ _id }, {
+      fields: {
+        'meta.blamed': 1
+      }
+    });
+
+    if (!file) {
+      return false;
+    }
+
+    if (file.meta.blamed >= 5) {
+      Collections.files.remove({ _id });
+      return true;
+    }
+
     Collections.files.update({
-      _id: _id
+      _id
     }, {
       $inc: {
         'meta.blamed': 1
@@ -61,46 +42,32 @@ Meteor.methods({
     }, _app.NOOP);
     return true;
   },
-  changeAccess(_id) {
+  'file.get'(_id) {
     check(_id, String);
-    if (Meteor.userId()) {
-      const file = Collections.files.findOne({
-        _id: _id,
-        userId: Meteor.userId()
-      });
 
-      if (file) {
-        Collections.files.update(_id, {
-          $set: {
-            'meta.unlisted': file.meta.unlisted ? false : true
-          }
-        }, _app.NOOP);
-        return true;
+    const cursor = Collections.files.findOne({ _id }, {
+      fields: {
+        _id: 1,
+        name: 1,
+        size: 1,
+        type: 1,
+        meta: 1,
+        isPDF: 1,
+        isText: 1,
+        isJSON: 1,
+        isVideo: 1,
+        isAudio: 1,
+        isImage: 1,
+        extension: 1,
+        _collectionName: 1,
+        _downloadRoute: 1
       }
-    }
-    throw new Meteor.Error(401, 'Access denied!');
-  },
-  changePrivacy(_id) {
-    check(_id, String);
-    if (Meteor.userId()) {
-      const file = Collections.files.findOne({
-        _id: _id,
-        userId: Meteor.userId()
-      });
+    });
 
-      if (file) {
-        Collections.files.update(_id, {
-          $set: {
-            'meta.unlisted': true,
-            'meta.secured': file.meta.secured ? false : true
-          }
-        }, _app.NOOP);
-        return true;
-      }
+    if (cursor) {
+      return cursor.get();
     }
-    throw new Meteor.Error(401, 'Access denied!');
-  },
-  getServiceConfiguration() {
-    return _app.sc;
+
+    return void 0;
   }
 });

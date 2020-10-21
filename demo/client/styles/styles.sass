@@ -19,9 +19,16 @@
   src: url('/fonts/lato-v14-latin_latin-ext-700.eot')
   src: local("Lato Bold"), local("Lato-Bold"), url('/fonts/lato-v14-latin_latin-ext-700.eot?#iefix') format("embedded-opentype"), url('/fonts/lato-v14-latin_latin-ext-700.woff2') format("woff2"), url('/fonts/lato-v14-latin_latin-ext-700.woff') format("woff"), url('/fonts/lato-v14-latin_latin-ext-700.ttf') format("truetype"), url('/fonts/lato-v14-latin_latin-ext-700.svg#Lato') format("svg")
 
-$link-color: #FAFAFA
-$link-active: #4295A9
+$link-color: lighten(#97A2D0, 12.5%)
+$link-active: #FFFFFF
 $text-color: lighten(#97A2D0, 10%)
+$green: #228B22
+$red: #FF4500
+$muted: #606C80
+$bg: mix(#080C15, #1C222E)
+$bg-dark: #0F141D
+$bg-alt: #111620
+
 $transition-128ms: color 128ms ease-in-out
 $break-point: 768px
 $half-view: 384px
@@ -153,7 +160,7 @@ input[type="radio"]
   &:hover
     border-color: $link-active
   &:checked, &:checked:hover
-    border-color: $link-color
+    border-color: $text-color
   &:checked:after, &:checked:hover:after
     content: ''
     top: 4px
@@ -162,8 +169,7 @@ input[type="radio"]
     height: 8px
     width: 8px
     border-radius: 8px
-    background-color: $link-active
-    border-color: $text-color
+    background-color: $bg
   &:hover, &:active, &:active:hover
     outline: none
 
@@ -201,7 +207,7 @@ progress::-moz-progress-value
 
 .surface
   box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
-  background-color: mix(#080C15, #1C222E)
+  background-color: lighten($bg, 3%)
   max-width: $break-point
 
 .main-container
@@ -211,11 +217,13 @@ progress::-moz-progress-value
   flex-direction: column
 
   .row
+    width: 100%
     display: flex
     align-items: center
     justify-content: center
     flex-direction: row
-    width: 100%
+    @media(max-width: $break-point)
+      flex-direction: column
 
     .col-50
       flex: 0.5 1 0
@@ -226,14 +234,18 @@ progress::-moz-progress-value
       display: flex
       justify-content: center
       flex-direction: column
-      & > *
-        flex: 0
+      @media(max-width: $break-point)
+        max-width: 100%
+        width: 100%
+        min-height: 50vh
+        max-height: 50vh
+        height: 50vh
 
 .upload-form
   display: flex
   align-items: center
   justify-content: center
-  background-color: #111620
+  background-color: $bg-alt
   position: relative
   text-align: center
   user-select: none
@@ -268,7 +280,7 @@ progress::-moz-progress-value
   &.file-over
     cursor: copy
     background:
-      color: mix(#080C15, #1C222E)
+      color: $bg
       image: url(/dnd.png)
       repeat: no-repeat
       position: 50% 50%
@@ -308,6 +320,147 @@ progress::-moz-progress-value
     left: 8px
     right: initial
 
+.main-container .row .col-50.file
+  justify-content: space-between
+  & > *
+    width: 100%
+    max-width: 100%
+  .file-title
+    margin: 0px
+    background-color: $bg-dark
+    padding: 0px
+    .go-back
+      margin: 0px
+      padding: 13px 10px
+      height: 100%
+      text-decoration: none
+      font-size: 1.2rem
+      line-height: 3.2rem
+      color: #C9C9CA
+      &:hover
+        color: #FFFFFF
+        background-color: #0D0F14
+  .file-body
+    position: relative
+    text-align: center
+    -webkit-overflow-scrolling: touch
+  .file-logo
+    font-size: 2.75rem
+    line-height: 3rem
+  .file-actions
+    margin: 2rem auto 1rem auto
+    table-layout: fixed
+    td
+      padding: 0px 12px
+      .la
+        font-size: 1.78rem
+        line-height: 2rem
+  .file-details
+    table
+      width: 100%
+    td, th
+      line-height: 1.4rem
+      word-break: break-all
+      padding: 5px 10px
+      vertical-align: middle
+    td
+      text-align: left
+    th
+      text-align: right
+      font-weight: 700
+  .scroll-wrap
+    min-height: 407px
+    max-height: 407px
+    height: 407px
+
+.item-row
+  display: flex
+  justify-content: center
+  flex-direction: row
+  justify-content: space-between
+  width: 100%
+  border-bottom: 2px solid $bg
+  cursor: pointer
+  & > *
+    padding: 12px 7px
+    display: flex
+    justify-content: center
+    flex-direction: column
+  .item-icon, .file-settings
+    flex: 0.05 1 0
+    justify-content: normal
+  .item-details
+    flex: 0.85 1 0
+  .file-name
+    color: #AEBAD2
+    word-break: break-all
+    margin-bottom: 0.25rem
+    font-weight: 700
+  .file-info
+    color: $muted
+    font-size: 0.777rem
+    font-weight: 600
+  .file-settings
+    font-size: 1.4rem
+    padding: 23px 12px
+    &:hover
+      background-color: lighten($bg-dark, 3%)
+  &.upload
+    .item-icon
+      flex: 0.01 1 0
+    .item-details
+      flex: 0.99 1 0
+  &:not(.upload):hover
+    background-color: $bg-dark
+
+.top-link
+  display: inline-block
+  padding: 4px
+  width: 60px
+  height: 60px
+  border-radius: 60px
+  background-color: lighten($bg, 1.5%)
+  &:hover
+    background-color: lighten($bg, 1.95%)
+
+.preview-circle
+  margin: 0px auto
+  height: 40px
+  width: 40px
+  text-align: center
+  overflow: hidden
+  border-radius: 40px
+  border: 2px solid #9CA8BE
+  background-color: $bg
+  position: relative
+  i
+    font-size: 20px
+    line-height: 0px
+    margin-top: 18px
+    padding-left: 3px
+  img
+    width: 36px
+    height: 36px
+    border-radius: 40px
+
+.copy-link
+  .la-check
+    display: none
+  &.copy-success
+    .la-copy
+      display: none
+    .la-check
+      display: inline
+      color: $green
+
+.close-link:hover
+  color: $red
+
+p.annotation
+  margin-bottom: 0px
+  margin-top: 1rem
+  font-size: 0.888rem
+
 .footer
   display: block
   position: absolute
@@ -325,823 +478,36 @@ progress::-moz-progress-value
   @media(max-width: $break-point)
     display: none
 
-// .footer-links
-//   display: block
-//   position: absolute
-//   width: 100%
-//   padding-bottom: 15px
-//   bottom: 0px
-//   left: 0px
-//   text-align: center
-//   a
-//     opacity: 1
-//     transition: filter 256ms linear
-//     &:hover
-//       filter: invert(100%) brightness(2)
-//   img
-//     padding: 0px 15px
-
-// ::selection
-//   background-color: rgba(37,50,107,0.333)
-//   color: #FAFAFA
-// ::-moz-selection
-//   background-color: rgba(37,50,107,0.333)
-//   color: #FAFAFA
-
-// a, picture, img, video, button, input, pre, i, select, option, label, tr, td, p, form, textarea
-//   user-select: none
-//   outline: none !important
-//   -webkit-tap-highlight-color: transparent
-//   -moz-tap-highlight-color: transparent
-//   -ms-tap-highlight-color: transparent
-//   tap-highlight-color: transparent
-//   &:hover, &:focus, &:active
-//     outline: none !important
-//     -webkit-tap-highlight-color: transparent
-//     -moz-tap-highlight-color: transparent
-//     -ms-tap-highlight-color: transparent
-//     tap-highlight-color: transparent
-
-// a, a:active
-//   transition: $transition-128ms
-//   color: lighten($link-color, 10)
-//   text-decoration: none
-// a
-//   &:hover, &.active
-//     text-decoration: none
-//     color: $link-active
-
-// strong, b
-//   font-weight: 700
-
-// p
-//   margin: 1rem 0rem
-//   line-height: 1.5rem
-
-// hr
-//   height: 2px
-//   border: 0
-//   background-color: rgba(255,255,255,0.05)
-
-// .danger
-//   color: #A94442
-
-// .invisible
-//   display: none !important
-//   visibility: hidden
-
-// .width-1
-//   width: 1%
-
-// .white
-//   color: #FAFAFA
-
-// .center
-//   text-align: center
-//   margin-right: auto
-//   margin-left: auto
-
-// // .container
-// //   display: table
-// //   margin: 0px auto
-// //   max-width: 768px
-// //   width: 100%
-// //   position: relative
-
-// // .container-main
-// //   box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
-// //   background-color: mix(#080C15, #1C222E)
-
-// .preview-circle
-//   margin: 0px auto
-//   height: 40px
-//   width: 40px
-//   text-align: center
-//   overflow: hidden
-//   border-radius: 40px
-//   border: 2px solid #9CA8BE
-//   background-color: mix(#080C15, #1C222E)
-//   position: relative
-//   i
-//     font-size: 20px
-//     line-height: 0px
-//     margin-top: 18px
-//     padding-left: 3px
-//   img
-//     width: 36px
-//     height: 36px
-//     border-radius: 40px
-
-// .main-container
-//   min-height: 100%
-//   width: 100%
-//   display: flex
-//   align-items: center
-//   justify-content: center
-//   flex-direction: column
-
-//   .row
-//     box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
-//     background-color: mix(#080C15, #1C222E)
-//     display: flex
-//     align-items: center
-//     justify-content: center
-//     flex-direction: row
-//     width: 100%
-//     max-width: 768px
-
-//     .col-50
-//       flex: 0.5 1 0
-//       min-height: 455px
-//       max-height: 455px
-//       height: 455px
-//       max-width: 384px
-//       display: flex
-//       justify-content: center
-//       flex-direction: column
-//       & > *
-//         flex: 0
-
-// .ellipsis
-//   white-space: nowrap
-//   overflow: hidden
-//   max-width: 100%
-//   text-overflow: ellipsis
-//   -o-text-overflow: ellipsis
-
-// .scroll
-//   -webkit-overflow-scrolling: touch
-//   transform: translate3d(0,0,0)
-//   &::-webkit-scrollbar
-//     display: none
-// .scroll-x
-//   overflow-y: hidden
-//   overflow-x: auto
-
-// button, input, select, textarea, .label
-//   user-select: none
-
-// pre, pre code
-//   white-space: pre
-// pre
-//   overflow: auto
-//   transform: translate3d(0,0,0)
-//   -webkit-overflow-scrolling: touch
-//   &::-webkit-scrollbar
-//     display: none
-
-// th
-//   text-align: center
-//   vertical-align: middle
-//   word-break: break-word
-
-// .no-margin
-//   margin: 0px
-
-// .no-padding
-//   padding: 0px
-
-// .no-radius
-//   border-radius: 0px
-
-// .file-preview
-//   display: block
-//   margin: 0 auto
-//   max-width: 100%
-//   &.file-audio
-//     margin: 25px 0px
-
-// iframe.file-preview
-//   margin: 0
-//   border: 0
-//   background: none
-//   padding: 0
-//   font: inherit
-//   vertical-align: baseline
-//   height: 100%
-//   width: 100%
-
-// .file-overlay
-//   position: absolute
-//   background-color: rgba(0,0,0,0.777)
-//   -webkit-backdrop-filter: blur(3px)
-//   -moz-backdrop-filter: blur(3px)
-//   -ms-backdrop-filter: blur(3px)
-//   backdrop-filter: blur(3px)
-//   top: 0px
-//   left: 0px
-//   z-index: 200
-//   width: 100%
-//   height: 100%
-//   vertical-align: middle
-//   text-align: center
-//   overflow: hidden
-//   table
-//     height: 100%
-//     width: 100%
-//     td
-//       vertical-align: middle
-//       text-align: center
-//   table.fixed-table
-//     height: auto
-//     td, th
-//       line-height: 1.4rem
-//       word-break: break-all
-//       padding: 5px 10px
-//       vertical-align: middle
-//     td
-//       text-align: left
-//     th
-//       text-align: right
-//       font-weight: 700
-
-// .full-height
-//   height: 100%
-//   min-height: 100%
-
-// .gh-ribbon
-//   position: absolute
-//   top: 0px
-//   right: 0px
-//   border: none
-//   z-index: 300
-//   &:hover
-//     .octo-arm
-//       animation: octocat-wave 560ms ease-in-out
-//   svg
-//     height: 130px
-//     width: 130px
-//     fill: #121722
-//     color: #151513
-//     border: 0
-//     .octo-arm
-//       transform-origin: 130px 106px
-//     .octo-arm, .octo-body
-//       fill: #2B3850
-
-// .radio input[type="radio"], .radio-inline input[type="radio"]
-//   position: absolute
-//   margin-top: 4px \9
-//   margin-left: -20px
-
-// .radio + .radio
-//   margin-top: -5px
-
-// .radio-inline
-//   display: inline-block
-//   position: relative
-//   padding-left: 30px
-//   margin-bottom: 0
-//   font-weight: normal
-//   vertical-align: middle
-//   cursor: pointer
-
-// .radio-inline + .radio-inline
-//   margin-top: 0
-//   margin-left: 10px
-
-// fieldset[disabled] input
-//   &[type="radio"]
-//     cursor: not-allowed
-
-// .radio-inline.disabled
-//   cursor: not-allowed
-
-// fieldset[disabled]
-//   .radio-inline
-//     cursor: not-allowed
-
-// h1, h2, h3, h4
-//   font-weight: 300
-
-// h1
-//   font-size: 1.7rem
-//   line-height: 2.2rem
-
-// h2
-//   margin: 1rem 0rem
-//   font-size: 1.5rem
-//   line-height: 2rem
-
-// h3
-//   margin: 0.8rem 0rem
-//   font-size: 1.3rem
-//   line-height: 1.8rem
-
-// h4
-//   margin: 0.6rem 0rem
-//   font-size: 1.1rem
-//   line-height: 1.6rem
-
-// h1, h2, h3, h4, h5, h6, div, form, table, p
-//   box-sizing: border-box
-
-// .info-link
-//   color: $link-color
-//   font-size: 1.4rem
-//   position: absolute
-//   animation: new-element 350ms ease-in-out 1
-//   bottom: 6px
-//   right: 8px
-//   padding: 7px
-//   z-index: 201
-//   &:hover, &.active
-//     color: $link-active
-//   &.right
-//     left: 8px
-//     right: initial
-
-// .share-options
-//   font-size: 1.5rem
-
-// .block-info
-//   color: $text-color
-//   text-align: center
-//   padding: 20px
-//   .annotation:first-child, .project-info:first-child
-//     margin-top: 0px
-//   .annotation:last-child, .project-info:last-child
-//     margin-bottom: 0px
-
-// .annotation
-//   margin: 2rem 0rem
-//   color: $text-color
-//   font-size: 0.98rem
-//   line-height: 1.6rem
-//   font-weight: 400
-
-// .listing, .file, ._loading, ._404
-//   background-color: #222936;
-
-// .upload-form
-//   .dnd-notice
-//     display: none
-//   .percentage
-//     font-size: 3.6rem
-//     margin-bottom: 2.2rem
-//     margin-top: 0px
-//     line-height: 3.4rem
-//   background-color: #111620;
-//   position: relative
-//   user-select: none
-//   .cloud-container
-//     display: inline-block
-//     position: relative
-//     height: 60px
-//     i.la.la-cloud
-//       position: relative
-//       top: -12px
-//       font-size: 84px
-//     .arrow-container
-//       display: inline-block
-//       position: absolute
-//       top: 7px
-//       left: 0px
-//       overflow: hidden
-//       height: 45px
-//       width: 84px
-//       i.la.la-arrow-up
-//         position: absolute
-//         top: 10px
-//         left: 20px
-//         font-size: 44px
-//   h2
-//     font-size: 1.8rem
-//     line-height: 2rem
-//   color: $link-color
-//   font-weight: 700
-//   text-align: center
-//   vertical-align: middle
-//   .radio-inline
-//     user-select: none
-//     input[type="radio"]
-//       margin-left: -25px
-//       margin-top: 2px
-//   &.file-over
-//     cursor: copy
-//     position: relative
-//     background:
-//       color: mix(#080C15, #1C222E)
-//       image: url(/dnd.png)
-//       repeat: no-repeat
-//       position: 50% 50%
-//       size: 80px 80px
-//     & *:not(.dnd-notice)
-//       display: none
-//     .dnd-notice
-//       display: inline-block
-//       position: absolute
-//       width: 100%
-//       bottom: 15px
-//       left: 0px
-//     .dnd-notice > a
-//       display: inline
-//   .fake-upload
-//     margin: 0px auto
-//     cursor: pointer
-//     transition: color 256ms ease-in-out
-//     width: 85%
-//     color: $link-color
-//     .icon-container
-//       margin: 0 auto;
-//       position: relative;
-//       width: 150px;
-//     &:hover
-//       color: $link-active
-//       .la-arrow-up
-//         animation: upload-animation 1000ms linear infinite
-
-// .show-settings
-//   display: inline-block
-//   transition: color 256ms ease-in-out, transform 256ms ease-in-out
-//   &:hover, &.active
-//     transform: rotate(150deg)
-
-// .listing, .file, ._loading
-//   width: 100%
-//   max-width: 100%
-//   max-height: 455px
-//   min-height: 455px
-//   color: #AEBAD2
-//   overflow-x: hidden
-//   overflow-y: auto
-//   -webkit-overflow-scrolling: touch
-//   &::-webkit-scrollbar
-//     display: none
-
-// .listing
-//   display: flex
-//   flex-direction: column
-//   .item-row
-//     width: 100%
-//     max-width: 100%
-//     flex: 1 1 0
-//     display: flex
-//     flex-direction: row
-//     & > *
-//       flex: 0.1 1 0
-//       padding: 12px 10px
-//     .item-details
-//       flex: 0.7 1 0
-
-// .files-note
-//   text-align: center
-//   padding: 0 20px
-// h3.files-note
-//   // white-space: nowrap
-//   text-overflow: ellipsis
-//   overflow: hidden
-//   // max-width: 100%
-// .files-notes
-//   margin: 2rem auto 0px auto
-//   table-layout: fixed
-//   td
-//     padding: 0px 7px
-//     .la
-//       font-size: 1.78rem
-//       line-height: 2rem
-
-// ._loading
-//   vertical-align: middle
-//   text-align: center
-
-// .markdown-body
-//   height: 100%
-//   width: 100%
-//   max-width: 384px
-//   max-height: 100%
-//   min-height: 455px
-
-// .file
-//   display: block
-//   .file-logo
-//     font-size: 2.75rem
-//     line-height: 3rem
-//   .file-table
-//     display: table
-//     width: 100%
-//     min-height: 455px
-//     height: 100%
-//     .file-row
-//       display: table-row
-//       width: 100%
-//       height: 100%
-//       .file-cell
-//         display: table-cell
-//         width: 100%
-//         height: 100%
-//         vertical-align: middle
-//         text-align: center
-//   .file-preview
-//     margin: 0 auto
-//   picture.file-preview
-//     display: table-cell
-//     height: 100%
-//     width: 100%
-//     text-align: center
-//     vertical-align: middle
-//   img
-//     pointer-events: none
-//   .file-title
-//     margin: 0px
-//     position: absolute
-//     top: 0px
-//     left: 0px
-//     background-color: rgba(0,0,0,0.555)
-//     -webkit-backdrop-filter: blur(2px)
-//     -moz-backdrop-filter: blur(2px)
-//     -ms-backdrop-filter: blur(2px)
-//     backdrop-filter: blur(2px)
-//     padding: 0px
-//     z-index: 100
-//     width: 100%
-//     max-width: 100%
-//     .go-back
-//       display: inline-block
-//       margin: 0px
-//       padding: 0px 10px
-//       height: 100%
-//       text-decoration: none
-//       font-size: 1.2rem
-//       line-height: 3.2rem
-//       // position: relative
-//       // left: 0px
-//       // top: 0px
-//       font-weight: 700
-//       color: #C9C9CA
-//       &:hover
-//         color: #FFFFFF
-//         background-color: #0D0F14
-//   .info-link
-//     background-color: rgba(0,0,0,0.5)
-//     overflow: hidden
-//     transition: color 256ms ease-in-out, background-color 256ms ease-in-out
-//     padding: 12px
-//     background-color: rgba(0,0,0,0.555)
-//     -webkit-backdrop-filter: blur(3px)
-//     -moz-backdrop-filter: blur(3px)
-//     -ms-backdrop-filter: blur(3px)
-//     backdrop-filter: blur(3px)
-//     &:not(.right)
-//       right: 0px
-//     bottom: 0px
-//     &.right
-//       left: 0px
-//     &:hover
-//       background-color: rgba(0,0,0,0.9)
-
-// .file-settings
-//   text-align: center
-//   vertical-align: middle
-//   font-size: 1.6rem
-//   min-width: 32px;
-//   width: 32px;
-//   a
-//     i
-//       transition: $transition-128ms
-//       color: $link-color
-//     &:hover
-//       i
-//         color: $link-active
-
-// .fixed-table .file-settings
-//   a
-//     display: inline-block
-//     width: 100%
-//     height: 100%
-//     min-width: 100%
-//     min-height: 100%
-
-// .file-name
-//   color: #AEBAD2
-//   word-break: break-all
-
-// .file-info  
-//   color: #606C80
-//   font-size: 0.9rem
-
-// .file-name, .file-info
-//   display: inline
-//   margin: 0px
-//   padding: 0px
-
-// .file-info-container
-//   max-width: 70%
-
-// button
-//   cursor: pointer
-
-// .table
-//   border-collapse: collapse
-//   border-spacing: 0
-//   border: 0
-//   & > tbody > tr > 
-//     & td
-//       padding: 12px 10px
-//       vertical-align: middle
-//     & td.ellipsis
-//       white-space: nowrap
-//       overflow: hidden
-//       text-overflow: ellipsis
-//     & td
-//       border-bottom: 1px solid #1A2333
-//   & > tbody > tr
-//     border-bottom: 1px solid #1A2333
-//     &:hover
-//       cursor: pointer
-//       background-color: rgba(0,0,0,0.1)
-
-// .fixed-table
-//   width: 100%
-//   table-layout: fixed
-//   border-collapse: collapse
-//   border-spacing: 0
-//   border: 0
-//   td
-//     white-space: nowrap
-//     overflow: hidden
-//     text-overflow: ellipsis
-//     -o-text-overflow: ellipsis
-
-// input.info-img
-//   margin: 0px 5px
-//   height: 32px
-//   width: auto
-
-// ._404
-//   text-align: center
-//   padding: 15px
-
-// progress
-//   display: block
-//   margin: 0px auto
-//   width: 90%
-//   height: 2px
-//   border: none
-//   color: #FEFEFE
-//   background-color: #000
-//   border-radius: 0px
-//   -webkit-appearance: none
-//   -moz-appearance: none
-//   -ms-appearance: none
-//   appearance: none
-
-// progress::-webkit-progress-bar
-//   background: #000
-//   color: #000
-//   border-radius: 0px
-
-// progress::-webkit-progress-value
-//   background: #FEFEFE
-//   color: #FEFEFE
-
-// progress::-moz-progress-bar
-//   background: #AAA
-//   color: #AAA
-//   border-radius: 0px
-
-// progress::-moz-progress-value
-//   background: red
-//   color: #FEFEFE
-
-// pre, code, kbd, samp
-//   font-family: Menlo, Monaco, Consolas, "Courier New", monospace
-//   box-sizing: border-box
-
-// input[type="radio"]
-//   display: inline-block
-//   cursor: pointer
-//   position: relative
-//   vertical-align: middle
-//   box-sizing: border-box
-//   -webkit-appearance: none
-//   appearance: none
-//   background: #F0F0F0
-//   border: 1px solid $text-color
-//   border-radius: 30px
-//   height: 18px
-//   width: 18px
-//   transition: 128ms
-//   &:hover:not(:checked)
-//     border-color: $link-active
-//   &:checked
-//     border-color: $link-color
-//   &:hover:checked
-//     border-color: $link-active
-//   &:checked:after
-//     content: ''
-//     top: 4px
-//     left: 4px
-//     position: absolute
-//     height: 8px
-//     width: 8px
-//     border-radius: 8px
-//     background-color: $link-color
-
-// @media(max-height: 580px)
-//   .footer-links
-//     display: none
-
-// @media(max-height: 455px)
-//   p.project-info
-//     margin: 0.9rem 0rem
-//   .gh-ribbon
-//     left: -2px
-//     top: -2px
-//     right: initial
-//     transform: rotate(-90deg)
-//     svg
-//       fill: #2B3850
-//       height: 90px
-//       width: 90px
-//       .octo-arm, .octo-body
-//         fill: #121722
-//   .upload-form
-//     .fake-upload
-//       width: 100%
-//   .col-50, .listing, .file, ._loading, .file .file-table, .no-file, ._404
-//     min-height: 100vh
-//     max-height: 100vh
-//     height: 100vh
-//   html, body
-//     font-size: 13px
-
-// @media(max-width: 1024px)
-//   .gh-ribbon
-//     left: -2px
-//     top: -2px
-//     right: initial
-//     transform: rotate(-90deg)
-//     svg
-//       height: 85px
-//       width: 85px
-
-// @media(max-width: 768px)
-//   .col-50
-//     max-width: 50vw
-
-// @media(max-width: 480px)
-//   .footer-links
-//     display: none
-//   p.project-info
-//     margin: 0.9rem 0rem
-//   .info-link
-//     font-size: 2rem
-//   .col-50
-//     display: table-row
-//     position: initial
-//     max-height: 50%
-//     max-height: 50vh
-//     height: 50%
-//     height: 50vh
-//   .col-50.upload-form
-//     max-height: 40%
-//     max-height: 40vh
-//     height: 40%
-//     height: 40vh
-//     // .sm-row
-//     //   margin: initial
-//     //   width: 100%
-//     .fake-upload
-//       width: 100%
-//     #userfile:not(.settings-open)
-//       display: block
-//       cursor: pointer
-//       visibility: visible
-//       position: absolute
-//       top: 0px
-//       left: 0px
-//       z-index: 100
-//       height: 100%
-//       width: 100%
-//       opacity: 0
-//   .file, .listing, .file-table, ._loading, .no-file, ._404
-//     max-width: 100%
-//     max-width: 100vw
-//     min-width: 100vw
-//     width: 100%
-//     width: 100vw
-//     max-height: 60%
-//     max-height: 60vh
-//     min-height: initial !important
-//     height: 60%
-//     height: 60vh
-//   .markdown-body
-//     max-width: 100%
-//     max-width: 100vw
-//     min-width: 100vw
-//     width: 100%
-//     width: 100vw
-//   .gh-ribbon
-//     left: -2px
-//     top: -2px
-//     right: initial
-//     transform: rotate(-90deg)
-//     svg
-//       fill: #2B3850
-//       height: 85px
-//       width: 85px
-//       .octo-arm, .octo-body
-//         fill: #121722
-//   html, body
-//     font-size: 12px
+.danger
+  color: $red
+
+.gh-ribbon
+  position: absolute
+  top: 0px
+  right: 0px
+  border: none
+  z-index: 300
+  &:hover
+    .octo-arm
+      animation: octocat-wave 560ms ease-in-out
+  svg
+    height: 130px
+    width: 130px
+    fill: #121722
+    color: #151513
+    border: 0
+    .octo-arm
+      transform-origin: 130px 106px
+    .octo-arm, .octo-body
+      fill: #2B3850
+  @media(max-width: $break-point)
+    left: -2px
+    top: -2px
+    right: initial
+    transform: rotate(-90deg)
+    svg
+      fill: #2B3850
+      height: 90px
+      width: 90px
+      .octo-arm, .octo-body
+        fill: #121722

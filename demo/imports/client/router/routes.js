@@ -44,7 +44,7 @@ const promiseMethod = (name, args, sharedObj, key) => {
 FlowRouter.route('/', {
   name: 'index',
   action() {
-    this.render('_layout', 'index');
+    this.render('layout', 'index');
   }
 });
 
@@ -79,7 +79,7 @@ FlowRouter.route('/:_id', {
     return meta404;
   },
   action(params) {
-    this.render('_layout', 'file', { params });
+    this.render('layout', 'file', { params });
   },
   waitOn(params) {
     if (!Collections.files.findOne(params._id)) {
@@ -88,69 +88,10 @@ FlowRouter.route('/:_id', {
     return [];
   },
   whileWaiting() {
-    this.render('_layout', '_loading');
+    this.render('layout', 'loading');
   },
   onNoData() {
-    this.render('_layout', '_404');
-  },
-  data(params) {
-    const file = Collections.files.findOne(params._id);
-    if (file) {
-      return file;
-    }
-
-    if (this.conf.file) {
-      Collections._files.insert(this.conf.file);
-      return Collections.files.findOne(this.conf.file._id);
-    }
-    return void 0;
-  }
-});
-
-FlowRouter.route('/:_id/preview', {
-  name: 'filePreview',
-  title(params, queryParams, file) {
-    if (file) {
-      return `View file: ${file.get('name')}`;
-    }
-    return meta404.title;
-  },
-  meta(params, queryParams, _file) {
-    if (_file) {
-      const file = _file.get();
-      return {
-        robots: 'noindex, nofollow',
-        keywords: {
-          name: 'keywords',
-          itemprop: 'keywords',
-          content: `file, view, preview, uploaded, shared, ${file.name}, ${file.extension}, ${file.type}`
-        },
-        description: {
-          name: 'description',
-          itemprop: 'description',
-          property: 'og:description',
-          content: `View uploaded and shared file: ${file.name}`
-        },
-        'twitter:description': `View uploaded and shared file: ${file.name}`
-      };
-    }
-
-    return meta404;
-  },
-  action(params) {
-    this.render('_layout', 'filePreview', { params });
-  },
-  waitOn(params) {
-    if (!Collections.files.findOne(params._id)) {
-      return promiseMethod('file.get', [params._id], this.conf, 'file');
-    }
-    return [];
-  },
-  whileWaiting() {
-    this.render('_layout', '_loading');
-  },
-  onNoData() {
-    this.render('_layout', '_404');
+    this.render('layout', '_404');
   },
   data(params) {
     const file = Collections.files.findOne(params._id);
@@ -169,7 +110,7 @@ FlowRouter.route('/:_id/preview', {
 // 404 route (catch all)
 FlowRouter.route('*', {
   action() {
-    this.render('_layout', '_404');
+    this.render('layout', '_404');
   },
   title: '404: Page not found',
   meta: meta404

@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { moment } from 'meteor/momentjs:moment';
 import { filesize } from 'meteor/mrt:filesize';
 import { Template } from 'meteor/templating';
@@ -23,8 +24,8 @@ Template.uploadForm.onCreated(function () {
       return false;
     }
 
-    if (files.length > 6) {
-      formError.set('Please select up to 6 files');
+    if (files.length > Meteor.settings.public.maxFilesQty) {
+      formError.set(`Please select up to ${Meteor.settings.public.maxFilesQty} files`);
       return false;
     }
 
@@ -169,11 +170,14 @@ Template.uploadForm.helpers({
   showSettings() {
     return showSettings.get();
   },
-  showProjectInfo() {
-    return _app.showProjectInfo.get();
-  },
   uploadTransport() {
     return _app.conf.uploadTransport.get();
+  },
+  getMaxSize() {
+    return filesize(_app.conf.maxFileSize).replace('.00', '');
+  },
+  maxFilesQty() {
+    return _app.conf.maxFilesQty;
   }
 });
 
@@ -248,11 +252,6 @@ Template.uploadForm.events({
   'click [data-show-settings]'(e) {
     e.preventDefault();
     showSettings.set(!showSettings.get());
-    return false;
-  },
-  'click [data-show-project-info]'(e) {
-    e.preventDefault();
-    _app.showProjectInfo.set(!_app.showProjectInfo.get());
     return false;
   },
   'click [data-cancel-dnd]'(e) {

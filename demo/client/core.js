@@ -1,49 +1,33 @@
-import { hljs }          from 'meteor/simple:highlight.js';
-import { Meteor }        from 'meteor/meteor';
-import { Reload }        from 'meteor/reload';
-import { Tracker }       from 'meteor/tracker';
-import { Template }      from 'meteor/templating';
-import { filesize }      from 'meteor/mrt:filesize';
-import { FlowRouter }    from 'meteor/ostrio:flow-router-extra';
-import { ReactiveVar }   from 'meteor/reactive-var';
-import { SubsManager }   from 'meteor/meteorhacks:subs-manager';
+import { hljs } from 'meteor/simple:highlight.js';
+import { Meteor } from 'meteor/meteor';
+import { Reload } from 'meteor/reload';
+import { Template } from 'meteor/templating';
+import { filesize } from 'meteor/mrt:filesize';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { ClientStorage } from 'meteor/ostrio:cstorage';
 
-import { _app, Collections }  from '/imports/lib/core.js';
+import { _app, Collections } from '/imports/lib/core.js';
 import { Markdown as marked } from 'meteor/perak:markdown';
 
+import '/imports/client/components.sass';
 import '/imports/client/files.collection.js';
-import '/imports/client/upload/upload-form.js';
-import '/imports/client/misc/_404.jade';
-import '/imports/client/misc/_layout.jade';
-import '/imports/client/misc/_loading.jade';
+
+import '/imports/client/_404/_404.jade';
+import '/imports/client/layout/layout.js';
+import '/imports/client/loading/loading.jade';
 import '/imports/client/misc/project-info.jade';
 import '/imports/client/router/router.js';
+import '/imports/client/router/routes.js';
+
+// Pages:
+import '/imports/client/index/index.js';
+import '/imports/client/file/file.js';
 
 window.IS_RENDERED = false;
 Meteor.setTimeout(() => {
   window.IS_RENDERED = true;
-}, 6144);
-
-if (!window.requestAnimFrame) {
-  window.requestAnimFrame = (() => {
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-  })();
-}
-if (!ClientStorage.has('blamed') || !_app.isArray(ClientStorage.get('blamed'))) {
-  ClientStorage.set('blamed', []);
-}
-if (!ClientStorage.has('unlist') || !_app.isBoolean(ClientStorage.get('unlist'))) {
-  ClientStorage.set('unlist', true);
-}
-if (!ClientStorage.has('secured') || !_app.isBoolean(ClientStorage.get('secured'))) {
-  ClientStorage.set('secured', false);
-}
-if (!ClientStorage.has('userOnly') || !_app.isBoolean(ClientStorage.get('userOnly'))) {
-  ClientStorage.set('userOnly', false);
-}
+}, 10240);
 
 const addListener = (target, events, func) => {
   events.forEach((event) => {
@@ -74,19 +58,12 @@ addListener(window, ['drop'], (e) => {
   return false;
 });
 
-_app.isiOS    = /iPad|iPhone|iPod/.test(navigator.userAgent || navigator.vendor || window.opera) && !window.MSStream;
-_app.subs     = new SubsManager();
-_app.blamed   = new ReactiveVar(ClientStorage.get('blamed'));
-_app.unlist   = new ReactiveVar(ClientStorage.get('unlist'));
-_app.secured  = new ReactiveVar(ClientStorage.get('secured'));
+_app.isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent || navigator.vendor || window.opera) && !window.MSStream;
 _app.uploads  = new ReactiveVar(false);
-_app.userOnly = new ReactiveVar(ClientStorage.get('userOnly'));
-_app.storeTTL = 86400000;
 _app.currentUrl = () => {
   return Meteor.absoluteUrl((FlowRouter.current().path || document.location.pathname).replace(/^\//g, '')).split('?')[0].split('#')[0].replace('!', '');
 };
-_app.storeTTLUser = 432000000;
-_app.showProjectInfo = new ReactiveVar(false);
+_app.showAbout = new ReactiveVar(false);
 _app.serviceConfiguration = new ReactiveVar({});
 _app.getElementFromView = function (parent, idClass) {
   let el;
@@ -107,32 +84,55 @@ _app.getElementFromView = function (parent, idClass) {
   return el;
 };
 
-Meteor.call('getServiceConfiguration', (error, serviceConfiguration) => {
-  if (error) {
-    console.error(error);
+_app.persistentReactive = (name, initial) => {
+  let reactive;
+  if (ClientStorage.has(name)) {
+    reactive = new ReactiveVar(ClientStorage.get(name));
   } else {
-    _app.serviceConfiguration.set(serviceConfiguration);
+    ClientStorage.set(name, initial);
+    reactive = new ReactiveVar(initial);
   }
-});
 
-Tracker.autorun(() => {
-  ClientStorage.set('blamed', _app.blamed.get());
-});
+  reactive.set = function (newValue) {
+    let oldValue = reactive.curValue;
+    if ((reactive.equalsFunc || ReactiveVar._isEqual)(oldValue, newValue)) {
+      return;
+    }
+    reactive.curValue = newValue;
+    ClientStorage.set(name, newValue);
+    reactive.dep.changed();
+  };
 
-Tracker.autorun(() => {
-  ClientStorage.set('unlist', _app.unlist.get());
-});
+  return reactive;
+};
 
-Tracker.autorun(() => {
-  ClientStorage.set('secured', _app.secured.get());
-});
+_app.conf.uploadTransport = _app.persistentReactive('uploadTransport', 'http');
+_app.conf.blamed = _app.persistentReactive('blamedUploads', []);
 
-Tracker.autorun(() => {
-  ClientStorage.set('userOnly', _app.userOnly.get());
-});
+// UPON INITIAL LOAD:
+// GET RECENTLY UPLOADED/SEEN FILES FROM PERSISTENT STORAGE
+// ITERATE OVER FILE RECORDS TO EXCLUDE EXPIRED AND PUSH THE
+// REST OF THE RECORDS TO `._files` COLLECTION
+_app.conf.recentUploads = _app.persistentReactive('recentUploads', []);
+const _recentUploads = _app.conf.recentUploads.get();
+if (_recentUploads && _recentUploads.length) {
+  const now = Date.now();
+  const expired = [];
+  _recentUploads.forEach((fileRef, i) => {
+    if (+new Date(fileRef.meta.expireAt) < now) {
+      expired.push(i);
+    } else if (!Collections._files.findOne(fileRef._id)) {
+      Collections._files.insert(fileRef);
+    }
+  });
 
-if (!ClientStorage.has('uploadTransport')) {
-  ClientStorage.set('uploadTransport', 'ddp');
+  if (expired.length) {
+    expired.forEach((expiredIndex) => {
+      _recentUploads.splice(expiredIndex, 1);
+    });
+
+    _app.conf.recentUploads.set(_recentUploads);
+  }
 }
 
 Template.registerHelper('isFileOver', () => {
@@ -169,20 +169,6 @@ Template.registerHelper('DateToISO', (_time = 0) => {
 
 Template._404.onRendered(function() {
   window.IS_RENDERED = true;
-});
-
-Template._layout.helpers({
-  showProjectInfo() {
-    return _app.showProjectInfo.get();
-  }
-});
-
-Template._layout.events({
-  'click [data-show-project-info]'(e) {
-    e.preventDefault();
-    _app.showProjectInfo.set(!_app.showProjectInfo.get());
-    return false;
-  }
 });
 
 marked.setOptions({

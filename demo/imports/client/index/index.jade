@@ -1,21 +1,10 @@
 template(name="index")
-  .col-50.sm-row(class="{{#unless compare latest.count 'or' uploads}}no-file{{/unless}}")
-    if compare latest.count 'or' uploads
-      .listing: table.table: tbody
+  .col-50
+    if compare recent.count '||' uploads
+      .wh100.scroll-wrap
         each uploads
           +uploadRow
-        each latest.each
+        each recent.each
           +listingRow
-        if compare filesLength '>' latest.count
-          tr: td(data-load-more colspan="3")
-            h3.no-margin.center
-              if loadMore
-                i.la.la-circle-o-notch.la-spin
-              else
-                | Load More
     else
-      h3.files-note
-        if userOnly
-          | You have no uploaded files
-        else
-          | Be the first to upload a file
+      .h3.text-center You have no uploaded files

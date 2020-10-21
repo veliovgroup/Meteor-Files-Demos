@@ -1,7 +1,12 @@
-import './routes.js';
+import { Meteor } from 'meteor/meteor';
 
 const Collections = {};
 const _app = {
+  conf: {
+    maxFileSize: (Meteor.settings.public.maxFileSizeMb || 128) * 1000 * 1000,
+    maxFilesQty: Meteor.settings.public.maxFilesQty || 6,
+    fileTTL: (Meteor.settings.public.fileTTLSec || 86400) * 1000
+  },
   NOOP(){},
   isUndefined(obj) {
     return obj === void 0;

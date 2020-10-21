@@ -1,6 +1,6 @@
 template(name="uploadRow")
-  tr
-    td.width-1.preview
+  .item-row.upload
+    .item-icon
       .progress-radial(class="progress-{{getProgressClass}}")
         .overlay(data-toggle-upload)
           if onPause.get
@@ -8,17 +8,15 @@ template(name="uploadRow")
           else
             span.progress #{progress.get}%
             span.action(title="Pause upload"): i.la.la-lg.la-pause
-    td(colspan="2")
-      table.fixed-table: tbody: tr: td
-        .file-name #{file.name}
-        br
-        .file-info
-          span.file-size(title="File size") {{filesize file.size}}
-          | &nbsp;
-          | &middot;
-          | &nbsp;
-          span.file-estimate-duration(title="Upload in") #{estimateDuration}
-          | &nbsp;
-          | &middot;
-          | &nbsp;
-          span.file-estimate-bitrate(title="Upload speed") #{estimateBitrate}
+    .item-details
+      .file-name #{file.name}
+      .file-info
+        span(title="File size") {{filesize file.size}}
+        | &nbsp;
+        | &middot;
+        | &nbsp;
+        span(title="Upload in") #{estimatedDuration}
+        | &nbsp;
+        | &middot;
+        | &nbsp;
+        span(title="Upload speed") #{estimatedBitrate}

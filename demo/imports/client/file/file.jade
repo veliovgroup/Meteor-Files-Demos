@@ -1,113 +1,51 @@
 template(name="file")
-  .col-50.sm-row: .file(itemscope itemtype="http://schema.org/Article")
-
-    div.invisible(itemprop="publisher" itemscope itemtype="https://schema.org/Organization")
-      meta(itemprop="name" content="Veliov Group, LLC")
-      picture(itemprop="logo" itemscope itemtype="https://schema.org/ImageObject")
-        meta(itemprop="caption" content="We code for your Projects, Sites and Apps")
-        meta(itemprop="exifData" content="image/png")
-        link(itemprop="contentUrl" content="https://veliovgroup.com/images/logo-social-1200x630.png" href="https://veliovgroup.com/images/logo-social-1200x630.png")
-        link(itemprop="url" content="https://veliovgroup.com" href="https://veliovgroup.com")
-        meta(itemprop="width" content="1200")
-        meta(itemprop="height" content="630")
-
-    link(itemprop="url" content="{{urlCurrent}}" href="{{urlCurrent}}")
-    meta(itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="{{urlCurrent}}")
-
-    div.invisible(itemprop="author" itemscope itemtype="https://schema.org/Person")
-      meta(itemprop="name" content="User of Meteor Files")
-
+  .col-50.file
     +with file.with
-      time.invisible(itemprop="datePublished" datetime="{{DateToISO meta.created_at}}")
-      time.invisible(itemprop="dateModified" datetime="{{DateToISO meta.created_at}}")
-      h4.invisible(itemprop="headline") Uploaded file: {{name}}
-      p.invisible(itemprop="description") View uploaded and shared file: {{name}}
-      
-      .file-table: article.file-row(itemprop="articleBody")
-        h1.file-title.ellipsis
-          a.go-back.la.la-angle-left.la-lg(href="/" title="go back")
-          | &nbsp;
-          span(itemprop="name") {{extless name}}
+      .file-title
+        a.go-back(href="/" title="go back")
+          i.la.la-angle-left.la-lg
+          | Back
 
-        if isPDF
-          .file-cell: iframe.file-preview(src="{{link}}" frameborder="0")
-        else if isImage
-          picture.file-preview(itemprop="image" itemscope itemtype="http://schema.org/ImageObject")
-            meta(itemprop="caption" content="Meteor Files: Uploaded file: {{name}}")
-            meta(itemprop="exifData" content="{{type}}")
-            link(itemprop="contentUrl" href="{{link}}" content="{{link}}")
-            link(itemprop="url" href="{{urlCurrent}}" content="{{urlCurrent}}")
-            meta(itemprop="width" content="{{meta.width}}")
-            meta(itemprop="height" content="{{meta.height}}")
-            if showPreview
-              source(type="#{type}" srcset="{{link 'preview'}}")
-              img.file-preview(src="{{link 'preview'}}" alt="#{name}")
-            else if showOriginal
-              source(type="#{type}" srcset="{{link}}")
-              img.file-preview(src="{{link}}" alt="#{name}")
-            else if showError
-              h3.files-note
-                | Browser can't display this image. The "#{type}" format may be not supported in your browser. Please
-                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+      .file-body.scroll-wrap
+        .wh100.flex
+          .file-logo
+            if isPDF
+              i.la.la-file-pdf-o.la-lg
+            else if isAudio
+              i.la.la-music.la-lg
+            else if isVideo
+              i.la.la-file-video-o.la-lg
+            else if isImage
+              i.la.la-file-picture-o.la-lg
+            else if isText
+              i.la.la-file-text-o.la-lg
+            else if isJSON
+              i.la.la-file-code-o.la-lg
             else
-              h1.files-note: i.la.la-3x.la-circle-o-notch.la-spin
-        else if isAudio
-          .file-cell
-            if showError
-              h3.files-note
-                | Can not play this audio file. The "#{type}" format may be not supported in your browser. Please
-                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
-            else
-              audio.file-preview.file-audio(id="{{_id}}" controls autoplay preload="auto" playsinline="true" webkit-playsinline="true" loop)
-                source(src="{{link}}?play=true" type="#{type}")
-        else if isVideo
-          .file-cell
-            if showError
-              h3.files-note
-                | Can not play this video. The "#{type}" format may be not supported in your browser. Please
-                a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
-            else
-              video.file-preview(id="{{_id}}" controls autoplay preload="auto" playsinline="true" webkit-playsinline="true" loop)
-                source(src="{{link}}?play=true" type="#{type}")
-        else if compare isText 'or' isJSON
-          if warning
-            .file-cell: h3.files-note
-              | File is too big to show preview, please 
-              a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download it
-          else if fetchedText
-            .markdown-body
-              if compare extension 'is' 'md|mdown|makrdown|MD|MDOWN|MARKDOWN'
-                +markdown
-                  {{fetchedText}}
-              else
-                +markdown
-                  ```{{getCode}}
-                  #{fetchedText}
-                  ```
-          else
-            .file-cell
-              if showPreview
-                h3.files-note
-                  | Preview is not available, please 
-                  a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
-              else
-                h1.files-note: i.la.la-3x.la-circle-o-notch.la-spin
-        else
-          .file-cell: h3.files-note
-            | Preview is not available, please 
-            a(title="Download \"#{name}\"" href="{{link}}?download=true" download="#{name}") download file
+              i.la.la-file-o.la-lg
 
-        unless isImage
-          picture.invisible(itemprop="image" itemscope itemtype="http://schema.org/ImageObject")
-            meta(itemprop="caption" content="Upload, Store and Share files with speed of Meteor")
-            meta(itemprop="exifData" content="image/png")
-            link(itemprop="contentUrl" href="{{url 'icon_1200x630.png'}}" content="{{url 'icon_1200x630.png'}}")
-            link(itemprop="url" href="{{urlCurrent}}" content="{{urlCurrent}}")
-            meta(itemprop="width" content="1200")
-            meta(itemprop="height" content="630")
+          .h3 #{name}
+          table.file-actions: tbody: tr
+            td: a(title="Download file" href="#{link}?download=true" download="#{name}")
+              i.la.la-download.la-lg
+              br
+              | download
+            td: a.copy-link(data-copy="#{link}?download=true" title="Copy link to this file" href="#")
+              i.la.la-copy.la-lg
+              i.la.la-check.la-lg
+              br
+              | copy link
+            td: a(title="Open file in a new window" href="#{link}?play=true" target="_blank")
+              i.la.la-external-link.la-lg
+              br
+              | open
+            td: a(data-show-info href="#" title="File's Info")
+              i.la.la-info-circle.la-lg
+              br
+              | details
 
-        if showInfo
-          .file-overlay: table: tbody: tr: td: table.fixed-table: tbody
+        .file-details.wh100.flex
+          table.fixed-table: tbody
             tr
               th Name:
               td #{name}
@@ -125,26 +63,13 @@ template(name="file")
                 else
                   | extension-less
             tr
-              th Downloads:
-              td
-                | #{meta.downloads}
-                | &nbsp;
-                a(title="Download \"#{name}\"" href="{{link}}?download=true" target="_parent" download="#{name}")
-                  i.la.la-download
-            tr
               th Abuse:
               td
                 | #{meta.blamed}
                 | &nbsp;
                 a(data-blame title="Mark this upload as inappropriate" href="#" class="{{#if isBlamed}}danger{{/if}}")
                   i.la.la-flag-o
-
-        a.info-link.show-info(data-show-info href="#" class="{{#if showInfo}}active{{/if}}" title="File's Info")
-          if showInfo
-            i.la.la-times.la-lg
-          else
-            i.la.la-info-circle.la-lg
-
-        unless showInfo
-          a.info-link.right.download-file(title="Download \"#{name}\"" href="{{link}}?download=true" target="_parent" download="#{name}")
-            i.la.la-download.la-lg
+          p.text-center: a.top-link(data-show-file href="#" title="Back to file")
+            i.la.la-arrow-up.la-lg
+            br
+            | back

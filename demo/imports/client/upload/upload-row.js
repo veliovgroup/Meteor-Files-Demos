@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating';
 import './upload-row.jade';
 
 Template.uploadRow.helpers({
-  estimateBitrate: function() {
+  estimatedBitrate: function() {
     return filesize(this.estimateSpeed.get(), { bits: true }) + '/s';
   },
   getProgressClass: function() {
@@ -14,7 +14,7 @@ Template.uploadRow.helpers({
     }
     return progress;
   },
-  estimateDuration: function() {
+  estimatedDuration: function() {
     const duration = moment.duration(this.estimateTime.get());
     let hours = '' + (duration.hours());
     if (hours.length <= 1) {

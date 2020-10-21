@@ -11,13 +11,13 @@ template(name="uploadForm")
         .h2 Upload via:
         div.radio-inline-wrap
           label.radio-inline
-            input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport 'is' 'ddp'}}checked{{/if}}")
+            input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport '===' 'ddp'}}checked{{/if}}")
             | DDP
           label.radio-inline
-            input(type="radio" name="transport" value="http" checked="{{#if compare uploadTransport 'is' 'http'}}checked{{/if}}")
+            input(type="radio" name="transport" value="http" checked="{{#if compare uploadTransport '===' 'http'}}checked{{/if}}")
             | HTTP (<em>faster</em>)
 
-        p Any file-type.<br>Upload up to 6 files up to 128mb each.<br>This form supports drag'n'drop.
+        p.annotation Any file-type.<br>Upload up to {{maxFilesQty}} files up to {{getMaxSize}} each.<br>This form supports drag'n'drop.
       else
         label.fake-upload#fakeUpload(for="userfile")
           .icon-container
@@ -29,9 +29,9 @@ template(name="uploadForm")
             .danger {{{error}}}
           else
             .h1 UPLOAD A FILE
-            small 6 files up to 128mb
+            p.annotation {{maxFilesQty}} files up to {{getMaxSize}}
 
-        a.info-link.right(data-show-project-info href="#" title="Project Info"): i.la.la-info-circle
+        a.info-link.right(data-show-about href="#" title="Project Info"): i.la.la-info-circle
 
       a.info-link.show-settings(data-show-settings href="#" class="{{#if showSettings}}active{{/if}}" title="Upload Settings"): i.la.la-gear
     else
