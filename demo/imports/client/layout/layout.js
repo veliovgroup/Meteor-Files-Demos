@@ -1,10 +1,12 @@
-import { Template } from 'meteor/templating';
 import { Random } from 'meteor/random';
-import { _app } from '/imports/lib/core.js';
+import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '/imports/client/upload/upload-form.js';
 import '/imports/client/misc/about.jade';
 import './layout.jade';
+
+const showAbout = new ReactiveVar(false);
 
 const copySuccess = (elementId, template) => {
   const element = template.find(`#${elementId}`);
@@ -22,14 +24,14 @@ const copyRestore = (elementId, template) => {
 
 Template.layout.helpers({
   showAbout() {
-    return _app.showAbout.get();
+    return showAbout.get();
   }
 });
 
 Template.layout.events({
   'click [data-show-about]'(e) {
     e.preventDefault();
-    _app.showAbout.set(!_app.showAbout.get());
+    showAbout.set(!showAbout.get());
     return false;
   },
   'click [data-copy]'(e, template) {
