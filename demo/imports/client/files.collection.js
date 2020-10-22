@@ -1,4 +1,4 @@
-import { _app }       from '/imports/lib/core.js';
+import { _app } from '/imports/lib/core.js';
 import { Mongo } from 'meteor/mongo';
 import { filesize } from 'meteor/mrt:filesize';
 import { Collections } from '/imports/lib/core.js';
@@ -8,7 +8,7 @@ Collections._files = new Mongo.Collection(null);
 Collections._files._name = 'uploadedFiles';
 
 Collections.files = new FilesCollection({
-  debug: true,
+  // debug: true,
   collection: Collections._files,
   allowClientCode: false,
   // disableUpload: true,

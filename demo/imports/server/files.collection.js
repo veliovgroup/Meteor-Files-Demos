@@ -74,10 +74,10 @@ if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
 }
 
 Collections.files = new FilesCollection({
-  debug: true,
+  // debug: true,
   storagePath: Meteor.settings.storagePath || 'assets/app/uploads/uploadedFiles',
   collectionName: 'uploadedFiles',
-  allowClientCode: true,
+  allowClientCode: false,
   // disableUpload: true,
   // disableDownload: true,
   onBeforeUpload() {
