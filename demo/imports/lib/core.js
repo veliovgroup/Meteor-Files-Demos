@@ -71,50 +71,7 @@ const _app = {
   pick(obj, ...keys) {
     return Object.assign({}, ...keys.map(key => ({[key]: obj[key]})));
   },
-  now: Date.now,
-  throttle(func, wait, options = {}) {
-    let previous = 0;
-    let timeout = null;
-    let result;
-    const that = this;
-    let self;
-    let args;
-
-    const later = () => {
-      previous = options.leading === false ? 0 : that.now();
-      timeout = null;
-      result = func.apply(self, args);
-      if (!timeout) self = args = null;
-    };
-
-    const throttled = function () {
-      const now = that.now();
-      if (!previous && options.leading === false) previous = now;
-      const remaining = wait - (now - previous);
-      self = this;
-      args = arguments;
-      if (remaining <= 0 || remaining > wait) {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
-        }
-        previous = now;
-        result = func.apply(self, args);
-        if (!timeout) self = args = null;
-      } else if (!timeout && options.trailing !== false) {
-        timeout = setTimeout(later, remaining);
-      }
-      return result;
-    };
-
-    throttled.cancel = () => {
-      clearTimeout(timeout);
-      previous = 0;
-      timeout = self = args = null;
-    };
-
-    return throttled;
-  }
+  now: Date.now
 };
 
 const helpers = ['String', 'Number', 'Date'];
