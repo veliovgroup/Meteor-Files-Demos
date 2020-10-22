@@ -47,7 +47,6 @@ jquery@3.0.0
 livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.20
-markdown@1.0.14
 meteor@1.9.3
 meteor-developer-oauth@1.2.1
 minifier-css@1.5.3
@@ -79,7 +78,6 @@ ostrio:flow-router-meta@2.1.1
 ostrio:flow-router-title@3.2.1
 ostrio:spiderable-middleware@1.6.1
 ostrio:templatehelpers@2.2.2
-perak:markdown@1.0.5
 promise@0.11.2
 random@1.2.0
 rate-limit@1.0.9
@@ -90,7 +88,6 @@ retry@1.1.0
 routepolicy@1.1.0
 seba:minifiers-autoprefixer@1.2.1
 service-configuration@1.0.11
-simple:highlight.js@1.2.0
 socket-stream-client@0.3.1
 spacebars@1.0.15
 spacebars-compiler@1.1.3

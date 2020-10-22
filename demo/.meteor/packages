@@ -18,17 +18,13 @@ audit-argument-checks@1.0.7
 dynamic-import@0.5.2
 mrt:filesize
 ecmascript@0.14.3
-markdown@1.0.12
 random@1.2.0
 check@1.3.1
-http@1.4.2
 
 # UI/UX packages
-simple:highlight.js
 mquandalle:jade
 fourseven:scss
 momentjs:moment
-perak:markdown
 
 # Other packages
 ostrio:files
