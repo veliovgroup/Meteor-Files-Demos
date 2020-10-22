@@ -94,15 +94,23 @@ FlowRouter.route('/:_id', {
     this.render('layout', '_404');
   },
   data(params) {
+    // CHECK IF FILE EXISTS IN LOCAL STORAGE
     const file = Collections.files.findOne(params._id);
     if (file) {
       return file;
     }
 
+    // CHECK IF FILE EXISTS ON SERVER
     if (this.conf.file) {
+      // INSERT RECORD TO LOCAL COLLECTION
       Collections._files.insert(this.conf.file);
+
+      // GET *FileCursor* FROM *FilesCollection*
+      // WITH REACTIVITY AND METHODS LIKE `.link()`
       return Collections.files.findOne(this.conf.file._id);
     }
+
+    // TRIGGER 404 PAGE
     return void 0;
   }
 });
