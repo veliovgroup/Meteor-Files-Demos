@@ -1,22 +1,21 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/VeliovGroup/Meteor-Files-Demo)
-[![Become a patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=20396046)
+[![support](https://img.shields.io/badge/support-PayPal-white)](https://paypal.me/veliovgroup)
+[![support](https://img.shields.io/badge/support-GitHub-white)](https://github.com/sponsors/dr-dimitru)
+
+<a href="https://ostr.io/info/built-by-developers-for-developers">
+  <img src="https://ostr.io/apple-touch-icon-60x60.png" height="20">
+</a>
 
 # Demo app
 
 ## Links:
 
-- __[Heroku hosted Live Demo](https://files.veliov.com/)__
+- Website: __[files.veliov.com](https://files.veliov.com/)__
 
 ## Functionality:
 
 - Upload / Download Files
-- Stream Audio / Video Files
-- Images, PDFs, Texts preview
 - Drag'n'drop support (*files only, folders is not supported yet*)
-- Image processing (*thumbnails, preview*)
-- DropBox as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
-- AWS:S3 as storage (__note:__ *you can use only one of DropBox or S3 at the same app*)
-- Login via social networks (*allows to make uploaded files unlisted and/or private*)
+- AWS:S3 as storage
 - Heroku support (*including one-click-deploy*)
 
 ## Quick start:
@@ -40,41 +39,6 @@ S3 credentials format (*region is required*):
   }
 }
 ```
-
-### Activate DropBox
-
-1. Read [this article](https://github.com/VeliovGroup/Meteor-Files/wiki/DropBox-Integration)
-2. Set DropBox credentials into `METEOR_SETTINGS` env.var or pass as file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings), alternatively (*if something not working*) set `DROPBOX` env.var
-3. You can pass DropBox credentials as JSON-string when using "*Heroku's one click install-button*"
-
-DropBox credentials format:
-
-```json
-{
-  "dropbox": {
-    "key": "xxx",
-    "secret": "xxx",
-    "token": "xxx"
-  }
-}
-```
-
-### Activate login via Social Networks
-
-All credentials is set via env.var(s), if you're using "*Heroku's one click install-button*" - you will be able to pass all of them.
-
-- Facebook - [Create an App](https://developers.facebook.com/apps/):
-  - secret: `ACCOUNTS_FACEBOOK_SEC`
-  - appId: `ACCOUNTS_FACEBOOK_ID`
-- Twitter - [Create an App](https://apps.twitter.com):
-  - secret: `ACCOUNTS_TWITTER_SEC`
-  - consumerKey: `ACCOUNTS_TWITTER_ID`
-- GitHub - [Create OAuth App](https://github.com/settings/developers):
-  - secret: `ACCOUNTS_GITHUB_SEC`
-  - clientId: `ACCOUNTS_GITHUB_ID`
-- Meteor Developer - [Create an App](https://www.meteor.com/account-settings):
-  - secret: `ACCOUNTS_METEOR_SEC`
-  - clientId: `ACCOUNTS_METEOR_ID`
 
 ### Deploy to Heroku
 
@@ -156,6 +120,9 @@ git push heroku master
 
 ## Support this project:
 
+- Star on [GitHub](https://github.com/VeliovGroup/Meteor-Files)
+- Star on [Atmosphere](https://atmospherejs.com/ostrio/files)
+- Share via [Facebook](https://www.facebook.com/sharer.php?u=https%3A%2F%2Fgithub.com%2FVeliovGroup%2FMeteor-Files) and [Twitter](https://twitter.com/share?url=https%3A%2F%2Fgithub.com%2FVeliovGroup%2FMeteor-Files)
+- [Sponsor via GitHub](https://github.com/sponsors/dr-dimitru)
+- [Support via PayPal](https://paypal.me/veliovgroup) — support my open source contributions once or on regular basis
 - Use [ostr.io](https://ostr.io) — [Monitoring](https://snmp-monitoring.com), [Analytics](https://ostr.io/info/web-analytics), [WebSec](https://domain-protection.info), [Web-CRON](https://web-cron.info) and [Pre-rendering](https://prerendering.com) for a website
-- [Become a patron](https://www.patreon.com/bePatron?u=20396046) — support our open source contributions with monthly donation
-- [Donate via PayPal](https://paypal.me/veliovgroup)
