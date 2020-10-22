@@ -66,7 +66,8 @@ Template.uploadForm.onCreated(function () {
         meta: {
           blamed: 0,
           expireAt: new Date(createdAt + _app.conf.fileTTL),
-          createdAt
+          createdAt,
+          // subscription: 
         },
         streams: 'dynamic',
         chunkSize: 'dynamic',

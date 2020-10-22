@@ -3,6 +3,7 @@ import { Random } from 'meteor/random';
 import { filesize } from 'meteor/mrt:filesize';
 import { FilesCollection } from 'meteor/ostrio:files';
 import { _app, Collections } from '/imports/lib/core.js';
+import { pushNotification } from '/imports/server/web-push.js';
 
 import fs from 'fs-extra';
 import S3 from 'aws-sdk/clients/s3';
@@ -161,6 +162,15 @@ Collections.files = new FilesCollection({
 
 Collections.files.denyClient();
 Collections.files.on('afterUpload', function(fileRef) {
+  // console.log(fileRef);
+  // const messageObj = {
+  //   title: `File: ${fileRef.name}`,
+  //   body: 'Successfully uploaded. Click to view',
+  //   data: {
+  //     url: `/${fileRef._id}`
+  //   }
+  // };
+
   if (useS3) {
     for(let version in fileRef.versions) {
       if (fileRef.versions[version]) {
@@ -197,6 +207,7 @@ Collections.files.on('afterUpload', function(fileRef) {
                   // Unlink original file from FS
                   // after successful upload to AWS:S3
                   this.unlink(this.collection.findOne(fileRef._id), version);
+                  // pushNotification.send(fileRef.meta.subscription, messageObj);
                 }
               });
             }
@@ -204,6 +215,8 @@ Collections.files.on('afterUpload', function(fileRef) {
         });
       }
     }
+  } else {
+    // pushNotification.send(fileRef.meta.subscription, messageObj);
   }
 });
 
