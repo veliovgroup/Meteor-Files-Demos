@@ -45,6 +45,12 @@ FlowRouter.route('/', {
   name: 'index',
   action() {
     this.render('layout', 'index');
+  },
+  waitOn() {
+    return import('/imports/client/index/index.js');
+  },
+  whileWaiting() {
+    this.render('layout', 'loading');
   }
 });
 
@@ -82,10 +88,12 @@ FlowRouter.route('/:_id', {
     this.render('layout', 'file', { params });
   },
   waitOn(params) {
+    const waitFor = [import('/imports/client/file/file.js')];
     if (!Collections.files.findOne(params._id)) {
-      return promiseMethod('file.get', [params._id], this.conf, 'file');
+      waitFor.push(promiseMethod('file.get', [params._id], this.conf, 'file'));
     }
-    return [];
+
+    return waitFor;
   },
   whileWaiting() {
     this.render('layout', 'loading');

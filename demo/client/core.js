@@ -16,10 +16,6 @@ import '/imports/client/loading/loading.jade';
 import '/imports/client/router/router.js';
 import '/imports/client/router/routes.js';
 
-// Pages:
-import '/imports/client/index/index.js';
-import '/imports/client/file/file.js';
-
 // Used by pre-rendering service:
 window.IS_RENDERED = false;
 Meteor.setTimeout(() => {
