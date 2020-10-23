@@ -37,7 +37,8 @@
     "core-js": "^3.6.5",
     "fs-extra": "^9.0.1",
     "jquery": "^3.5.1",
-    "meteor-node-stubs": "^1.0.1"
+    "meteor-node-stubs": "^1.0.1",
+    "web-push": "^3.4.4"
   },
   "engines": {
     "node": "12.18.4",

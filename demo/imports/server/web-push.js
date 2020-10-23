@@ -31,8 +31,8 @@ const DEFAULT_MESSAGE = {
 // GENERATE KEY PAIR USING `webpush.generateVAPIDKeys()` ONCE AND UPDATE SETTINGS IN `settings.json`
 console.log(Meteor.settings)
 const vapid = Meteor.settings.vapid || Object.assign({ email: 'mailto:webmaster@example.com' }, webpush.generateVAPIDKeys());
-console.log({vapid}, Meteor.settings.public.vapid.publicKey)
-webpush.setVapidDetails(vapid.email, (Meteor.settings.public.vapid.publicKey || vapid.publicKey), vapid.privateKey);
+console.log({vapid}, Meteor.settings.public.vapid?.publicKey)
+webpush.setVapidDetails(vapid.email, (Meteor.settings.public.vapid?.publicKey || vapid.publicKey), vapid.privateKey);
 
 const pushNotification = {
   /*
