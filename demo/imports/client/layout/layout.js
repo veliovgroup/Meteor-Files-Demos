@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '/imports/client/upload/upload-form.js';
-import '/imports/client/misc/about.jade';
+import '/imports/client/about/about.jade';
 import './layout.jade';
 
 const showAbout = new ReactiveVar(false);
