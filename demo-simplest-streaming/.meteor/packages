@@ -19,7 +19,7 @@ reactive-var@1.0.11
 jquery
 tracker@1.2.0
 
-standard-minifier-css@1.6.0
+standard-minifier-css@1.6.1
 standard-minifier-js@2.6.0
 es5-shim@4.8.0
 ecmascript@0.14.3
