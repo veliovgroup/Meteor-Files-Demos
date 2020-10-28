@@ -150,6 +150,15 @@ Meteor.startup(() => {
 const setUpServiceWorker = async (force = false) => {
   try {
     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        console.log('[message]', event)
+        if (event.data.action === 'openRoute' && event.data.url) {
+          FlowRouter.go(event.data.url);
+        } else if ('PushManager' in window && event.data.action === 'webPush.enable') {
+          webPush.enable();
+        }
+      }, false);
+
       if (force === true || !navigator.serviceWorker.controller) {
         window.addEventListener('beforeinstallprompt', (event) => {
           // This is a great place to tell to your UI that
@@ -158,7 +167,11 @@ const setUpServiceWorker = async (force = false) => {
 
         window.addEventListener('load', async () => {
           try {
-            await navigator.serviceWorker.register(Meteor.absoluteUrl('sw-v1.js'));
+            await navigator.serviceWorker.register(Meteor.absoluteUrl('sw-v2.js'));
+
+            if ('PushManager' in window) {
+              webPush.check();
+            }
           } catch (error) {
             console.info('Can\'t load SW');
             console.error(error);
@@ -167,7 +180,11 @@ const setUpServiceWorker = async (force = false) => {
       } else {
         const swRegistration = await navigator.serviceWorker.ready;
 
-        if (!swRegistration) {
+        if (swRegistration) {
+          if ('PushManager' in window) {
+            webPush.check();
+          }
+        } else {
           setUpServiceWorker(true);
         }
       }
@@ -212,6 +229,10 @@ const onReload = async () => {
     }
   } catch (error) {
     console.warn('[registration.unregister] [ERROR:]', error);
+  }
+
+  if (webPush.isEnabled) {
+    webPush.disable();
   }
 
   // GIVE IT A LITTLE TIME AND RELOAD THE PAGE
