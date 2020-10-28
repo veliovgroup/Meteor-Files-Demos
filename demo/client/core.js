@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-import { Reload } from 'meteor/reload';
 import { Template } from 'meteor/templating';
 import { filesize } from 'meteor/mrt:filesize';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ClientStorage } from 'meteor/ostrio:cstorage';
 
-import { webPush } from '/imports/client/misc/web-push.js';
+import { setUpServiceWorker } from '/imports/client/misc/setup-service-worker.js';
 import { _app, Collections } from '/imports/lib/core.js';
 
+import '/imports/client/misc/on-reload.js';
 import '/imports/client/components.sass';
 import '/imports/client/files.collection.js';
 
@@ -139,128 +139,6 @@ Meteor.startup(() => {
   document.documentElement.setAttribute('itemtype', 'http://schema.org/WebPage');
   document.documentElement.setAttribute('lang', 'en');
 });
-
-/*
- * @function
- * @name setUpServiceWorker
- * @param {boolean} force - Register new service worker ignoring existing controller
- * @summary Register service worker, make sure no duplicate or dead controllers attached
- * @returns {void 0}
- */
-const setUpServiceWorker = async (force = false) => {
-  try {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log('[message]', event)
-        if (event.data.action === 'openRoute' && event.data.url) {
-          FlowRouter.go(event.data.url);
-        } else if ('PushManager' in window && event.data.action === 'webPush.enable') {
-          webPush.enable();
-        }
-      }, false);
-
-      if (force === true || !navigator.serviceWorker.controller) {
-        window.addEventListener('beforeinstallprompt', (event) => {
-          // This is a great place to tell to your UI that
-          // Service Worker is supported by this browser
-        });
-
-        window.addEventListener('load', async () => {
-          try {
-            await navigator.serviceWorker.register(Meteor.absoluteUrl('sw-v2.js'));
-
-            if ('PushManager' in window) {
-              webPush.check();
-            }
-          } catch (error) {
-            console.info('Can\'t load SW');
-            console.error(error);
-          }
-        });
-      } else {
-        const swRegistration = await navigator.serviceWorker.ready;
-
-        if (swRegistration) {
-          if ('PushManager' in window) {
-            webPush.check();
-          }
-        } else {
-          setUpServiceWorker(true);
-        }
-      }
-    }
-  } catch (e) {
-    // We're good here
-    // Just an old browser
-  }
-};
-
-const onReload = async () => {
-  // REFRESH, INVALIDATE, UNREGISTER, AND PURGE
-  // ALL POSSIBLE CACHES
-
-  try {
-    window.applicationCache.swapCache();
-  } catch (error) {
-    // We good here...
-  }
-
-  try {
-    window.applicationCache.update();
-  } catch (error) {
-    // We good here...
-  }
-
-  try {
-    const keys = await window.caches.keys();
-
-    for (let name of keys) {
-      await window.caches.delete(name);
-    }
-  } catch (error) {
-    console.error('[window.caches.delete] [ERROR:]', error);
-  }
-
-  try {
-    // UNREGISTER ALL ServiceWorkerRegistration(s)
-    const swRegistrations = await navigator.serviceWorker.getRegistrations();
-    for (let registration of swRegistrations) {
-      await registration.unregister();
-    }
-  } catch (error) {
-    console.warn('[registration.unregister] [ERROR:]', error);
-  }
-
-  if (webPush.isEnabled) {
-    webPush.disable();
-  }
-
-  // GIVE IT A LITTLE TIME AND RELOAD THE PAGE
-  setTimeout(() => {
-    if (window.location.hash || window.location.href.endsWith('#')) {
-      window.location.reload();
-    } else {
-      window.location.replace(window.location.href);
-    }
-  }, 256);
-};
-
-
-try {
-  // CALL `onReload()` FUNCTION TO CLEAR THE CACHE AND
-  // UNLOAD/UNREGISTER SERVICE WORKER(S) BEFORE RELOADING THE PAGE
-  Reload._onMigrate(function (func, opts) {
-    if (!opts.immediateMigration) {
-      if (confirm('New version of the web app is available, would you like to update? WARNING: Web page will be reloaded!')) {
-        onReload();
-      }
-      return [false];
-    }
-    return [true];
-  });
-} catch (e) {
-  // We're good here
-}
 
 setUpServiceWorker();
 
