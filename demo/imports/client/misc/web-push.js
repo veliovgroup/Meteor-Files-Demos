@@ -48,6 +48,7 @@ const webPush = {
         });
 
         this.subscription = JSON.stringify(subscription);
+        this.isEnabled = true;
       }
     } catch (enableError) {
       console.error('[webPush.enable] Error:', enableError);

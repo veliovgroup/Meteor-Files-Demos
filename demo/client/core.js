@@ -6,7 +6,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ClientStorage } from 'meteor/ostrio:cstorage';
 
-import { webPush } from '/imports/client/web-push.js';
+import { webPush } from '/imports/client/misc/web-push.js';
 import { _app, Collections } from '/imports/lib/core.js';
 
 import '/imports/client/components.sass';
