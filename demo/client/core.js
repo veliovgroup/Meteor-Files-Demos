@@ -101,7 +101,7 @@ if (_recentUploads && _recentUploads.length) {
   const now = Date.now();
   const expired = [];
   _recentUploads.forEach((fileRef, i) => {
-    if (+new Date(fileRef.meta.expireAt) < now) {
+    if (fileRef.meta.expireAt < now) {
       expired.push(i);
     } else if (!Collections._files.findOne(fileRef._id)) {
       Collections._files.insert(fileRef);
