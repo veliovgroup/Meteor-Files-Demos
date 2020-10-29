@@ -13,7 +13,6 @@ const setUpServiceWorker = async (force = false) => {
   try {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', (event) => {
-        console.log('[message]', event)
         if (event.data.action === 'openRoute' && event.data.url) {
           FlowRouter.go(event.data.url);
         } else if ('PushManager' in window && event.data.action === 'webPush.enable') {

@@ -162,7 +162,6 @@ Collections.files = new FilesCollection({
 
 Collections.files.denyClient();
 Collections.files.on('afterUpload', function(fileRef) {
-  console.log(fileRef);
   const messageObj = {
     title: `File: ${fileRef.name}`,
     body: 'Successfully uploaded. Click to view',
