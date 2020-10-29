@@ -54,6 +54,19 @@ FlowRouter.route('/', {
   }
 });
 
+FlowRouter.route('/about', {
+  name: 'about',
+  action() {
+    this.render('layout', 'about');
+  },
+  waitOn() {
+    return import('/imports/client/about/about.jade');
+  },
+  whileWaiting() {
+    this.render('layout', 'loading');
+  }
+});
+
 FlowRouter.route('/:_id', {
   name: 'file',
   title(params, queryParams, file) {
