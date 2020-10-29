@@ -30,8 +30,8 @@ const DEFAULT_MESSAGE = {
 // SEE `settings.json` AND `README.md` for more details
 // GENERATE KEY PAIR USING `webpush.generateVAPIDKeys()` ONCE AND UPDATE SETTINGS IN `settings.json`
 const vapid = Meteor.settings.vapid || false;
-if (vapid) {
-  webpush.setVapidDetails(vapid.email, (Meteor.settings.public.vapid?.publicKey || vapid.publicKey), vapid.privateKey);
+if (vapid && vapid.email && vapid.privateKey && Meteor.settings.public.vapid?.publicKey) {
+  webpush.setVapidDetails(vapid.email, Meteor.settings.public.vapid?.publicKey || vapid.publicKey, vapid.privateKey);
 }
 
 const webPush = {
