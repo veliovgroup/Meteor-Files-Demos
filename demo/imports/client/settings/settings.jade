@@ -1,0 +1,15 @@
+template(name="settings")
+  form.col-50.upload-form
+    .h2 Upload via:
+
+    div.radio-inline-wrap
+      label.radio-inline
+        input(type="radio" name="transport" value="ddp" checked="{{#if compare uploadTransport '===' 'ddp'}}checked{{/if}}")
+        | DDP
+      label.radio-inline
+        input(type="radio" name="transport" value="http" checked="{{#if compare uploadTransport '===' 'http'}}checked{{/if}}")
+        | HTTP (<em>faster</em>)
+
+    p.annotation Any file-type.<br>Upload up to {{maxFilesQty}} files up to {{getMaxSize}} each.<br>This form supports drag'n'drop.
+
+    a.info-link.right(href="{{pathFor 'index'}}" title="close"): i.la.la-times

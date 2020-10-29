@@ -9,8 +9,7 @@ import { _app, Collections } from '/imports/lib/core.js';
 import { webPush } from '/imports/client/misc/web-push.js';
 import '/imports/client/upload/upload-form.jade';
 
-const formError    = new ReactiveVar(false);
-const showSettings = new ReactiveVar(false);
+const formError = new ReactiveVar(false);
 
 Template.uploadForm.onCreated(function () {
   this.uploadQTY = 0;
@@ -168,26 +167,10 @@ Template.uploadForm.helpers({
     }
 
     return { progress, accumBitrate, accumDuration, onPause };
-  },
-  showSettings() {
-    return showSettings.get();
-  },
-  uploadTransport() {
-    return _app.conf.uploadTransport.get();
-  },
-  getMaxSize() {
-    return filesize(_app.conf.maxFileSize).replace('.00', '');
-  },
-  maxFilesQty() {
-    return _app.conf.maxFilesQty;
   }
 });
 
 Template.uploadForm.events({
-  'click input[type="radio"]'(e) {
-    _app.conf.uploadTransport.set(e.currentTarget.value);
-    return true;
-  },
   'click [data-pause-all]'(e) {
     e.preventDefault();
     const uploads = _app.uploads.get();
@@ -249,11 +232,6 @@ Template.uploadForm.events({
     e.preventDefault();
     formError.set(false);
     template.initiateUpload(e, e.currentTarget.userfile.files);
-    return false;
-  },
-  'click [data-show-settings]'(e) {
-    e.preventDefault();
-    showSettings.set(!showSettings.get());
     return false;
   },
   'click [data-cancel-dnd]'(e) {

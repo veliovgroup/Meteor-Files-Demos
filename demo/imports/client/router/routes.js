@@ -67,6 +67,19 @@ FlowRouter.route('/about', {
   }
 });
 
+FlowRouter.route('/settings', {
+  name: 'settings',
+  action() {
+    this.render('layout', 'settings');
+  },
+  waitOn() {
+    return import('/imports/client/settings/settings.js');
+  },
+  whileWaiting() {
+    this.render('layout', 'loading');
+  }
+});
+
 FlowRouter.route('/:_id', {
   name: 'file',
   title(params, queryParams, file) {
