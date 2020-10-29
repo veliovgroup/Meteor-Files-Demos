@@ -1,7 +1,0 @@
-.npm
-.DS_Store
-.eslintcache
-node_modules
-junk/
-run-dev.sh
-nohup.out
