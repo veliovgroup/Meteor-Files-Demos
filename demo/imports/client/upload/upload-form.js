@@ -6,6 +6,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { _app, Collections } from '/imports/lib/core.js';
 
+import { webPush } from '/imports/client/misc/web-push.js';
 import '/imports/client/upload/upload-form.jade';
 
 const formError    = new ReactiveVar(false);
@@ -65,9 +66,9 @@ Template.uploadForm.onCreated(function () {
         file: file,
         meta: {
           blamed: 0,
-          expireAt: new Date(createdAt + _app.conf.fileTTL),
+          expireAt: +new Date(createdAt + _app.conf.fileTTL),
           createdAt,
-          // subscription: 
+          subscription: webPush.subscription || void 0
         },
         streams: 'dynamic',
         chunkSize: 'dynamic',

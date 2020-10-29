@@ -3,7 +3,7 @@ import { Random } from 'meteor/random';
 import { filesize } from 'meteor/mrt:filesize';
 import { FilesCollection } from 'meteor/ostrio:files';
 import { _app, Collections } from '/imports/lib/core.js';
-import { pushNotification } from '/imports/server/web-push.js';
+import { webPush } from '/imports/server/web-push.js';
 
 import fs from 'fs-extra';
 import S3 from 'aws-sdk/clients/s3';
@@ -162,14 +162,19 @@ Collections.files = new FilesCollection({
 
 Collections.files.denyClient();
 Collections.files.on('afterUpload', function(fileRef) {
-  // console.log(fileRef);
-  // const messageObj = {
-  //   title: `File: ${fileRef.name}`,
-  //   body: 'Successfully uploaded. Click to view',
-  //   data: {
-  //     url: `/${fileRef._id}`
-  //   }
-  // };
+  console.log(fileRef);
+  const messageObj = {
+    title: `File: ${fileRef.name}`,
+    body: 'Successfully uploaded. Click to view',
+    data: {
+      url: `/${fileRef._id}`
+    }
+  };
+
+  let webPushSubscription = false;
+  if (fileRef.meta.subscription) {
+    webPushSubscription = fileRef.meta.subscription;
+  }
 
   if (useS3) {
     for(let version in fileRef.versions) {
@@ -198,6 +203,12 @@ Collections.files.on('afterUpload', function(fileRef) {
                 }
               };
 
+              if (webPushSubscription) {
+                upd.$unset = {
+                  'meta.subscription': ''
+                };
+              }
+
               this.collection.update({
                 _id: fileRef._id
               }, upd, (updError) => {
@@ -207,7 +218,9 @@ Collections.files.on('afterUpload', function(fileRef) {
                   // Unlink original file from FS
                   // after successful upload to AWS:S3
                   this.unlink(this.collection.findOne(fileRef._id), version);
-                  // pushNotification.send(fileRef.meta.subscription, messageObj);
+                  if (webPushSubscription) {
+                    webPush.send(webPushSubscription, messageObj);
+                  }
                 }
               });
             }
@@ -216,12 +229,22 @@ Collections.files.on('afterUpload', function(fileRef) {
       }
     }
   } else {
-    // pushNotification.send(fileRef.meta.subscription, messageObj);
+    if (webPushSubscription) {
+      webPush.send(webPushSubscription, messageObj);
+      Collections.files.collection.update({
+        _id: fileRef._id
+      }, {
+        $unset: {
+          'meta.subscription': ''
+        }
+      });
+    }
   }
 });
 
 // This line now commented due to Heroku usage
 // Collections.files.collection._ensureIndex {'meta.expireAt': 1}, {expireAfterSeconds: 0, background: true}
+Collections.files.collection._ensureIndex({'meta.expireAt': 1}, {background: true});
 
 // Intercept FileCollection's remove method
 // to remove file from AWS S3
@@ -262,7 +285,7 @@ if (useS3) {
 Meteor.setInterval(() => {
   Collections.files.remove({
     'meta.expireAt': {
-      $lte: new Date(+Date.now() + 120000)
+      $lte: +new Date(+Date.now() + 120000)
     }
   }, _app.NOOP);
 }, 120000);

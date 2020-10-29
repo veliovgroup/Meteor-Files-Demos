@@ -10,12 +10,12 @@
    * @type {string}
    * @summary UNIQUE CACHE KEY, `v*` SHOULD GET INCREMETED WITH ANY CHANGES TO THIS FILE
    */
-  const CACHE_NAME = 'cacheKey-v1';
+  const CACHE_NAME = 'cacheKey-v2';
   /*
    * @constant
    * @name PAGES
    * @type {string[]}
-   * @summary UNIQUE CACHE KEY, `v*` SHOULD GET INCREMETED WITH ANY CHANGES TO THIS FILE
+   * @summary ARRAY OF STRINGS WITH ROUTES AND STATIC FILES TO PRE-CACHE UPON SERVICE WORKER INITIALIZATION
    */
   const PAGES = ['/']; // ARRAY OF ROUTES AND/OR STATIC FILES (IMAGES, FONTS, SOUNDS) TO "PRE-CACHE" BY SERVICE WORKER MIDDLEWARE
 
@@ -169,5 +169,68 @@
     }));
 
     await self.clients.claim();
+
+    // GET OPEN WINDOWS ACCOCIATED WITH THIS SERVICE WORKER
+    const availClients = await self.clients.matchAll({
+      includeUncontrolled: false,
+      type: 'window'
+    });
+
+    // USE ONLY FIST AVAILABALE WINDOW
+    // TO ACTIVATE WEB-PUSH NOTIFICATIONS
+    const client = availClients[0];
+    if (client) {
+      client.postMessage({
+        action: 'webPush.enable'
+      });
+    }
+  });
+
+  /*
+   * SET `push` EVENT LISTENER
+   * CATCH WEB-PUSH NOTIFICATIONS
+   * DISPLAY *NATIVE* NOTIFICATION BOX
+   * VIA `self.registration.showNotification`
+   */
+  self.addEventListener('push', (event) => {
+    try {
+      const message = event.data.json();
+      event.waitUntil(self.registration.showNotification(message.title, message));
+    } catch (e) {
+      // we're good here... just an old browser or non-JSON data
+    }
+  });
+
+  /*
+   * SET `notificationclick` EVENT LISTENER
+   * CLICK EVENT ON THE WEB-PUSH NOTIFICATION BOX
+   *
+   * 1. CLOSE NOTIFICATION
+   * 2. IF USER CLICKED ON "DISMISS": IGNORE THIS EVENT
+   * 3. OTHERWISE, GET AVAILABLE TAB/WINDOW OR OPEN A NEW ONE
+   * 4. FETCH ROUTE/WINDOW/URL DETAILS FROM PUSH-NOTIFICATION DATA
+   * 5. USING DETAILS FROM WEB-PUSH NOTIFICATION OPEN REQUESTED ROUTE OR WINDOW
+   */
+  self.addEventListener('notificationclick', async (event) => {
+    event.notification.close();
+    if (event.action !== 'dismiss') {
+      event.waitUntil(self.clients.matchAll({
+        includeUncontrolled: false,
+        type: 'window'
+      }).then(async (availClients) => {
+        const client = availClients[0];
+        if (client && 'focus' in client) {
+          if (!client.focused) {
+            await client.focus();
+          }
+          client.postMessage({
+            action: 'openRoute',
+            url: event.notification.data.url
+          });
+        } else if ('openWindow' in self.clients) {
+          self.clients.openWindow(event.notification.data.url);
+        }
+      }));
+    }
   });
 })(this);
