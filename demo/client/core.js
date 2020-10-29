@@ -129,6 +129,10 @@ Template.registerHelper('filesize', (size = 0) => {
   return filesize(size);
 });
 
+Template.registerHelper('getMaxSize', () => {
+  return filesize(_app.conf.maxFileSize).replace('.00', '');
+});
+
 Template._404.onRendered(function() {
   window.IS_RENDERED = true;
 });
