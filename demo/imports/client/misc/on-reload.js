@@ -41,9 +41,11 @@ const onReload = async () => {
     console.warn('[registration.unregister] [ERROR:]', error);
   }
 
-  if (webPush.isEnabled) {
-    webPush.disable();
-  }
+  // OPTIONALLY THIS IS RIGHT PLACE TO DISABLE/INVALIDATE/UNSUBSCRIBE
+  // FROM WEB PUSH NOTIFIACTIONS, THIS IS NOT NECESSARY IN OUR CASE
+  // if (webPush.isEnabled) {
+  //   webPush.disable();
+  // }
 
   // GIVE IT A LITTLE TIME AND RELOAD THE PAGE
   setTimeout(() => {
