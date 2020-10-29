@@ -16,6 +16,7 @@
 - Upload / Download Files
 - Drag'n'drop support (*files only, folders is not supported yet*)
 - AWS:S3 as storage
+- PWA with Push Notifications
 - Heroku support (*including one-click-deploy*)
 
 ## Quick start:
@@ -36,6 +37,56 @@ S3 credentials format (*region is required*):
     "secret": "xxx",
     "bucket": "xxx",
     "region": "xxx"
+  }
+}
+```
+
+### Activate Web Push Notifications
+
+1. Install [`web-push` NPM](https://www.npmjs.com/package/web-push) package
+2. Generate key-pair using `webpush.generateVAPIDKeys()`;
+3. Set VAPI credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings)
+
+VAPI credentials format:
+
+```json
+{
+  "public": {
+    "vapid": {
+      "publicKey": ""
+    }
+  },
+  "vapid": {
+    "email": "mailto:webmaster@example.com", // SET TO REAL EMAIL
+    "privateKey": ""
+  }
+}
+```
+
+### Application settings
+
+All supported and annotated settings
+
+```json
+{
+  "storagePath": "/data/meteor-files/uploads", // LOCAL STORAGE ON THE SERVER
+  "public": {
+    "maxFileSizeMb": 1024, // MAXIMUM UPLOAD FILE-SIZE
+    "maxFilesQty": 8, // MAXIMUM AMOUNT OF SIMULTANEOUSLY UPLOADED FILES
+    "fileTTLSec": 259200, // 3 days; FILE'S TTL IN SECONDS
+    "vapid": { // VAPID WEB PUSH NOTIFICATIONS CONFIGURATION
+      "publicKey": "" // WEB PUSH NOTIFICATION PUBLIC KEY
+    }
+  },
+  "s3": { // AWS:S#3 CLOUD STORAGE CREDENTIALS
+    "key": "",
+    "secret": "",
+    "bucket": "",
+    "region": ""
+  },
+  "vapid": { // VAPID WEB PUSH NOTIFICATIONS CONFIGURATION
+    "email": "mailto:webmaster@example.com", // WEB PUSH NOTIFICATION EMAIL
+    "privateKey": "" // WEB PUSH NOTIFICATION PRIVATE KEY
   }
 }
 ```
