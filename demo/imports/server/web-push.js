@@ -55,7 +55,7 @@ const webPush = {
         //
         // IN MORE COMPLEX APP IF `subscription` OBJECT IS STORED IN DATABASE
         // SUBSCRIPTION OBJECT SHOULD BE REMOVED/INVALIDATED HERE
-        // console.error('[webPush.sendNotification] Error:', error);
+        // console.error('[webPush.send] Error:', error);
       });
     }
   }
