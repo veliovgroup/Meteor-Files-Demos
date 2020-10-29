@@ -8,7 +8,6 @@ import { ClientStorage } from 'meteor/ostrio:cstorage';
 import { setUpServiceWorker } from '/imports/client/misc/setup-service-worker.js';
 import { _app, Collections } from '/imports/lib/core.js';
 
-import '/imports/client/components.sass';
 import '/imports/client/files.collection.js';
 
 import '/imports/client/_404/_404.jade';

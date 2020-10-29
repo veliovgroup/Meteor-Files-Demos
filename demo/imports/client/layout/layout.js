@@ -1,9 +1,11 @@
 import { Random } from 'meteor/random';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { _app } from '/imports/lib/core.js';
 
+import { _app } from '/imports/lib/core.js';
 import { onReload } from '/imports/client/misc/on-reload.js';
+
+import '/imports/client/components.sass';
 import '/imports/client/upload/upload-form.js';
 import '/imports/client/about/about.jade';
 import './layout.jade';
