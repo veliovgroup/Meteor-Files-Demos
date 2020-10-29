@@ -8,7 +8,6 @@ import { ClientStorage } from 'meteor/ostrio:cstorage';
 import { setUpServiceWorker } from '/imports/client/misc/setup-service-worker.js';
 import { _app, Collections } from '/imports/lib/core.js';
 
-import '/imports/client/misc/on-reload.js';
 import '/imports/client/components.sass';
 import '/imports/client/files.collection.js';
 
@@ -116,6 +115,8 @@ if (_recentUploads && _recentUploads.length) {
     _app.conf.recentUploads.set(_recentUploads);
   }
 }
+
+_app.isNewVersionAvailable = new ReactiveVar(false);
 
 Template.registerHelper('isFileOver', () => {
   return _app.isFileOver.get();

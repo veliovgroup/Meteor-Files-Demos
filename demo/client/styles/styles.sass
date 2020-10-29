@@ -1,24 +1,3 @@
-@font-face
-  font-family: 'Lato'
-  font-style: normal
-  font-weight: 300
-  src: url('/fonts/lato-v14-latin_latin-ext-300.eot')
-  src: local("Lato Light"), local("Lato-Light"), url('/fonts/lato-v14-latin_latin-ext-300.eot?#iefix') format("embedded-opentype"), url('/fonts/lato-v14-latin_latin-ext-300.woff2') format("woff2"), url('/fonts/lato-v14-latin_latin-ext-300.woff') format("woff"), url('/fonts/lato-v14-latin_latin-ext-300.ttf') format("truetype"), url('/fonts/lato-v14-latin_latin-ext-300.svg#Lato') format("svg")
-
-@font-face
-  font-family: 'Lato'
-  font-style: normal
-  font-weight: 400
-  src: url('/fonts/lato-v14-latin_latin-ext-regular.eot')
-  src: local("Lato Regular"), local("Lato-Regular"), url('/fonts/lato-v14-latin_latin-ext-regular.eot?#iefix') format("embedded-opentype"), url('/fonts/lato-v14-latin_latin-ext-regular.woff2') format("woff2"), url('/fonts/lato-v14-latin_latin-ext-regular.woff') format("woff"), url('/fonts/lato-v14-latin_latin-ext-regular.ttf') format("truetype"), url('/fonts/lato-v14-latin_latin-ext-regular.svg#Lato') format("svg")
-
-@font-face
-  font-family: 'Lato'
-  font-style: normal
-  font-weight: 700
-  src: url('/fonts/lato-v14-latin_latin-ext-700.eot')
-  src: local("Lato Bold"), local("Lato-Bold"), url('/fonts/lato-v14-latin_latin-ext-700.eot?#iefix') format("embedded-opentype"), url('/fonts/lato-v14-latin_latin-ext-700.woff2') format("woff2"), url('/fonts/lato-v14-latin_latin-ext-700.woff') format("woff"), url('/fonts/lato-v14-latin_latin-ext-700.ttf') format("truetype"), url('/fonts/lato-v14-latin_latin-ext-700.svg#Lato') format("svg")
-
 $link-color: lighten(#97A2D0, 11%)
 $link-active: #FFFFFF
 $text-color: lighten(#97A2D0, 10%)
@@ -35,96 +14,36 @@ $half-view: 384px
 $surface-height: 455px
 $background-color: #2B3850
 
-@-webkit-viewport
-  width: device-width
-@-moz-viewport
-  width: device-width
-@-ms-viewport
-  width: device-width
-@-o-viewport
-  width: device-width
-@viewport
-  width: device-width
-
-::active, ::focus, ::visited
-  outline: none
-
-::-webkit-scrollbar
-  display: none
-
-@keyframes new-element
-  from
-    opacity: 0
-  to
-    opacity: 1
-
-@keyframes octocat-wave
-  0%, 100%
-    transform: rotate(0)
-  20%, 60%
-    transform: rotate(-25deg)
-  40%, 80%
-    transform: rotate(10deg)
-
-@keyframes upload-animation
-  from
-    top: 100%
-  to
-    top: -100%
-
-html, body
-  padding: 0
-  margin: 0
-  height: 100%
-
 body
   background-color: $background-color
   color: $text-color
-  scroll-behavior: smooth
-  -webkit-tap-highlight-color: transparent
-  -webkit-overflow-scrolling: touch
-  overflow-scrolling: touch
 
-  -webkit-font-smoothing: antialiased
-  -moz-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
-  -ms-font-smoothing: antialiased
-  -o-font-smoothing: antialiased
-  font-smoothing: antialiased
-
-  -webkit-font-smooth: always
-  -moz-font-smooth: always
-  -ms-font-smooth: always
-  -o-font-smooth: always
-  font-smooth: always
-
-  -webkit-text-rendering: optimizeLegibility
-  -moz-text-rendering: optimizeLegibility
-  -ms-text-rendering: optimizeLegibility
-  -o-text-rendering: optimizeLegibility
-  text-rendering: optimizeLegibility
-
-  line-height: normal
-  cursor: default
-
-  -ms-overflow-style: -ms-autohiding-scrollbar
-  overflow-style: autohiding-scrollbar
-  &:active, &:focus, &:visited
-    outline: none
-  &::-webkit-scrollbar
-    display: none
-
-html
-  line-height: 1.2
-  -ms-text-size-adjust: 100%
-  -webkit-text-size-adjust: 100%
-  text-size-adjust: 100%
-  font:
-    style: normal
-    size: 15px
-    weight: 400
-    display: swap
-    family: Lato, sans-serif
+.newVersionAvailable
+  animation: slide-up 1s linear 1
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  width: 100vw
+  background-color: $bg-alt
+  padding: 15px 10px
+  z-index: 106
+  color: $text-color
+  font-weight: 700
+  &.error, &.danger
+    background-color: $red
+    color: darken($red, 45%)
+    a
+      color: darken($red, 55%)
+      &:hover
+        color: darken($red, 50%)
+  &.success
+    background-color: $green
+    color: darken($green, 20%)
+    a
+      color: darken($green, 30%)
+      &:hover
+        color: darken($green, 35%)
 
 p
   margin: 2rem 0rem
@@ -169,38 +88,6 @@ input[type="radio"]
     background-color: $bg
   &:hover, &:active, &:active:hover
     outline: none
-
-progress
-  display: block
-  margin: 0px auto
-  width: 90%
-  height: 2px
-  border: none
-  color: #FEFEFE
-  background-color: #000
-  border-radius: 0px
-  -webkit-appearance: none
-  -moz-appearance: none
-  -ms-appearance: none
-  appearance: none
-
-progress::-webkit-progress-bar
-  background: #000
-  color: #000
-  border-radius: 0px
-
-progress::-webkit-progress-value
-  background: #FEFEFE
-  color: #FEFEFE
-
-progress::-moz-progress-bar
-  background: #AAA
-  color: #AAA
-  border-radius: 0px
-
-progress::-moz-progress-value
-  background: red
-  color: #FEFEFE
 
 .surface
   box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
@@ -517,16 +404,14 @@ p.annotation
       .octo-arm, .octo-body
         fill: #121722
 
-.full-height
-  height: 100%
-  min-height: 100%
-
 .danger
   color: $red
 
+.success
+  color: $green
+
 .bg-dark
   background-color: $bg-alt
-
 
 .col-50
   & > div, & > p

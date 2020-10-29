@@ -1,3 +1,4 @@
+import { _app } from '/imports/lib/core.js';
 import { Reload } from 'meteor/reload';
 import { webPush } from '/imports/client/misc/web-push.js';
 
@@ -60,9 +61,7 @@ try {
   // UNLOAD/UNREGISTER SERVICE WORKER(S) BEFORE RELOADING THE PAGE
   Reload._onMigrate(function (func, opts) {
     if (!opts.immediateMigration) {
-      if (confirm('New version of the web app is available, would you like to update? WARNING: Web page will be reloaded!')) {
-        onReload();
-      }
+      _app.isNewVersionAvailable.set(true);
       return [false];
     }
     return [true];

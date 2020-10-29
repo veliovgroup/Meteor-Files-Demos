@@ -12,3 +12,11 @@ template(name="layout")
   .footer
     a(href="https://github.com/VeliovGroup/Meteor-Files" title="Meteor Files - GitHub repository" rel="noopener"): img(src="/logo-bg.png" height="50" width="50" alt="Meteor Files Logo")
     a(href="https://ostr.io" title="Project is sponsored by ostr.io" rel="noopener"): img(src="/ostrio-bg.png" height="50" width="50" alt="ostr.io")
+
+  if isNewVersionAvailable
+    .newVersionAvailable.text-center
+      | Good news everyone! The new version of the website is available. 
+      a.success(data-hcp-refresh href="#" title="Update the website and refresh") Refresh
+      |  to get the latest version. Or 
+      a.danger(data-hcp-dismiss href="#" title="Dismiss, and update later") dismiss
+      |  to update later.
