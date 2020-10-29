@@ -29,7 +29,7 @@
 
 S3 credentials format (*region is required*):
 
-```json
+```js
 {
   "s3": {
     "key": "xxx",
@@ -44,11 +44,11 @@ S3 credentials format (*region is required*):
 
 1. Install [`web-push` NPM](https://www.npmjs.com/package/web-push) package
 2. Generate key-pair using `webpush.generateVAPIDKeys()`;
-3. Set VAPI credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings)
+3. Set VAPID credentials into `METEOR_SETTINGS` env.var or pass as the file, read [here for more info](http://docs.meteor.com/#/full/meteor_settings)
 
-VAPI credentials format:
+VAPID credentials format:
 
-```json
+```js
 {
   "public": {
     "vapid": {
@@ -66,7 +66,7 @@ VAPI credentials format:
 
 All supported and annotated settings
 
-```json
+```js
 {
   "storagePath": "/data/meteor-files/uploads", // LOCAL STORAGE ON THE SERVER
   "public": {
