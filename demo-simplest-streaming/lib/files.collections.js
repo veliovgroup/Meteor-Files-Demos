@@ -1,24 +1,20 @@
-import { Meteor }          from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const Images = new FilesCollection({
   debug: true,
-  disableUpload: true,
   collectionName: 'Images',
-  onBeforeUpload() {
-    // Disallow uploads from client
-    return false;
-  }
+  allowClientCode: false,
+  // Disallow uploads from client
+  disableUpload: true,
 });
 
 const Sounds = new FilesCollection({
   debug: true,
-  disableUpload: true,
   collectionName: 'Sounds',
-  onBeforeUpload() {
-    // Disallow uploads from client
-    return false;
-  }
+  allowClientCode: false,
+  // Disallow uploads from client
+  disableUpload: true,
 });
 
 // To have sample files in DB we will upload them on server startup:
@@ -26,15 +22,15 @@ if (Meteor.isServer) {
   Images.denyClient();
   Sounds.denyClient();
 
-  Meteor.startup(() => {
-    if (!Images.findOne()) {
-      Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
+  Meteor.startup(async () => {
+    if (!await Images.findOneAsync()) {
+      await Images.loadAsync('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
         fileName: 'logo.png'
       });
     }
 
-    if (!Sounds.findOne()) {
-      Sounds.load('http://www.openmusicarchive.org/audio/Deep_Blue_Sea_Blues.mp3', {
+    if (!await Sounds.findOneAsync()) {
+      await Sounds.loadAsync('http://www.openmusicarchive.org/audio/Deep_Blue_Sea_Blues.mp3', {
         fileName: 'Deep_Blue_Sea_Blues.mp3'
       });
     }
