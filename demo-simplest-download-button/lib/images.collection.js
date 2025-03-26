@@ -1,4 +1,6 @@
-import { Meteor }          from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import 'meteor/aldeed:collection2/static';
 import { FilesCollection } from 'meteor/ostrio:files';
 
 const Images = new FilesCollection({
@@ -9,11 +11,11 @@ const Images = new FilesCollection({
 // To have sample image in DB we will upload it on server startup:
 if (Meteor.isServer) {
   Images.denyClient();
-  Images.collection.attachSchema(Images.schema);
+  Images.collection.attachSchema(new SimpleSchema(Images.schema));
 
-  Meteor.startup(function () {
-    if (!Images.find().count()) {
-      Images.load('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
+  Meteor.startup(async function () {
+    if (!await Images.countDocuments()) {
+      await Images.loadAsync('https://raw.githubusercontent.com/veliovgroup/Meteor-Files/master/logo.png', {
         fileName: 'logo.png',
         meta: {}
       });

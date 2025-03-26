@@ -3,17 +3,25 @@
 </head>
 
 <body>
-  <h1>Meteor-Files: Download Button</h1>
-  <p>See <a href="https://github.com/VeliovGroup/Meteor-Files">ostrio:files</a></p>
+  <header>
+    <h1>Meteor-Files: Download Button</h1>
+  </header>
 
-  {{> file}}
+  <main>
+    <strong>List of Files:</strong><br>
+    {{> file}}
+  </main>
+
+  <footer>
+    <p>See <a href="https://github.com/veliovgroup/Meteor-Files"><code>ostrio:files</code></a> library for more details</p>
+  </footer>
 </body>
 
 <template name='file'>
   {{#with file.with}}
     <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
       {{name}}
-    </a>
+    </a> — Click to download
   {{else}}
     loading...
   {{/with}}
