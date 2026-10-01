@@ -16,6 +16,18 @@ const Images = new FilesCollection({
 
 if (Meteor.isServer) {
   Images.denyClient();
+
+  Meteor.startup(async () => {
+    // Default `storagePath` is inside the build dir, which Meteor wipes on
+    // rebuild. Remove records whose file is gone, so the list has no dead links:
+    const { existsSync } = await import('node:fs');
+    for (const fileRef of await Images.collection.find({}, { fields: { path: 1 } }).fetchAsync()) {
+      if (!existsSync(fileRef.path)) {
+        await Images.removeAsync({ _id: fileRef._id });
+      }
+    }
+  });
+
   Meteor.publish('files.images.all', function () {
     return Images.find().cursor;
   });
