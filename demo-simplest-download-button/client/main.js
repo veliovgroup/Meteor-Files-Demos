@@ -3,7 +3,7 @@ import Images from '/lib/images.collection.js';
 import './main.html';
 
 Template.file.helpers({
-  file() {
-    return Images.findOne();
+  files() {
+    return Images.find({}, { sort: { name: 1 } }).each();
   }
 });
