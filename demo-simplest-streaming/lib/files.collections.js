@@ -22,18 +22,24 @@ if (Meteor.isServer) {
   Images.denyClient();
   Sounds.denyClient();
 
-  Meteor.startup(async () => {
-    if (!await Images.findOneAsync()) {
-      await Images.loadAsync('https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', {
-        fileName: 'logo.png'
-      });
+  // Load sample file, or reload it when its record exists but the file is gone.
+  // Files in the default storagePath are lost when Meteor rebuilds the app
+  const loadSample = async (collection, url, fileName) => {
+    const fileRef = await collection.findOneAsync();
+    if (fileRef) {
+      const { existsSync } = await import('fs');
+      if (existsSync(fileRef.path)) {
+        return;
+      }
+      await collection.removeAsync({ _id: fileRef._id });
     }
 
-    if (!await Sounds.findOneAsync()) {
-      await Sounds.loadAsync('http://www.openmusicarchive.org/audio/Deep_Blue_Sea_Blues.mp3', {
-        fileName: 'Deep_Blue_Sea_Blues.mp3'
-      });
-    }
+    await collection.loadAsync(url, { fileName });
+  };
+
+  Meteor.startup(async () => {
+    await loadSample(Images, 'https://raw.githubusercontent.com/VeliovGroup/Meteor-Files/master/logo.png', 'logo.png');
+    await loadSample(Sounds, 'https://www.openmusicarchive.org/audio/Deep_Blue_Sea_Blues.mp3', 'Deep_Blue_Sea_Blues.mp3');
   });
 
   Meteor.publish('files.images.all', () => Images.find().cursor);

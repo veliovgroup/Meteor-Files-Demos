@@ -44,6 +44,11 @@ Template.uploadForm.events({
           template.currentUpload.set(false);
         });
 
+        // `end` is not emitted after `abort()`
+        uploadInstance.on('abort', function() {
+          template.currentUpload.set(false);
+        });
+
         await uploadInstance.start();
       }
     }

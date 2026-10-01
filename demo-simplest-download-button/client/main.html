@@ -18,11 +18,11 @@
 </body>
 
 <template name='file'>
-  {{#with file.with}}
-    <a href="{{link}}?download=true" download="{{name}}" target="_parent" type="{{type}}">
-      {{name}}
-    </a> — Click to download
+  {{#each file in files}}
+    <a href="{{file.link}}?download=true" download="{{file.name}}" target="_parent" type="{{file.type}}">
+      {{file.name}}
+    </a> — Click to download (<a href="{{file.link}}" target="_blank">view inline</a>)<br>
   {{else}}
     loading...
-  {{/with}}
+  {{/each}}
 </template>
